@@ -7,12 +7,12 @@
   },
   "favicon": "/llumo-favicon.svg",
   "colors": {
-    "primary": "#0D9373",
-    "light": "#07C983",
-    "dark": "#0D9373",
+    "primary": "#8B68C9",
+    "light": "#8B68C9",
+    "dark": "#8B68C9",
     "anchors": {
-      "from": "#0D9373",
-      "to": "#07C983"
+      "from": "#8B68C9",
+      "to": "#8B68C9"
     }
   },
   "topbarLinks": [
@@ -22,13 +22,20 @@
     }
   ],
   "topbarCtaButton": {
-    "name": "Dashboard",
+    "name": "Sign-up",
     "url": "https://app.llumo.ai"
+  },
+  "primaryTab": {
+    "name": "Docs"
   },
   "tabs": [
     {
       "name": "API Reference",
       "url": "api-reference"
+    },
+    {
+      "name": "User Guides",
+      "url": "user-guides"
     }
   ],
   "anchors": [
@@ -45,19 +52,8 @@
   ],
   "navigation": [
     {
-      "group": "Get Started",
-      "pages": ["introduction", "quickstart", "development"]
-    },
-    {
-      "group": "Essentials",
-      "pages": [
-        "essentials/markdown",
-        "essentials/code",
-        "essentials/images",
-        "essentials/settings",
-        "essentials/navigation",
-        "essentials/reusable-snippets"
-      ]
+      "group": "",
+      "pages": ["overview", "quickstart"]
     },
     {
       "group": "API Documentation",
@@ -70,10 +66,27 @@
         "api-reference/endpoint/create",
         "api-reference/endpoint/delete"
       ]
+    },
+    {
+      "group": "Cost Reduction",
+      "pages": ["reduce-cost/reduce-cost", "reduce-cost/compress-prompt"]
+    },
+    {
+      "group": "EvalLM-360° Evaluation Framework",
+      "pages": [
+        "evaluate-llm/evaluate-llm-output",
+        "evaluate-llm/create-custom-evaluation",
+        "evaluate-llm/log-user-feedback",
+        "evaluate-llm/send-multiple-evaluations"
+      ]
+    },
+    {
+      "group": "User Guides",
+      "pages": ["user-guides/overview", "user-guides/how-to-setup-compressor"]
     }
   ],
   "footerSocials": {
-    "x": "https://x.com/mintlify",
+    "x": "https://x.com/llumoai",
     "instagram": "https://www.instagram.com/llumoai/",
     "linkedin": "https://www.linkedin.com/company/llumoai",
     "youtube": "https://www.youtube.com/@llumo-ai"
