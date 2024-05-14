@@ -1,0 +1,136 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "LLUMO API Docs",
+    "description": "User APIs",
+    "license": {
+      "name": "MIT"
+    },
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://model-api.llumo.ai/"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "paths": {
+    "/health-check": {
+      "get": {
+        "description": "Returns health check",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "health response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/health"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/prompt/get-smart-prompt": {
+      "post": {
+        "description": "smart prompt",
+        "requestBody": {
+          "description": "get smart prompt",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/smartin"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "smart prompt",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "items": {
+                    "$ref": "#/components/schemas/smart"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "items": {
+                    "$ref": "#/components/schemas/error"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "error": {
+        "required": ["name"],
+        "type": "object",
+        "properties": {
+          "data": {
+            "description": "server status",
+            "type": "string"
+          }
+        }
+      },
+      "health": {
+        "required": ["name"],
+        "type": "object",
+        "properties": {
+          "data": {
+            "description": "server status",
+            "type": "string"
+          }
+        }
+      },
+      "smartin": {
+        "required": ["promptID"],
+        "type": "object",
+        "properties": {
+          "promptID": {
+            "type": "string"
+          }
+        }
+      },
+      "smart": {
+        "required": ["data"],
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}

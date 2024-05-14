@@ -15,6 +15,7 @@
       "to": "#8B68C9"
     }
   },
+  "openapi": ["/openapi.json"],
   "topbarLinks": [
     {
       "name": "Support",
@@ -29,10 +30,6 @@
     "name": "Docs"
   },
   "tabs": [
-    {
-      "name": "API Reference",
-      "url": "api-reference"
-    },
     {
       "name": "User Guides",
       "url": "user-guides"
@@ -57,14 +54,9 @@
     },
     {
       "group": "API Documentation",
-      "pages": ["api-reference/introduction"]
-    },
-    {
-      "group": "Endpoint Examples",
       "pages": [
-        "api-reference/endpoint/get",
-        "api-reference/endpoint/create",
-        "api-reference/endpoint/delete"
+        "api-new/get-health-check",
+        "api-new/post-promptget-smart-prompt"
       ]
     },
     {
