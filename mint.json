@@ -65,8 +65,8 @@
     {
       "group": "API Documentation",
       "pages": [
-        "user-guides/api-new/get-health-check",
-        "user-guides/api-new/post-promptget-smart-prompt"
+        "user-guides/api-new/compress-prompt-api",
+        "user-guides/api-new/create-eval-analytics-api"
       ]
     },
     {

@@ -10,7 +10,7 @@
   },
   "servers": [
     {
-      "url": "https://model-api.llumo.ai/"
+      "url": "https://app.llumo.ai/api/"
     }
   ],
   "security": [
@@ -19,20 +19,57 @@
     }
   ],
   "paths": {
-    "/health-check": {
-      "get": {
-        "description": "Returns health check",
-        "parameters": [],
+    "/api/compress": {
+      "post": {
+        "summary": "Compress Prompt API",
+        "description": "Compresses a prompt for query",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompressRequest"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
-            "description": "health response",
+            "description": "Success",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/health"
-                  }
+                  "$ref": "#/components/schemas/CompressResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -40,43 +77,57 @@
         }
       }
     },
-    "/prompt/get-smart-prompt": {
+    "/api/create-eval-analytics": {
       "post": {
-        "description": "smart prompt",
+        "summary": "Create Eval Analytics API",
+        "description": "Creates evaluation analytics",
         "requestBody": {
-          "description": "get smart prompt",
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/smartin"
+                "$ref": "#/components/schemas/CreateEvalAnalyticsRequest"
               }
             }
-          },
-          "required": true
+          }
         },
         "responses": {
           "200": {
-            "description": "smart prompt",
+            "description": "Success",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "items": {
-                    "$ref": "#/components/schemas/smart"
-                  }
+                  "$ref": "#/components/schemas/CreateEvalAnalyticsResponse"
                 }
               }
             }
           },
           "400": {
-            "description": "unexpected error",
+            "description": "Bad Request",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "items": {
-                    "$ref": "#/components/schemas/error"
-                  }
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -87,49 +138,75 @@
   },
   "components": {
     "schemas": {
-      "error": {
-        "required": ["name"],
+      "CompressRequest": {
         "type": "object",
         "properties": {
-          "data": {
-            "description": "server status",
+          "prompt": {
             "type": "string"
           }
         }
       },
-      "health": {
-        "required": ["name"],
+      "CompressResponse": {
         "type": "object",
         "properties": {
           "data": {
-            "description": "server status",
+            "type": "string"
+          },
+          "statusCode": {
+            "type": "integer"
+          },
+          "message": {
             "type": "string"
           }
         }
       },
-      "smartin": {
-        "required": ["promptID"],
+      "CreateEvalAnalyticsRequest": {
         "type": "object",
         "properties": {
-          "promptID": {
+          "prompt": {
             "type": "string"
-          }
-        }
-      },
-      "smart": {
-        "required": ["data"],
-        "type": "object",
-        "properties": {
-          "data": {
+          },
+          "input": {
             "type": "object"
+          },
+          "output": {
+            "type": "string"
+          },
+          "analytics": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           }
         }
-      }
-    },
-    "securitySchemes": {
-      "bearerAuth": {
-        "type": "http",
-        "scheme": "bearer"
+      },
+      "CreateEvalAnalyticsResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "string"
+          },
+          "statusCode": {
+            "type": "integer"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "statusCode": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          }
+        }
       }
     }
   }
