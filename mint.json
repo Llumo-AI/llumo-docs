@@ -3,7 +3,8 @@
   "name": "Llumo AI Docs",
   "logo": {
     "dark": "/logo/dark.svg",
-    "light": "/logo/light.svg"
+    "light": "/logo/light.svg",
+    "href": "https://www.llumo.ai"
   },
   "favicon": "/llumo-favicon.svg",
   "colors": {
@@ -16,6 +17,15 @@
     }
   },
   "openapi": ["/openapi.json"],
+  "api": {
+    "auth": {
+      "method": "bearer"
+    }
+  },
+  "feedback": {
+    "thumbsRating": true,
+    "suggestEdit": true
+  },
   "topbarLinks": [
     {
       "name": "Support",
@@ -55,8 +65,8 @@
     {
       "group": "API Documentation",
       "pages": [
-        "api-new/get-health-check",
-        "api-new/post-promptget-smart-prompt"
+        "user-guides/api-new/get-health-check",
+        "user-guides/api-new/post-promptget-smart-prompt"
       ]
     },
     {
