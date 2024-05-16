@@ -37,12 +37,24 @@
     "url": "https://app.llumo.ai"
   },
   "primaryTab": {
-    "name": "Docs"
+    "name": "Getting Started"
   },
   "tabs": [
     {
       "name": "User Guides",
       "url": "user-guides"
+    },
+    {
+      "name": "Cost Saving",
+      "url": "cost-saving"
+    },
+    {
+      "name": "LLM Evaluation",
+      "url": "llm-evaluation"
+    },
+    {
+      "name": "Setting",
+      "url": "app-setting"
     }
   ],
   "anchors": [
@@ -61,6 +73,21 @@
     {
       "group": "",
       "pages": ["overview", "quickstart"]
+    },
+    {
+      "group": "Setup LLUMO Account",
+      "pages": ["setup-llumo/create-account", "setup-llumo/activate-account"]
+    },
+    {
+      "group": "Build your first genAI app",
+      "pages": [
+        "connect-first-api/select-journey",
+        "connect-first-api/setup-compressor-api",
+        "connect-first-api/setup-evaluation-api",
+        "connect-first-api/test-compressor-playground",
+        "connect-first-api/test-evaluation-playground",
+        "connect-first-api/prompt-engineering"
+      ]
     },
     {
       "group": "API Documentation",
