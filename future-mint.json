@@ -99,6 +99,10 @@
       ]
     },
     {
+      "group": "End-to-end deployment",
+      "pages": ["cost-saving/deployment/overview"]
+    },
+    {
       "group": "API Reference",
       "pages": ["cost-saving/api-reference/compress-prompt-api"]
     }
