@@ -47,14 +47,6 @@
     {
       "name": "LLM Evaluation",
       "url": "llm-evaluation"
-    },
-    {
-      "name": "Setting",
-      "url": "app-setting"
-    },
-    {
-      "name": "Data Stream",
-      "url": "data-stream"
     }
   ],
   "anchors": [
@@ -101,6 +93,19 @@
     {
       "group": "API Reference",
       "pages": ["cost-saving/api-reference/compress-prompt-api"]
+    },
+    {
+      "group": "Evaluate your outputs in production",
+      "pages": [
+        "llm-evaluation/getting-started/setup-evaluation",
+        "llm-evaluation/getting-started/connecting-api-in-code",
+        "llm-evaluation/getting-started/logging-params",
+        "llm-evaluation/getting-started/visualise-dashboard"
+      ]
+    },
+    {
+      "group": "API Reference",
+      "pages": ["llm-evaluation/api-reference/create-eval-analytics-api"]
     }
   ],
   "footerSocials": {
