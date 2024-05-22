@@ -47,6 +47,10 @@
     {
       "name": "LLM Evaluation",
       "url": "llm-evaluation"
+    },
+    {
+      "name": "Developer tools",
+      "url": "developer-tools"
     }
   ],
   "anchors": [
@@ -64,48 +68,101 @@
   "navigation": [
     {
       "group": "",
-      "pages": ["overview", "quickstart"]
+      "pages": ["overview", "quickstart", "sandbox"]
     },
     {
-      "group": "Setup LLUMO Account",
-      "pages": ["setup-llumo/create-account", "setup-llumo/activate-account"]
-    },
-    {
-      "group": "Build your first genAI app",
+      "group": "Setup LLUMO",
       "pages": [
-        "connect-first-api/select-journey",
-        "connect-first-api/setup-compressor-api",
-        "connect-first-api/setup-evaluation-api",
-        "connect-first-api/test-compressor-playground",
-        "connect-first-api/test-evaluation-playground",
-        "connect-first-api/prompt-engineering"
+        "setup-llumo/create-account",
+        "setup-llumo/activate-account",
+        {
+          "group": "Setup Cost Saving",
+          "pages": ["setup-llumo/setup-cost-saving/api"]
+        },
+        {
+          "group": "Setup LLM Evaluation",
+          "pages": ["setup-llumo/setup-evaluation/api"]
+        }
       ]
     },
     {
-      "group": "Start your cost saving journey",
+      "group": "How to docs",
       "pages": [
-        "cost-saving/compressor/setup-compression",
-        "cost-saving/compressor/connecting-api-in-code",
-        "cost-saving/compressor/logging-params-compression",
-        "cost-saving/compressor/visualise-dashboard"
+        "how-to-docs/prompt-engineering",
+        {
+          "group": "Compress Prompts",
+          "pages": [
+            "how-to-docs/compress-prompts/testing",
+            "how-to-docs/compress-prompts/production"
+          ]
+        },
+        {
+          "group": "Evaluate LLMs",
+          "pages": [
+            "how-to-docs/evaluate-llms/testing",
+            "how-to-docs/evaluate-llms/production"
+          ]
+        },
+        {
+          "group": "Annotate Human Feedback",
+          "pages": [
+            "how-to-docs/annotate-human-feedback/testing",
+            "how-to-docs/annotate-human-feedback/production"
+          ]
+        }
       ]
+    },
+    {
+      "group": "How to docs",
+      "pages": [
+        "cost-saving/how-to-docs/compress-first-prompt",
+        "cost-saving/how-to-docs/visualise-insights"
+      ]
+    },
+    {
+      "group": "Setup",
+      "pages": ["cost-saving/setup/api"]
     },
     {
       "group": "API Reference",
       "pages": ["cost-saving/api-reference/compress-prompt-api"]
     },
     {
-      "group": "Evaluate your outputs in production",
+      "group": "How to docs",
       "pages": [
-        "llm-evaluation/getting-started/setup-evaluation",
-        "llm-evaluation/getting-started/connecting-api-in-code",
-        "llm-evaluation/getting-started/logging-params",
-        "llm-evaluation/getting-started/visualise-dashboard"
+        "llm-evaluation/how-to-docs/evaluate-first-prompt",
+        "llm-evaluation/how-to-docs/evaluate-across-llms",
+        "llm-evaluation/how-to-docs/customise-evaluations"
       ]
+    },
+    {
+      "group": "Setup",
+      "pages": ["llm-evaluation/setup/api"]
     },
     {
       "group": "API Reference",
       "pages": ["llm-evaluation/api-reference/create-eval-analytics-api"]
+    },
+    {
+      "group": "Setup LLUMO",
+      "pages": [
+        {
+          "group": "Setup Cost Saving",
+          "pages": ["developer-tools/setup-llumo/setup-cost-saving/api"]
+        },
+        {
+          "group": "Setup LLM Evaluation",
+          "pages": ["developer-tools/setup-llumo/setup-evaluation/api"]
+        }
+      ]
+    },
+    {
+      "group": "Troubleshoot",
+      "pages": ["developer-tools/troubleshoot/prompt-compression-api"]
+    },
+    {
+      "group": "Sample Project",
+      "pages": ["developer-tools/sample-projects/compression-openai"]
     }
   ],
   "footerSocials": {
