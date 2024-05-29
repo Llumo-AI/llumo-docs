@@ -64,115 +64,109 @@ The API keys equips you with the credentials needed to connect with Prompt Compr
 </Note>
 
 <AccordionGroup>
-  <Accordion icon="rectangle-terminal" title="Setting up Your Editing Environment">
+  <Accordion icon="arrow-pointer" title="Click on Connect Now">
   
-    **Edit Locally (Recommended for Developers):**
+    The setup modal provides an overview of Compressor and a "Connect Now" CTA.
+    ![modal page screenshot](https://mintlify.s3-us-west-1.amazonaws.com/mintlify/images/github-bot-verification.png)
 
-    1. Install [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).
-    2. Once git is installed, clone your docs repository using `git clone <your-repo>`. If you haven't set it up yet, now would be a good time to do so with these [SSH keys](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent).
-    3. Use your favorite IDE to open the repository.
-    4. Install our Mintlify CLI to preview changes with `npm i -g mintlify`. Learn more about this in our [development guide](/development).
-
-    **Editing Online:**
-
-    Here are two ways to edit your repository online:
-
-    * To edit a single file, locate and click the edit button. This will open a web editor right on Github.
-      ![Edit Online](https://mintlify.s3-us-west-1.amazonaws.com/mintlify/images/edit-online.png)
-    * For a more versatile online experience, open your git repository in Github's [github.dev](https://github.dev) online IDE. Simply replace `github.com` in your repo URL with `github.dev`. For example, use `github.dev/mintlify/docs` instead of `github.com/mintlify/docs`.
+    Click on "Connect Now" and it will open the API connection detail modal
 
   </Accordion>
 
-  <Accordion icon="palette" title="Customizing Your Brand (mint.json)">
+  <Accordion icon="copy" title="Copy API endpoint and API key">
   
-    Easily customize colors, logos and buttons among other configurations in our `mint.json` file. Start with these basic configurations:
+    * API endpoint: The URL you will use to send requests to the Compressor API.
+    * API key: Your unique API key, which is required for authentication. You will be given one API key by default. But, if you want to create multiple API keys, refer to [managing your keys](https://docs.llumo.ai).
 
+  </Accordion>
+
+  <Accordion icon="plus" title="Add sample code in your editor">
+
+    Examples of codes containing request bodies in different languages is provided, that you can use to send a request to the Compressor API. Copy the sample code block and paste into editor of your choice.
+    Below is an example of sample code block in python.
+
+    ```python compressPrompt.py
+
+        import requests
+
+        url = "https://app.llumo.ai/api/api/compress"
+
+        payload = {"prompt": "<string>"}
+        headers = {"Content-Type": "application/json"}
+
+        response = requests.request("POST", url, json=payload, headers=headers)
+
+        print(response.text)
+
+      ````
+
+  </Accordion>
+
+  <Accordion icon="file" title="Understand the request body">
+
+    The request body includes the following important parameters:
+
+    - prompt: (Mandatory) The text prompt you want to compress.
+
+    - topic: (Optional) The topic of the prompt. We highly recommend providing a topic for better compression results.
+
+    Here is an example of these two parameters.
     ```json
-    "name": "Your Company"
-    "logo": {
-      "light": "/logo/light.svg",
-      "dark": "/logo/dark.svg",
-      "href": "https://yourcompany.com"
-    },
-    "favicon": "/favicon.svg",
-    "colors": {
-      "primary": "#2AB673",
-      "light": "#55D799",
-      "dark": "#117866",
-    },
+    "prompt": "In a forgotten corner of the universe, a nomadic tribe journeys across a desolate wasteland on colossal, bio-engineered sandworms. These colossal creatures, revered as both gods and transportation, are on the verge of extinction due to a mysterious blight. A young rider, ostracized for their curiosity about the world beyond the sand, discovers a hidden cache of ancient technology. This technology offers a glimmer of hope for saving the sandworms, but it also unlocks forbidden knowledge that threatens to shatter the tribe's long-held beliefs. Torn between tradition and the promise of progress, the young rider must embark on a perilous quest to uncover the truth about the blight and the tribe's origins. Their journey will lead them to face colossal sand creatures, navigate treacherous landscapes, and confront a powerful ruling class determined to maintain the status quo. Will they succeed in saving the sandworms and their people, or will they succumb to the dangers that lie hidden beneath the sands? Write a story about their fight for survival and the burden of knowledge."
+    "topic": "What are the potential consequences of the young rider's choice between tradition and progress in saving the sandworms?"
     ```
 
-    A full list of supported configurations can be found [here](/settings/global).
+    For fine-grained control over logging and cost visualization, explore the optional parameters within the request body.
+    These parameters allow you to tailor metrics to your specific needs and visualize cost breakdowns on the dashboard.
+    For a detailed breakdown on the API request and response, please refer to the [API reference page](https://docs.llumo.ai/cost-saving/api-reference/compress-prompt-api).
 
-  </Accordion>
 
-  <Accordion icon="pencil" title="Adding Content">
+    </Accordion>
 
-    Add content with simple MDX files. Initiate your pages with this template:
-
-    ```md
-    ---
-    title: "Page Title"
-    sidebarTitle: "Sidebar title (optional - if different from page title)"
-    description: "Subtitle (optional)"
-    ---
-    ```
-
-    Learn more about adding images, tables, lists, and more using the [MDX syntax](/content/text). We also offer a wide array of components which are listed [here](/content/components).
-
-  </Accordion>
-
-  <Accordion icon="rocket" title="Pushing Your Changes">
-
-    Once ready, commit and push your changes to update your docs site. Here is a [guide](https://docs.github.com/en/get-started/using-git/pushing-commits-to-a-remote-repository#about-git-push) on how to do that. If the Github app is unable to successfully deploy your changes, you can manually update your docs through our [dashboard](https://dashboard.mintlify.com).
-
-    ![Manual Update](https://mintlify.s3-us-west-1.amazonaws.com/mintlify/images/manual-update.png)
-
-  </Accordion>
 </AccordionGroup>
 
-### 3. Supercharging Your Docs
+### 3. Send first request to Prompt Compression API
 
-Mintlify supports an array of advanced features like API reference docs, analytics, and versioning to accommodate any of your documentation needs.
+Once you have your request setup for a sample body, you can send a request to the Compressor API to compress your own prompts.
 
 <AccordionGroup>
-  <Accordion icon="code-branch" title="Generating API References">
+  <Accordion icon="message-bot" title="Write code with correct request body in editor">
 
-    You can easily set up your API references using an OpenAPI document.
+    1. Open your directory where LLM project reside in editor of your choice.
 
-    1. Add your `openapi.yaml` or `openapi.json` file into your docs repository or define the `openapi` field in `mint.json` with a URL.
+    2. Edit the sample code snippet you copied from LLUMO setup modal.
 
-    ```json
-    "openapi": "link-to-your-openapi-file"
-    ```
+    3. Replace the placeholder values for prompt and topic with your specific prompt and topic.
 
-    2. Use our [scraper](/api-playground/openapi/setup#autogenerate-files-recommended) to autogenerate your OpenAPI endpoints files as:
+    4. Include your API key in the header of the request.
 
-    ```bash
-    npx @mintlify/scraping@latest openapi-file <path-or-url-to-openapi-file>
-    ```
+    5. Run the code snippet.
 
-    3. Finally, include the generated endpoint MDX files to your `mint.json` under `navigation`.
-
-    For a complete guide on using Mintlify with OpenAPI, check out [this guide](/api-playground/openapi/setup). [This guide](/api-playground/openapi/writing-openapi) explains how to configure your API authentication methods. For manual API references definition, explore [our syntax](/api-playground/overview).
+You can find detailed instructions on setting up the API in your code on the dedicated [guide page](https://docs.llumo.ai/cost-saving/how-to-docs/compress-first-prompt).
 
   </Accordion>
 
-  <Accordion icon="star" title="Adding a Custom Domain">
+  <Accordion icon="globe" title="Sending request via API testing tools">
 
-    Integrate your docs into your website by hosting them on a custom domain. This is included even in the free Mintlify plan. Navigate to your [dashboard settings](https://www.dashboard.mintlify.com/settings) to add a custom domain.
+    For a more interactive experience, we recommend using API testing tools like Postman or Thunder Client. Below is the step-by-step detailed video explaing the complete process.
 
-    ![Custom Domain](/images/custom-domain.png)
+    ![API testing tools](/images/custom-domain.png)
 
   </Accordion>
 
-  <Accordion icon="chart-simple" title="Adding Analytics">
+  <Accordion icon="chart-simple" title="See the request in logs and visualise metrics on dashboard">
 
-    Our in-house analytics give you insights into page views, search analytics, session recordings and more. Access these on your [dashboard](https://dashboard.mintlify.com/analytics). We also support integrations with a range of analytics providers. You can find the list of providers [here](/integrations/analytics/overview).
+    After sending the request, you can view the logs and metrics generated on the dashboard to see how the compression process performed. This information can help you optimize your requests for better results.
 
   </Accordion>
 </AccordionGroup>
 
 ### All Done!
 
-Congrats! You've set up your Mintlify Docs and it's looking amazing! Need support or want to give some feedback? You can join our [community](https://mintlify.com/community) or drop us an email at [support@mintlify.com](mailto:support@mintlify.com).
+Congrats! You've set up your LLUMO's Prompt Compression API and it has started saving your cost with each inference!
+
+If you encounter any difficulties while setting up, please refer to the troubleshooting section of the guide or, contact our support team at [connect@llumo.ai](mailto:connect@llumo.ai).
+
+```
+
+```
