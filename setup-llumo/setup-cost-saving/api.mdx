@@ -89,10 +89,13 @@ The API keys equips you with the credentials needed to connect with Prompt Compr
 
         import requests
 
-        url = "https://app.llumo.ai/api/api/compress"
+        url = "https://app.llumo.ai/api/compress"
 
         payload = {"prompt": "<string>"}
-        headers = {"Content-Type": "application/json"}
+        headers = {
+          "Content-Type": "application/json"
+          "Authorization": "Bearer <API_KEY>"  
+        }
 
         response = requests.request("POST", url, json=payload, headers=headers)
 
