@@ -116,10 +116,10 @@
       "group": "How to docs",
       "pages": [
         "cost-saving/how-to-docs/compress-first-prompt",
-        "cost-saving/how-to-docs/visualise-insights",
         "cost-saving/how-to-docs/llumo-compressor-langchain",
         "cost-saving/how-to-docs/llumo-compressor-openai",
-        "cost-saving/how-to-docs/llumo-compressor-vertex"
+        "cost-saving/how-to-docs/llumo-compressor-vertex",
+        "cost-saving/how-to-docs/visualise-insights"
       ]
     },
     {
