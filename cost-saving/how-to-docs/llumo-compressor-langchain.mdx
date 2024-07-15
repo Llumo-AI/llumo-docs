@@ -1,0 +1,556 @@
+---
+title: "LLUMO Compressor API with Langchain"
+description: "Save cost in Langchain pipeline using LLUMO compressor API"
+sidebarTitle: "Langchain"
+---
+
+# Introduction
+
+Welcome to this Colab Notebook tutorial! In this guide, we will demonstrate how to efficiently incorporate the LLUMO Compressor API into your Langchain pipeline to save costs while utilizing Large Language Models (LLMs). Specifically, we will walk you through the process of extracting answers from a PDF document by integrating Langchain for vector search, OpenAI for generating answers, and LLUMO to compress prompts before sending them to OpenAI.
+
+## What You'll Learn
+
+1. **Langchain Integration**: How to use Langchain for efficient vector search to locate relevant text passages within a PDF document.
+2. **OpenAI Integration**: How to utilize OpenAI's LLM for generating answers based on the extracted text passages.
+3. **LLUMO Compressor API**: How to integrate the LLUMO Compressor API into your pipeline to compress prompts, reducing the amount of data sent to OpenAI and thus saving on API usage costs.
+
+## Why This Tutorial?
+
+Using LLMs like OpenAI's GPT-4 can be expensive, especially when dealing with large documents or frequent queries. The LLUMO Compressor API helps mitigate these costs by compressing prompts before they are sent to the LLM, ensuring you get the same high-quality responses at a lower cost. This tutorial is particularly useful for developers and data scientists who want to optimize their Langchain pipelines by incorporating cost-saving measures without compromising on performance.
+
+By the end of this tutorial, you will have a fully functional pipeline that efficiently extracts and processes information from PDFs, providing accurate answers while minimizing costs through prompt compression.
+
+Let's get started!
+
+# Step 1: Installing Required Python Libraries
+
+In this first step, we will install several essential Python libraries that are required to build our Langchain pipeline with the LLUMO Compressor API. Each library serves a specific purpose in our workflow, enabling us to handle natural language processing, PDF reading, environment variable management, similarity search, and interaction with OpenAI's API. Here's a detailed overview of each library we will be using:
+
+1. **Langchain**: This library and its components provide a robust framework for natural language processing tasks. Langchain offers tools for constructing, training, and deploying language models, making it an integral part of our pipeline for vector search and text processing.
+
+2. **PyPDF2**: PyPDF2 is a pure Python library that allows us to read and manipulate PDF files. In this tutorial, we will use PyPDF2 to extract text from PDF documents, which will then be processed and analyzed using our natural language processing tools.
+
+3. **python-dotenv**: This library is used for managing environment variables in Python. By using python-dotenv, we can securely store and access sensitive information such as API keys and other configuration settings needed for our project.
+
+4. **faiss-cpu**: Developed by Facebook AI Research, faiss-cpu is a powerful library for efficient similarity search and clustering of dense vectors. We will use faiss-cpu to perform vector search on the text extracted from PDF documents, enabling us to find relevant passages quickly and accurately.
+
+5. **openai**: The openai library allows us to interact with OpenAI's API, enabling us to use their powerful language models for generating answers. This library will be crucial for sending prompts and receiving responses from OpenAI's LLM.
+
+6. **requests and json**: These libraries are used for making HTTP requests and handling JSON data, respectively. We will use requests to communicate with external APIs, including the LLUMO Compressor API, and json to parse and manipulate JSON data returned by these APIs.
+
+Let's start by installing these libraries using the following pip command. This command will ensure that all the necessary libraries are installed and ready to use in our Colab environment.
+
+```python
+!pip install langchain==0.1.7 langchain-openai==0.0.5 langchain-community==0.0.20 PyPDF2==3.0.1 python-dotenv==1.0.1 faiss-cpu==1.7.4 openai==1.12.0
+```
+
+# Step 2: Importing Required Libraries
+
+Before we dive into the specific functions and steps of our pipeline, it's important to import all the necessary libraries that we'll be using throughout this notebook.
+
+```python
+import os
+from getpass import getpass
+from PyPDF2 import PdfReader
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_openai import OpenAIEmbeddings, ChatOpenAI
+from langchain_community.vectorstores import FAISS
+from langchain.chains.question_answering import load_qa_chain
+from langchain.callbacks import get_openai_callback
+from langchain.schema import Document
+import requests
+import json
+```
+
+# Step 3: Setting Up API Keys
+
+To interact with OpenAI's API and the LLUMO Compressor API, we need to provide our unique API keys for authentication. These keys are sensitive pieces of information that should be handled securely. In this step, we will use Python's `getpass` module to safely input our API keys and then store them in environment variables for later use.
+
+### Explanation:
+
+1. **Importing Required Modules**:
+
+   - `getpass`: This module provides a way to securely prompt the user for input without echoing the input back to the screen. This is particularly useful for handling sensitive information like API keys.
+   - `os`: This module provides a way to interact with the operating system, including setting environment variables.
+
+2. **Prompting for OpenAI API Key**:
+
+   - `openai_api_key = getpass("Enter your OpenAI API key: ")`: This line prompts the user to enter their OpenAI API key. The input is not displayed on the screen for security reasons.
+
+3. **Prompting for LLUMO API Key**:
+
+   - `llumo_api_key = getpass("Enter your LLUMO API key: ")`: Similarly, this line prompts the user to enter their LLUMO API key securely.
+
+4. **Storing API Keys in Environment Variables**:
+
+   - `os.environ['OPENAI_API_KEY'] = openai_api_key`: This line stores the OpenAI API key in an environment variable named `OPENAI_API_KEY`.
+   - `os.environ['LLUMO_API_KEY'] = llumo_api_key`: This line stores the LLUMO API key in an environment variable named `LLUMO_API_KEY`.
+
+5. **Deleting the Variables**:
+   - `del openai_api_key`: This line deletes the variable `openai_api_key` from memory to ensure that the API key is not accidentally exposed or misused later in the code.
+   - `del llumo_api_key`: This line deletes the variable `llumo_api_key` for the same reason.
+
+By following these steps, we ensure that our API keys are securely handled and stored, reducing the risk of accidental exposure. This setup is crucial for maintaining the security and integrity of our project.
+
+```python
+# Prompting the user to securely input their OpenAI API key
+openai_api_key = getpass("Enter your OpenAI API key: ")
+
+# Prompting the user to securely input their LLUMO API key
+llumo_api_key = getpass("Enter your LLUMO API key: ")
+
+# Storing the OpenAI API key in an environment variable
+os.environ['OPENAI_API_KEY'] = openai_api_key
+
+# Storing the LLUMO API key in an environment variable
+os.environ['LLUMO_API_KEY'] = llumo_api_key
+
+# Deleting the variables that hold the API keys to prevent them from being exposed in the code
+del openai_api_key
+del llumo_api_key
+```
+
+# Step 4: Loading and Extracting Text from PDF
+
+In this step, we define a function to read a PDF file and extract all its text content. This function, `load_pdf`, utilizes the `PdfReader` class from the `PyPDF2` library to achieve this. By looping through each page in the PDF and using the `extract_text()` method, it collects all the text and returns it as a single string. This function is a key component of our pipeline, as it allows us to convert the PDF content into a format that can be further processed and analyzed using natural language processing tools.
+
+### Explanation:
+
+1. **Importing the PdfReader Class**:
+
+   - `from PyPDF2 import PdfReader`: This line imports the `PdfReader` class from the `PyPDF2` library. `PdfReader` is used to read and manipulate PDF files.
+
+2. **Defining the `load_pdf` Function**:
+
+   - `def load_pdf(pdf):`: This line defines a function named `load_pdf` that takes a single argument, `pdf`, which is the path to the PDF file we want to read.
+
+3. **Creating a PdfReader Instance**:
+
+   - `pdf_reader = PdfReader(pdf)`: This line creates an instance of `PdfReader` for the given PDF file. This instance allows us to access the contents of the PDF.
+
+4. **Initializing a Text Variable**:
+
+   - `text = ""`: This line initializes an empty string variable `text` that will be used to accumulate the extracted text from each page of the PDF.
+
+5. **Looping Through the Pages**:
+
+   - `for page in pdf_reader.pages:`: This line starts a loop that iterates over each page in the PDF. `pdf_reader.pages` is a list of all the pages in the PDF.
+
+6. **Extracting Text from Each Page**:
+
+   - `text += page.extract_text()`: Within the loop, this line extracts the text content from the current page using the `extract_text()` method and appends it to the `text` variable. This method is provided by the `PyPDF2` library and returns the text found on the page.
+
+7. **Returning the Extracted Text**:
+   - `return text`: After the loop has processed all the pages, this line returns the accumulated text as a single string.
+
+```python
+def load_pdf(pdf):
+    pdf_reader = PdfReader(pdf)
+    text = ""
+    for page in pdf_reader.pages:
+        text += page.extract_text()
+    return text
+
+```
+
+# Step 5: Splitting Text into Manageable Chunks
+
+In this step, we define a function to split a large block of text into smaller, manageable chunks. This is important for efficiently processing the text with natural language processing tools, as working with smaller chunks can improve performance and accuracy. The function `split_text` uses `RecursiveCharacterTextSplitter`, imported above, to achieve this.
+
+### Explanation:
+
+1. **Importing the RecursiveCharacterTextSplitter Class**:
+
+   - `from langchain.text_splitter import RecursiveCharacterTextSplitter`: This line imports the `RecursiveCharacterTextSplitter` class from the `langchain.text_splitter` module. This class is designed to split text into smaller chunks based on specified parameters.
+
+2. **Defining the `split_text` Function**:
+
+   - `def split_text(text):`: This line defines a function named `split_text` that takes a single argument, `text`, which is the large block of text we want to split into smaller chunks.
+
+3. **Creating an Instance of RecursiveCharacterTextSplitter**:
+
+   - `text_splitter = RecursiveCharacterTextSplitter(`: This line initializes an instance of `RecursiveCharacterTextSplitter` with specific parameters:
+     - `chunk_size=1000`: This parameter sets the maximum size of each text chunk to 1000 characters. This ensures that each chunk is not too large to handle efficiently.
+     - `chunk_overlap=200`: This parameter sets the overlap between consecutive chunks to 200 characters. Overlapping chunks can help maintain context between chunks, which can be important for tasks like text analysis and question answering.
+     - `length_function=len`: This parameter specifies the function used to measure the length of the text. In this case, the built-in `len` function is used, which measures the length in characters.
+
+4. **Splitting the Text**:
+   - `return text_splitter.split_text(text=text)`: This line uses the `split_text` method of the `RecursiveCharacterTextSplitter` instance to split the input `text` into smaller chunks based on the specified parameters. The method returns a list of text chunks.
+
+```python
+def split_text(text):
+    text_splitter = RecursiveCharacterTextSplitter(
+        chunk_size=1000,
+        chunk_overlap=200,
+        length_function=len
+    )
+    return text_splitter.split_text(text=text)
+```
+
+# Step 6: Loading Embeddings and Creating a Vector Store
+
+In this step, we define a function to create embeddings for text chunks and store them in a vector store. This is essential for performing efficient similarity searches and finding relevant text passages. The function `load_embeddings` uses the `OpenAIEmbeddings` class and the `FAISS` vector store.
+
+### Explanation:
+
+1. **Importing Necessary Classes**:
+
+   - `from langchain_openai import OpenAIEmbeddings`: This import statement brings in the `OpenAIEmbeddings` class, which is used to generate embeddings for text using OpenAI's models.
+   - `from langchain_community.vectorstores import FAISS`: This import statement brings in the `FAISS` class, which is used to create and manage a vector store for efficient similarity search.
+
+2. **Defining the `load_embeddings` Function**:
+
+   - `def load_embeddings(store_name, chunks):`: This line defines a function named `load_embeddings` that takes two arguments:
+     - `store_name`: A placeholder for the name of the vector store (not used in this specific function but can be useful for future extensions).
+     - `chunks`: A list of text chunks for which embeddings will be generated.
+
+3. **Creating an OpenAIEmbeddings Instance**:
+
+   - `embeddings = OpenAIEmbeddings()`: This line initializes an instance of the `OpenAIEmbeddings` class. This instance will be used to generate embeddings for the text chunks.
+
+4. **Creating a FAISS Vector Store**:
+
+   - `vector_store = FAISS.from_texts(chunks, embedding=embeddings)`: This line creates a `FAISS` vector store from the list of text chunks. The `from_texts` method generates embeddings for each chunk using the `embeddings` instance and stores them in the FAISS vector store. This vector store enables efficient similarity search, allowing us to quickly find the most relevant text chunks based on query embeddings.
+
+5. **Returning the Vector Store**:
+   - `return vector_store`: This line returns the created FAISS vector store. The vector store contains the embeddings for all the text chunks and is ready for similarity search operations.
+
+```python
+def load_embeddings(store_name, chunks):
+    embeddings = OpenAIEmbeddings()
+    vector_store = FAISS.from_texts(chunks, embedding=embeddings)
+    return vector_store
+```
+
+# Step 7: Compressing Text with LLUMO API
+
+In this step, we define a function to compress text using the LLUMO Compressor API. This function sends a request to the LLUMO API, receives the compressed text, and calculates the compression percentage. The function also handles any errors that might occur during the process. Let's understand each step one by one
+
+#### Retrieving the LLUMO API Key
+
+```python
+    # Retrieve the Llumo API key from environment variables
+    LLUMO_API_KEY = os.getenv('LLUMO_API_KEY')
+```
+
+- This line retrieves the LLUMO API key from the environment variables using `os.getenv()`. The API key is essential for authenticating the request to the LLUMO API.
+
+#### Setting the LLUMO API Endpoint
+
+```python
+    # Set the Llumo API endpoint for text compression
+    LLUMO_ENDPOINT = "https://app.llumo.ai/api/compress"
+```
+
+- This line sets the endpoint URL for the LLUMO API that handles text compression.
+
+#### Preparing Headers for the API Request
+
+```python
+    # Prepare headers for the API request
+    headers = {
+        "Content-Type": "application/json",
+        "Authorization": f"Bearer {LLUMO_API_KEY}"
+    }
+```
+
+- This block prepares the headers required for the API request, including the content type (`application/json`) and the authorization token (`Bearer {LLUMO_API_KEY}`).
+
+#### Preparing the Payload for the API Request
+
+```python
+    # Prepare the payload for the API request
+    payload = {"prompt": text}
+    if topic:
+        payload["topic"] = topic  # Add topic to payload if provided
+```
+
+- This block prepares the payload (data to be sent in the request) with the text to be compressed. If a topic is provided, it adds the topic to the payload.
+
+#### Sending the POST Request to LLUMO API
+
+```python
+    try:
+        # Send POST request to Llumo API
+        response = requests.post(LLUMO_ENDPOINT, json=payload, headers=headers)
+        response.raise_for_status()  # Raise an exception for bad status codes
+```
+
+- This block sends a POST request to the LLUMO API with the prepared payload and headers. The `raise_for_status()` method raises an exception if the request fails.
+
+#### Parsing the JSON Response
+
+```python
+        # Parse the JSON response
+        result = response.json()
+        data = result['data']['data']
+        data_content = json.loads(data)
+```
+
+- This block parses the JSON response from the API. It extracts the relevant data and converts it from a JSON string to a Python dictionary.
+
+#### Extracting Compressed Text and Token Counts
+
+```python
+        # Extract compressed text and token counts from the response
+        compressed_text = data_content.get('compressedPrompt', text)  # Use original text if compression fails
+        initial_tokens = data_content.get('initialTokens', 0)
+        final_tokens = data_content.get('finalTokens', 0)
+```
+
+- This block extracts the compressed text and token counts (initial and final) from the response. If compression fails, it defaults to using the original text.
+
+#### Calculating Compression Percentage
+
+```python
+        # Calculate compression percentage if token counts are available
+        if initial_tokens and final_tokens:
+            compression_percentage = ((initial_tokens - final_tokens) / initial_tokens) * 100
+        else:
+            compression_percentage = 0
+```
+
+- This block calculates the compression percentage based on the initial and final token counts. If these counts are not available, the compression percentage is set to 0.
+
+#### Returning the Results
+
+```python
+        # Return compressed text, success status, and compression statistics
+        return compressed_text, True, compression_percentage, initial_tokens, final_tokens
+```
+
+- This block returns the compressed text, a success status, and the compression statistics (compression percentage, initial tokens, and final tokens).
+
+#### Handling Exceptions
+
+```python
+    except Exception as e:
+        # If an error occurs, print the error and return original text with failure status
+        print(f"Error compressing text: {str(e)}")
+        return text, False, 0, 0, 0
+```
+
+- This block handles any exceptions that occur during the process, printing an error message and returning the original text with a failure status.
+
+### Final Code Integration
+
+We will now combine everything to get the final code.
+
+```python
+def compress_with_llumo(text, topic=None):
+    LLUMO_API_KEY = os.getenv('LLUMO_API_KEY')
+    LLUMO_ENDPOINT = "https://app.llumo.ai/api/compress"
+    headers = {
+        "Content-Type": "application/json",
+        "Authorization": f"Bearer {LLUMO_API_KEY}"
+    }
+    payload = {"prompt": text}
+    if topic:
+        payload["topic"] = topic
+
+    try:
+        response = requests.post(LLUMO_ENDPOINT, json=payload, headers=headers)
+        response.raise_for_status()
+        result = response.json()
+        data = result['data']['data']
+        data_content = json.loads(data)
+
+        compressed_text = data_content.get('compressedPrompt', text)
+        initial_tokens = data_content.get('initialTokens', 0)
+        final_tokens = data_content.get('finalTokens', 0)
+
+        if initial_tokens and final_tokens:
+            compression_percentage = ((initial_tokens - final_tokens) / initial_tokens) * 100
+        else:
+            compression_percentage = 0
+
+        return compressed_text, True, compression_percentage, initial_tokens, final_tokens
+    except Exception as e:
+        print(f"Error compressing text: {str(e)}")
+        return text, False, 0, 0, 0
+```
+
+# Step 8: Main Function - Integrating All Steps
+
+The `main` function serves as the entry point for our PDF Query Assistant. It integrates all the steps discussed previously, from uploading and processing a PDF file to querying the content and using LLUMO compression to optimize costs. We will go in details of each part of the `main` function:
+
+#### Initialization and PDF Upload
+
+```python
+    print("PDF Query Assistant with Llumo Compression")
+
+    # Upload PDF
+    from google.colab import files
+    uploaded = files.upload()
+
+    if uploaded:
+        pdf_file = list(uploaded.keys())[0]
+```
+
+- **Printing the Title**: Displays the title of the assistant.
+- **Uploading the PDF**: Uses Google Colab's `files.upload()` to upload a PDF file.
+- **Retrieving the File Name**: Gets the name of the uploaded file.
+
+#### Processing the PDF
+
+```python
+        # Process the PDF
+        text = load_pdf(pdf_file)
+        chunks = split_text(text)
+
+        store_name = pdf_file[:-4]
+```
+
+- **Loading PDF**: Calls the `load_pdf` function to extract text from the PDF.
+- **Splitting Text**: Calls the `split_text` function to split the extracted text into manageable chunks.
+- **Store Name**: Generates a name for the vector store by removing the file extension from the PDF file name.
+
+#### Creating the Vector Store
+
+```python
+        # Create vector store
+        vector_store = load_embeddings(store_name, chunks)
+```
+
+- **Loading Embeddings**: Calls the `load_embeddings` function to create a vector store using the text chunks.
+
+#### Handling User Query
+
+```python
+        # User Query Input
+        query = input("Ask any question related to the content of the PDF: ")
+
+        if query:
+            # Similarity Search
+            docs = vector_store.similarity_search(query=query, k=3)
+
+            # Prepare context for compression
+            context = " ".join([doc.page_content for doc in docs])
+```
+
+- **User Query Input**: Prompts the user to input a query related to the PDF content.
+- **Similarity Search**: Performs a similarity search using the vector store to find the most relevant text chunks.
+- **Preparing Context**: Joins the content of the retrieved documents to form the context for compression.
+
+#### Compressing Context with LLUMO
+
+```python
+            # Compress context using Llumo
+            compressed_text, success, compression_percentage, initial_tokens, final_tokens = compress_with_llumo(context, topic=query)
+
+            if success:
+                print(f"Llumo Compression achieved: {compression_percentage:.2f}%")
+                print(f"Initial tokens: {initial_tokens}")
+                print(f"Final tokens: {final_tokens}")
+```
+
+- **Compressing Context**: Calls the `compress_with_llumo` function to compress the context using LLUMO API.
+- **Handling Success**: If compression is successful, prints the compression percentage and token counts.
+
+#### Generating Response with Compressed Context
+
+```python
+                # Generate response using compressed text
+                llm = ChatOpenAI(model_name="gpt-3.5-turbo", temperature=0)
+                chain = load_qa_chain(llm=llm, chain_type="stuff")
+                with get_openai_callback() as cb:
+                    response = chain.run(input_documents=[Document(page_content=compressed_text)], question=query)
+                    print("Answer:")
+                    print(response)
+                    print(f"Cost of this query: ${cb.total_cost:.5f}")
+```
+
+- **LLM Initialization**: Initializes a language model (`ChatOpenAI`) with specified parameters.
+- **Loading QA Chain**: Loads a question-answering chain using `load_qa_chain`.
+- **Generating Response**: Runs the QA chain with the compressed text and prints the answer along with the cost of the query.
+
+#### Handling Compression Failure
+
+```python
+            else:
+                print("Failed to compress the text with Llumo. Using original context.")
+                # Fallback: Use original context if compression fails
+                llm = ChatOpenAI(model_name="gpt-3.5-turbo", temperature=0)
+                chain = load_qa_chain(llm=llm, chain_type="stuff")
+                with get_openai_callback() as cb:
+                    response = chain.run(input_documents=docs, question=query)
+                    print("Answer:")
+                    print(response)
+                    print(f"Cost of this query: ${cb.total_cost:.5f}")
+```
+
+- **Compression Failure**: If compression fails, prints a message indicating the failure and uses the original context to generate a response.
+- **Fallback Response Generation**: Runs the QA chain with the original text chunks and prints the answer along with the cost.
+
+### Final Code Integration
+
+We have now integrated all the steps to get the final code in the `main` function. This comprehensive function handles PDF uploading, text extraction, text chunking, embedding generation, similarity search, text compression with LLUMO, and generating a response to the user's query using the compressed or original text.
+
+```python
+def main():
+    print("PDF Query Assistant with Llumo Compression")
+
+    # Upload PDF
+    from google.colab import files
+    uploaded = files.upload()
+
+    if uploaded:
+        pdf_file = list(uploaded.keys())[0]
+
+        # Process the PDF
+        text = load_pdf(pdf_file)
+        chunks = split_text(text)
+
+        store_name = pdf_file[:-4]
+
+        # Create vector store
+        vector_store = load_embeddings(store_name, chunks)
+
+        # User Query Input
+        query = input("Ask any question related to the content of the PDF: ")
+
+        if query:
+            # Similarity Search
+            docs = vector_store.similarity_search(query=query, k=3)
+
+            # Prepare context for compression
+            context = " ".join([doc.page_content for doc in docs])
+
+            # Compress context using Llumo
+            compressed_text, success, compression_percentage, initial_tokens, final_tokens = compress_with_llumo(context, topic=query)
+
+            if success:
+                print(f"Llumo Compression achieved: {compression_percentage:.2f}%")
+                print(f"Initial tokens: {initial_tokens}")
+                print(f"Final tokens: {final_tokens}")
+
+                # Generate response using compressed text
+                llm = ChatOpenAI(model_name="gpt-3.5-turbo", temperature=0)
+                chain = load_qa_chain(llm=llm, chain_type="stuff")
+                with get_openai_callback() as cb:
+                    response = chain.run(input_documents=[Document(page_content=compressed_text)], question=query)
+                    print("Answer:")
+                    print(response)
+                    print(f"Cost of this query: ${cb.total_cost:.5f}")
+            else:
+                print("Failed to compress the text with Llumo. Using original context.")
+                # Fallback: Use original context if compression fails
+                llm = ChatOpenAI(model_name="gpt-3.5-turbo", temperature=0)
+                chain = load_qa_chain(llm=llm, chain_type="stuff")
+                with get_openai_callback() as cb:
+                    response = chain.run(input_documents=docs, question=query)
+                    print("Answer:")
+                    print(response)
+                    print(f"Cost of this query: ${cb.total_cost:.5f}")
+```
+
+# Step 9 : Running the main function
+
+By including this check, we ensure that the main() function is only executed when the script is run directly, providing flexibility and preventing unintended behavior when the script is imported elsewhere.
+
+It will ask you to upload a PDF and then when uploaded, it will receive input for the question you want to be answered.
+
+```python
+if __name__ == '__main__':
+    main()
+```

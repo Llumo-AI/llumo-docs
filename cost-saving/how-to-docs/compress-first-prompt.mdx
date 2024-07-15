@@ -3,6 +3,7 @@ title: "Setup prompt compression API"
 description: "Start cutting AI cost in just 10 minutes"
 sidebarTitle: "Prompt Compression API"
 ---
+
 <img
   className="block dark:hidden"
   src="https://mintlify-assets.b-cdn.net/hero-light.png"
@@ -13,17 +14,20 @@ sidebarTitle: "Prompt Compression API"
 />
 
 ## Integrating Llumo with Langchain
+
 This guide will explain how to integrate Llumo's text compression into a Langchain application. Llumo can help reduce token usage and potentially lower costs when working with large language models. We'll go through the process step-by-step to make it easy for developers of all levels.
 
 ### Prerequisites
-  - Python 3.7+
-  - Installed libraries: langchain, openai, and requests
-  - Llumo API key
-  - OpenAI API key
+
+- Python 3.7+
+- Installed libraries: langchain, openai, and requests
+- Llumo API key
+- OpenAI API key
 
 If you're new to building Langchain applications from scratch, refer to the full tutorial [here]("https://docs.llumo.ai").
 
-  ### Step 1: Set Up Your Environment
+### Step 1: Set Up Your Environment
+
     - **Create a .env File** in your project directory, create a file named .env and add your API keys to it:
     ```java
       OPENAI_API_KEY=your_openai_api_key_here
@@ -36,47 +40,55 @@ If you're new to building Langchain applications from scratch, refer to the full
     ```
 
 ### Step 2: Create the Llumo Compression Function
-  - #### Step 2.1: Import Required Modules
-    First, import the necessary modules: os, requests, and json.
-    ```python
-      import os
-      import requests
-      import json
-    ```
 
-  - #### Step 2.2: Define the Compression Function
-          Create a function named compress_with_llumo that takes text and an optional         topic as arguments. This function will handle the compression of text using the Llumo API.
+- #### Step 2.1: Import Required Modules
 
-    ```python
-    def compress_with_llumo(text, topic=None):
-    LLUMO_API_KEY = os.getenv('LLUMO_API_KEY')
-    LLUMO_ENDPOINT = "https://app.llumo.ai/api/compress"
-    headers = {
-        "Content-Type": "application/json",
-        "Authorization": f"Bearer {LLUMO_API_KEY}"
-    }
-    payload = {"prompt": text}
-    if topic:
-        payload["topic"] = topic
-    ```
+  First, import the necessary modules: os, requests, and json.
+
+  ```python
+    import os
+    import requests
+    import json
+  ```
+
+- #### Step 2.2: Define the Compression Function
+
+        Create a function named compress_with_llumo that takes text and an optional topic as arguments. This function will handle the compression of text using the Llumo API.
+
+  ```python
+  def compress_with_llumo(text, topic=None):
+  LLUMO_API_KEY = os.getenv('LLUMO_API_KEY')
+  LLUMO_ENDPOINT = "https://app.llumo.ai/api/compress"
+  headers = {
+      "Content-Type": "application/json",
+      "Authorization": f"Bearer {LLUMO_API_KEY}"
+  }
+  payload = {"prompt": text}
+  if topic:
+      payload["topic"] = topic
+  ```
 
 - #### Step 2.3: Send the API Request
+
             Send the text to the Llumo API for compression. Handle any potential errors that may occur during the request.
 
-   ```python
-   try:
-        response = requests.post(LLUMO_ENDPOINT, json=payload, headers=headers)
-        response.raise_for_status()
-        result = response.json()
-        data = json.loads(result['data']['data'])
-        compressed_text = data.get('compressedPrompt', text)
-        return compressed_text
-    except Exception as e:
-        print(f"Error compressing text: {str(e)}")
-        return text
-        ```
+  ````python
+  try:
+       response = requests.post(LLUMO_ENDPOINT, json=payload, headers=headers)
+       response.raise_for_status()
+       result = response.json()
+       data = json.loads(result['data']['data'])
+       compressed_text = data.get('compressedPrompt', text)
+       return compressed_text
+   except Exception as e:
+       print(f"Error compressing text: {str(e)}")
+       return text
+       ```
+
+  ````
 
 - #### Step 2.4: Combine Everything
+
            Here's the complete function with the steps combined:
 
   ```python
@@ -108,6 +120,7 @@ If you're new to building Langchain applications from scratch, refer to the full
   ```
 
 ### Step 3: Integrate Llumo with Langchain
+
 - Load Environment Variables
   Use dotenv to load your environment variables:
 
@@ -129,15 +142,15 @@ If you're new to building Langchain applications from scratch, refer to the full
       # Retrieve relevant documents from vector store
       docs = vector_store.similarity_search(query, k=3)
       context = " ".join([doc.page_content for doc in docs])
-      
+
       # Compress the context using Llumo
       compressed_context = compress_with_llumo(context, topic=query)
-      
+
       # Use the compressed context with the language model
       llm = ChatOpenAI(model_name="gpt-3.5-turbo", temperature=0)
       chain = load_qa_chain(llm, chain_type="stuff")
       response = chain.run(input_documents=[{"page_content": compressed_context}], question=query)
-      
+
       return response
 
   # Example usage
@@ -147,25 +160,31 @@ If you're new to building Langchain applications from scratch, refer to the full
   ```
 
 ## How It Works
-- **Retrieve Relevant Documents** 
+
+- **Retrieve Relevant Documents**
 
   The query_document function retrieves relevant documents from the vector store based on the query.
-- **Combine Documents into a Single Context** 
-  
+
+- **Combine Documents into a Single Context**
+
   It combines these documents into a single context string.
-- **Compress Context with Llumo** 
-  
+
+- **Compress Context with Llumo**
+
   The combined context is then sent to Llumo for compression. The query is passed as a topic to help with the compression.
-- **Use Compressed Context with Language Model** 
-  
+
+- **Use Compressed Context with Language Model**
+
   The compressed context is used with the OpenAI language model to generate a response to the query.
 
 ## Notes
-- **Monitor Performance** 
-  
+
+- **Monitor Performance**
+
   The effectiveness of compression can vary. Monitor your application's performance and adjust as needed.
-- **Error Handling** 
-  
+
+- **Error Handling**
+
   The compress_with_llumo function includes basic error handling. For production, consider adding more robust error handling and potentially retry logic.
 
 By following these steps, you can effectively integrate Llumo's text compression capabilities into your Langchain application, potentially reducing token usage and costs.

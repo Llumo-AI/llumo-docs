@@ -116,7 +116,8 @@
       "group": "How to docs",
       "pages": [
         "cost-saving/how-to-docs/compress-first-prompt",
-        "cost-saving/how-to-docs/visualise-insights"
+        "cost-saving/how-to-docs/visualise-insights",
+        "cost-saving/how-to-docs/llumo-compressor-langchain"
       ]
     },
     {
