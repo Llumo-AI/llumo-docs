@@ -177,6 +177,9 @@
   "analytics": {
     "gtm": {
       "tagId": "GTM-KP2SKGV2"
+    },
+    "ga4": {
+      "measurementId": "G-1DTK18YYPF"
     }
   }
 }
