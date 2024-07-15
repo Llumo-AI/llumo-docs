@@ -13,178 +13,292 @@ sidebarTitle: "Prompt Compression API"
   src="https://mintlify-assets.b-cdn.net/hero-dark.png"
 />
 
-## Integrating Llumo with Langchain
+## Integrating Llumo in LLM Pipeline
 
-This guide will explain how to integrate Llumo's text compression into a Langchain application. Llumo can help reduce token usage and potentially lower costs when working with large language models. We'll go through the process step-by-step to make it easy for developers of all levels.
+This guide will explain how to integrate Llumo's text compression into a LLM pipeline build on top of OpenAI APIs. Llumo can help reduce token usage and potentially lower costs when working with large language models. We'll go through the process step-by-step to make it easy for developers of all levels.
 
 ### Prerequisites
 
 - Python 3.7+
-- Installed libraries: langchain, openai, and requests
+- Installed libraries: openai, and requests
 - Llumo API key
 - OpenAI API key
 
-If you're new to building Langchain applications from scratch, refer to the full tutorial [here]("https://docs.llumo.ai").
+# Setting up the environment
 
-### Step 1: Set Up Your Environment
+## Importing libraries:
 
-    - **Create a .env File** in your project directory, create a file named .env and add your API keys to it:
-    ```java
-      OPENAI_API_KEY=your_openai_api_key_here
-      LLUMO_API_KEY=your_llumo_api_key_here
-    ```
+- os: This module provides a way to use operating system dependent functionality, like reading environment variables.
+- OpenAI: This is the official OpenAI Python client, used to interact with OpenAI's API.
+- requests: A popular library for making HTTP requests in Python.
+- json: Used for parsing JSON data, which is common in API responses.
+- logging: Provides a flexible framework for generating log messages in Python.
+- getpass: Allows secure password prompts where the input is not displayed on the screen.
 
-    - **Install Required Libraries** Make sure you have the necessary libraries installed. You can do this using pip:
-    ```cmd
-      pip install langchain openai requests python-dotenv
-    ```
+## Setting up logging:
 
-### Step 2: Create the Llumo Compression Function
+- We use `logging.basicConfig()` to configure the logging system. The `level=logging.INFO` argument sets the threshold for logging messages to INFO level and above.
+- We create a logger object named logger that we'll use throughout our script to log important information and errors.
 
-- #### Step 2.1: Import Required Modules
+This setup ensures we have all necessary tools to interact with APIs, handle data, and track any issues that might occur during execution.
 
-  First, import the necessary modules: os, requests, and json.
+```python
+!pip install openai
+import os
+from openai import OpenAI
+import requests
+import json
+import logging
+from getpass import getpass
 
-  ```python
-    import os
-    import requests
-    import json
-  ```
+# Set up logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
-- #### Step 2.2: Define the Compression Function
+print("Libraries imported and logging set up successfully.")
+```
 
-        Create a function named compress_with_llumo that takes text and an optional topic as arguments. This function will handle the compression of text using the Llumo API.
+# Secure API key handling
 
-  ```python
-  def compress_with_llumo(text, topic=None):
-  LLUMO_API_KEY = os.getenv('LLUMO_API_KEY')
-  LLUMO_ENDPOINT = "https://app.llumo.ai/api/compress"
-  headers = {
-      "Content-Type": "application/json",
-      "Authorization": f"Bearer {LLUMO_API_KEY}"
-  }
-  payload = {"prompt": text}
-  if topic:
-      payload["topic"] = topic
-  ```
+## Secure API key input:
 
-- #### Step 2.3: Send the API Request
+- We use `getpass()` to prompt the user for their API keys. This function hides the input, making it more secure than using regular input().
+- This approach is safer than hardcoding API keys in your script, which could accidentally be shared or exposed.
 
-            Send the text to the Llumo API for compression. Handle any potential errors that may occur during the request.
+## Setting environment variables:
 
-  ````python
-  try:
-       response = requests.post(LLUMO_ENDPOINT, json=payload, headers=headers)
-       response.raise_for_status()
-       result = response.json()
-       data = json.loads(result['data']['data'])
-       compressed_text = data.get('compressedPrompt', text)
-       return compressed_text
-   except Exception as e:
-       print(f"Error compressing text: {str(e)}")
-       return text
-       ```
+- We use `os.environ` to set environment variables for both API keys.
+- Environment variables are a secure way to store sensitive information, as they're not part of your code and are only accessible within the current process.
 
-  ````
+## Initializing the OpenAI client:
 
-- #### Step 2.4: Combine Everything
+- We create an instance of the OpenAI client using the API key we just set.
+- Using `os.getenv("OPENAI_API_KEY")` retrieves the API key from the environment variables.
 
-           Here's the complete function with the steps combined:
+This method ensures that your API keys are handled securely and are readily available for use in your script.
 
-  ```python
-  import os
-  import requests
-  import json
+```python
+# Cell 2: Secure API key handling
 
-  def compress_with_llumo(text, topic=None):
-      LLUMO_API_KEY = os.getenv('LLUMO_API_KEY')
-      LLUMO_ENDPOINT = "https://app.llumo.ai/api/compress"
-      headers = {
-          "Content-Type": "application/json",
-          "Authorization": f"Bearer {LLUMO_API_KEY}"
-      }
-      payload = {"prompt": text}
-      if topic:
-          payload["topic"] = topic
+# Securely input API keys
+openai_api_key = getpass("Enter your OpenAI API key: ")
+llumo_api_key = getpass("Enter your Llumo API key: ")
 
-      try:
-          response = requests.post(LLUMO_ENDPOINT, json=payload, headers=headers)
-          response.raise_for_status()
-          result = response.json()
-          data = json.loads(result['data']['data'])
-          compressed_text = data.get('compressedPrompt', text)
-          return compressed_text
-      except Exception as e:
-          print(f"Error compressing text: {str(e)}")
-          return text
-  ```
+# Set environment variables
+os.environ['OPENAI_API_KEY'] = openai_api_key
+os.environ['LLUMO_API_KEY'] = llumo_api_key
 
-### Step 3: Integrate Llumo with Langchain
+# Initialize OpenAI client
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-- Load Environment Variables
-  Use dotenv to load your environment variables:
+print("API keys securely set and OpenAI client initialized.")
+```
 
-  ```python
-  from dotenv import load_dotenv
-  load_dotenv()
-  ```
+# Define Llumo compression function
 
-- Set Up Langchain Components
-  Here's a simplified workflow to integrate Llumo with Langchain:
+## Function definition:
 
-  ```python
-  from langchain_openai import OpenAIEmbeddings, ChatOpenAI
-  from langchain_community.vectorstores import FAISS
-  from langchain.chains.question_answering import load_qa_chain
+- We define a function `compress_with_llumo` that takes a text input and an optional topic.
 
-  # Define your function to query documents
-  def query_document(query, vector_store):
-      # Retrieve relevant documents from vector store
-      docs = vector_store.similarity_search(query, k=3)
-      context = " ".join([doc.page_content for doc in docs])
+## API setup:
 
-      # Compress the context using Llumo
-      compressed_context = compress_with_llumo(context, topic=query)
+- We retrieve the Llumo API key from environment variables.
+- We set the API endpoint and prepare headers for the HTTP request.
 
-      # Use the compressed context with the language model
-      llm = ChatOpenAI(model_name="gpt-3.5-turbo", temperature=0)
-      chain = load_qa_chain(llm, chain_type="stuff")
-      response = chain.run(input_documents=[{"page_content": compressed_context}], question=query)
+## Payload preparation:
 
-      return response
+- We create a payload dictionary with the input text.
+- If a topic is provided, we add it to the payload.
 
-  # Example usage
-  vector_store = FAISS.from_texts(["Your document texts here"], embedding=OpenAIEmbeddings())
-  answer = query_document("Your question here", vector_store)
-  print(answer)
-  ```
+## API request:
 
-## How It Works
+- We use `requests.post()` to send a POST request to the Llumo API.
+  `response.raise_for_status()` will raise an exception for HTTP errors.
 
-- **Retrieve Relevant Documents**
+## Response parsing:
 
-  The query_document function retrieves relevant documents from the vector store based on the query.
+- We parse the JSON response and extract the compressed text and token counts.
+- We calculate the compression percentage.
 
-- **Combine Documents into a Single Context**
+## Error handling:
 
-  It combines these documents into a single context string.
+- We use a try-except block to catch potential errors:
 
-- **Compress Context with Llumo**
+- JSON decoding errors
+- Request exceptions
+- Unexpected response structure
 
-  The combined context is then sent to Llumo for compression. The query is passed as a topic to help with the compression.
+- If an error occurs, we log it and return the original text with failure indicators.
 
-- **Use Compressed Context with Language Model**
+## Return values:
 
-  The compressed context is used with the OpenAI language model to generate a response to the query.
+- The function returns a tuple containing:
 
-## Notes
+- Compressed text (or original if compression failed)
+- Success boolean
+- Compression percentage
+- Initial token count
+- Final token count
 
-- **Monitor Performance**
+This function encapsulates the entire process of interacting with the Llumo API for text compression, including error handling and result processing.
 
-  The effectiveness of compression can vary. Monitor your application's performance and adjust as needed.
+```python
+def compress_with_llumo(text, topic=None):
+    # Retrieve the Llumo API key from environment variables
+    LLUMO_API_KEY = os.getenv('LLUMO_API_KEY')
 
-- **Error Handling**
+    # Define the Llumo API endpoint for text compression
+    LLUMO_ENDPOINT = "https://app.llumo.ai/api/compress"
 
-  The compress_with_llumo function includes basic error handling. For production, consider adding more robust error handling and potentially retry logic.
+    # Set the headers for the API request
+    headers = {
+        "Content-Type": "application/json",  # Specify the content type as JSON
+        "Authorization": f"Bearer {LLUMO_API_KEY}"  # Authorization header with the API key
+    }
 
-By following these steps, you can effectively integrate Llumo's text compression capabilities into your Langchain application, potentially reducing token usage and costs.
+    # Create the payload for the API request with the provided text
+    payload = {"prompt": text}
+
+    # If a topic is provided, add it to the payload
+    if topic:
+        payload["topic"] = topic
+
+    try:
+        # Make a POST request to the Llumo API with the payload and headers
+        response = requests.post(LLUMO_ENDPOINT, json=payload, headers=headers)
+
+        # Raise an exception if the request was unsuccessful
+        response.raise_for_status()
+
+        # Parse the JSON response from the API
+        result = response.json()
+
+        # Extract the 'data' field from the JSON response
+        data = result['data']['data']
+
+        # Parse the JSON string in the 'data' field
+        data_content = json.loads(data)
+
+        # Get the compressed text from the parsed JSON
+        compressed_text = data_content.get('compressedPrompt', text)
+
+        # Get the initial and final token counts from the parsed JSON
+        initial_tokens = data_content.get('initialTokens', 0)
+        final_tokens = data_content.get('finalTokens', 0)
+
+        # Calculate the compression percentage
+        if initial_tokens and final_tokens:
+            compression_percentage = ((initial_tokens - final_tokens) / initial_tokens) * 100
+        else:
+            compression_percentage = 0
+
+        # Return the compressed text, success flag, compression percentage, and token counts
+        return compressed_text, True, compression_percentage, initial_tokens, final_tokens
+    except Exception as e:
+        # Print an error message if an exception occurs
+        print(f"Error compressing text: {str(e)}")
+
+        # Return the original text, failure flag, and zeroed metrics
+        return text, False, 0, 0, 0
+
+```
+
+# Define example prompt and test without compression
+
+## Defining the prompt:
+
+- We create a detailed prompt about photosynthesis. This serves as our example text for compression.
+
+## Testing without compression:
+
+- We use the OpenAI client to send a request to the GPT-3.5-turbo model.
+- The messages parameter follows the chat format:
+
+- A system message sets the AI's role.
+- A user message contains our prompt.
+
+## Displaying results:
+
+- We print the AI's response to the prompt.
+- We also print the total number of tokens used, which is important for understanding API usage and costs.
+
+This cell demonstrates how the API would typically be used without any compression, providing a baseline for comparison.
+
+```python
+# Cell 4: Define example prompt and test without compression
+
+# Example prompt
+prompt = """
+Quite a long time ago, there lived two talking birds with their parents. One day when their parents were away, a villager who generally had an eye on those special birds caught them and took them away. One of the birds got away from the trap and looked for his parents. The bird, at last, arrived at a hermitage where it was welcomed and had some food. He lived joyfully.
+An explorer once ran over the other bird that the villager caught. He talked very rudely to him. He was shocked to see a talking bird but at the same time was angry with his way of behaving. The explorer visited the hermitage and recognised a similar talking bird, yet this bird talked respectfully and welcomed him to remain there.
+Moral of the Story
+Staying in a good company gives us a good way of behaving. Bad company influences our way of behaving negatively.
+"""
+
+topic= "what is the moral of story"
+
+print("Without Llumo Compression:")
+response = client.chat.completions.create(
+    model="gpt-3.5-turbo",
+    messages=[
+        {"role": "system", "content": "You are a helpful assistant."},
+        {"role": "user", "content": prompt}
+    ]
+)
+print(response.choices[0].message.content)
+print(f"Tokens used: {response.usage.total_tokens}\n")
+
+```
+
+# Test with Llumo compression
+
+## Applying Llumo compression:
+
+- We call compress_with_llumo() with our example prompt.
+- The function returns multiple values, which we unpack into separate variables.
+
+## Checking compression success:
+
+- We use an if statement to check if compression was successful.
+- If successful, we print compression statistics: percentage, initial and final token counts.
+
+## Using the compressed prompt:
+
+- If compression succeeded, we use the compressed prompt in our API call to GPT-3.5-turbo.
+- We use the same message structure as before, but with the compressed prompt.
+
+## Displaying results:
+
+- We print the AI's response to the compressed prompt.
+- We print the number of tokens used with the compressed prompt.
+
+## Handling compression failure:
+
+- If compression fails, we print a message indicating this.
+- In a real application, you might want to fall back to using the original prompt in this case.
+
+This cell demonstrates the full process of compressing a prompt with Llumo and using it with the OpenAI API. By comparing the results and token usage with the previous cell, you can see the potential benefits of using Llumo compression in terms of token efficiency and cost savings.
+
+```python
+# Cell 5: Test with Llumo compression
+
+print("With Llumo Compression:")
+compressed_prompt, success, compression_percentage, initial_tokens, final_tokens = compress_with_llumo(prompt, topic)
+
+if success:
+    print(f"Compression achieved: {compression_percentage:.2f}%")
+    print(f"Initial tokens: {initial_tokens}, Final tokens: {final_tokens}")
+
+    response = client.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "user", "content": compressed_prompt}
+        ]
+    )
+    print(response.choices[0].message.content)
+    print(f"Tokens used: {response.usage.total_tokens}")
+else:
+    print("Compression failed. Using original prompt.")
+    # Use the original prompt if compression fails
+```
