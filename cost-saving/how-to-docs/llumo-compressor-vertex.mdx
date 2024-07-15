@@ -1,0 +1,295 @@
+---
+title: "LLUMO Compressor API with Google Vertex"
+description: "Save cost in Google Vertex pipeline using LLUMO compressor API"
+sidebarTitle: "Google Vertex"
+---
+
+<img
+  className="block dark:hidden"
+  src="https://mintlify-assets.b-cdn.net/hero-light.png"
+/>
+<img
+  className="hidden dark:block"
+  src="https://mintlify-assets.b-cdn.net/hero-dark.png"
+/>
+
+# Installing Necessary Libraries
+
+This cell installs or upgrades the necessary Python packages for the project:
+
+- google-cloud-aiplatform: The Google Cloud AI Platform SDK, used for interacting with Vertex AI.
+- requests: A popular HTTP library for making API calls (will be used for the Llumo API).
+- nltk: Natural Language Toolkit, a leading platform for building Python programs to work with human language data.
+- beautifulsoup4: A library for pulling data out of HTML and XML files, useful for web scraping.
+
+The ! at the beginning allows running shell commands in Jupyter notebooks or Google Colab.
+
+```python
+!pip install --upgrade google-cloud-aiplatform requests nltk beautifulsoup4
+```
+
+# Setting Up VertexAI
+
+This cell mounts your Google Drive to the Colab environment:
+
+- It imports the `os` module for operating system operations and the drive module from `google.colab`.
+- `drive.mount()` attaches your Google Drive to the '/content/drive' directory in the Colab environment.
+- `force_remount=True` ensures that the drive is remounted even if it was previously mounted, which can help resolve connection issues.
+
+```python
+import os
+from google.colab import drive
+drive.mount('/content/drive',force_remount=True)
+```
+
+Now we will sets up the Google Cloud credentials:
+
+- It sets the `GOOGLE_APPLICATION_CREDENTIALS` environment variable to point to your Google Cloud service account key file.
+- The file path suggests that your credentials JSON file is stored in your Google Drive under the 'MyDrive/vertex/' directory.
+- This step is crucial for authenticating your script with Google Cloud services.
+
+```python
+os.environ['GOOGLE_APPLICATION_CREDENTIALS']='/content/drive/MyDrive/vertex/googleCred.json'
+```
+
+# Importing Libraries
+
+This cell imports all necessary Python modules:
+
+- `os`: For operating system operations and environment variables.
+- `requests`: For making HTTP requests (will be used for Llumo API calls).
+- `json`: For JSON parsing and manipulation.
+- `logging`: For setting up logging in the script.
+- `getpass`: For securely inputting passwords or API keys.
+- `aiplatform`: The main module for interacting with Vertex AI.
+- `TextGenerationModel`: Specific class for text generation tasks in Vertex AI.
+
+```python
+import os
+import requests
+import json
+import logging
+from getpass import getpass
+from google.cloud import aiplatform
+from vertexai.language_models import TextGenerationModel
+```
+
+# Setting up Basic Logging
+
+This cell sets up logging for the script:
+
+- `logging.basicConfig()` configures the logging system with INFO level, meaning it will capture all info, warning, and error messages.
+- `logger = logging.getLogger(__name__)` creates a logger object.` __name__` is a special Python variable that gets set to the module's name when the module is executed.
+
+```python
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+```
+
+# Setting up Llumo API
+
+This cell securely handles the Llumo API key:
+
+- It uses `getpass()` to prompt for the Llumo API key without displaying it on the screen as it's typed.
+- The API key is then stored as an environment variable named 'LLUMO_API_KEY'.
+- This approach keeps the API key secure by not hardcoding it in the script.
+
+```python
+llumo_api_key = getpass("Enter your Llumo API key: ")
+os.environ['LLUMO_API_KEY'] = llumo_api_key
+```
+
+# Define Llumo compression function
+
+## Function definition:
+
+- We define a function `compress_with_llumo` that takes a text input and an optional topic.
+
+## API setup:
+
+- We retrieve the Llumo API key from environment variables.
+- We set the API endpoint and prepare headers for the HTTP request.
+
+## Payload preparation:
+
+- We create a payload dictionary with the input text.
+- If a topic is provided, we add it to the payload.
+
+## API request:
+
+- We use `requests.post()` to send a POST request to the Llumo API.
+  `response.raise_for_status()` will raise an exception for HTTP errors.
+
+## Response parsing:
+
+- We parse the JSON response and extract the compressed text and token counts.
+- We calculate the compression percentage.
+
+## Error handling:
+
+- We use a try-except block to catch potential errors:
+
+- JSON decoding errors
+- Request exceptions
+- Unexpected response structure
+
+- If an error occurs, we log it and return the original text with failure indicators.
+
+## Return values:
+
+- The function returns a tuple containing:
+
+- Compressed text (or original if compression failed)
+- Success boolean
+- Compression percentage
+- Initial token count
+- Final token count
+
+This function encapsulates the entire process of interacting with the Llumo API for text compression, including error handling and result processing.
+
+```python
+def compress_with_llumo(text, topic=None):
+    # Retrieve the Llumo API key from environment variables
+    LLUMO_API_KEY = os.getenv('LLUMO_API_KEY')
+
+    # Define the Llumo API endpoint for text compression
+    LLUMO_ENDPOINT = "https://app.llumo.ai/api/compress"
+
+    # Set the headers for the API request
+    headers = {
+        "Content-Type": "application/json",  # Specify the content type as JSON
+        "Authorization": f"Bearer {LLUMO_API_KEY}"  # Authorization header with the API key
+    }
+
+    # Create the payload for the API request with the provided text
+    payload = {"prompt": text}
+
+    # If a topic is provided, add it to the payload
+    if topic:
+        payload["topic"] = topic
+
+    try:
+        # Make a POST request to the Llumo API with the payload and headers
+        response = requests.post(LLUMO_ENDPOINT, json=payload, headers=headers)
+
+        # Raise an exception if the request was unsuccessful
+        response.raise_for_status()
+
+        # Parse the JSON response from the API
+        result = response.json()
+
+        # Extract the 'data' field from the JSON response
+        data = result['data']['data']
+
+        # Parse the JSON string in the 'data' field
+        data_content = json.loads(data)
+
+        # Get the compressed text from the parsed JSON
+        compressed_text = data_content.get('compressedPrompt', text)
+
+        # Get the initial and final token counts from the parsed JSON
+        initial_tokens = data_content.get('initialTokens', 0)
+        final_tokens = data_content.get('finalTokens', 0)
+
+        # Calculate the compression percentage
+        if initial_tokens and final_tokens:
+            compression_percentage = ((initial_tokens - final_tokens) / initial_tokens) * 100
+        else:
+            compression_percentage = 0
+
+        # Return the compressed text, success flag, compression percentage, and token counts
+        return compressed_text, True, compression_percentage, initial_tokens, final_tokens
+    except Exception as e:
+        # Print an error message if an exception occurs
+        print(f"Error compressing text: {str(e)}")
+
+        # Return the original text, failure flag, and zeroed metrics
+        return text, False, 0, 0, 0
+
+```
+
+# Define example prompt and test without compression
+
+## Defining the prompt:
+
+- We create a detailed prompt about photosynthesis. This serves as our example text for compression.
+
+## Testing without compression:
+
+- We use the VertexAI client to send a request to the text-bison model.
+- The messages parameter follows the chat format:
+
+- A system message sets the AI's role.
+- A user message contains our prompt.
+
+## Displaying results:
+
+- We print the AI's response to the prompt.
+- Vertex AI doesn't provide any token usage. So, it's not possible to print token usage for checking.
+
+This cell demonstrates how the API would typically be used without any compression, providing a baseline for comparison.
+
+```python
+prompt = """
+Quite a long time ago, there lived two talking birds with their parents. One day when their parents were away, a villager who generally had an eye on those special birds caught them and took them away. One of the birds got away from the trap and looked for his parents. The bird, at last, arrived at a hermitage where it was welcomed and had some food. He lived joyfully.
+An explorer once ran over the other bird that the villager caught. He talked very rudely to him. He was shocked to see a talking bird but at the same time was angry with his way of behaving. The explorer visited the hermitage and recognised a similar talking bird, yet this bird talked respectfully and welcomed him to remain there.
+Moral of the Story
+Staying in a good company gives us a good way of behaving. Bad company influences our way of behaving negatively.
+"""
+
+topic = "what is the moral of story"
+
+print("Without Llumo Compression:")
+model = TextGenerationModel.from_pretrained("text-bison")
+parameters = {
+    "max_output_tokens": 1024,
+    "temperature": 0.2,
+    "top_p": 0.8,
+    "top_k": 40
+}
+response = model.predict(prompt, **parameters)
+print(response.text)
+```
+
+# Test with Llumo compression
+
+## Applying Llumo compression:
+
+- We call compress_with_llumo() with our example prompt.
+- The function returns multiple values, which we unpack into separate variables.
+
+## Checking compression success:
+
+- We use an if statement to check if compression was successful.
+- If successful, we print compression statistics: percentage, initial and final token counts.
+
+## Using the compressed prompt:
+
+- If compression succeeded, we use the compressed prompt in our API call to vertexAI.
+- We use the same message structure as before, but with the compressed prompt.
+
+## Displaying results:
+
+- We print the AI's response to the compressed prompt.
+- We print the number of tokens used with the compressed prompt.
+
+## Handling compression failure:
+
+- If compression fails, we print a message indicating this.
+- In a real application, you might want to fall back to using the original prompt in this case.
+
+This cell demonstrates the full process of compressing a prompt with Llumo and using it with the Vertex API. By comparing the results and token usage with the previous cell, you can see the potential benefits of using Llumo compression in terms of token efficiency and cost savings.
+
+```python
+print("\nWith Llumo Compression:")
+compressed_prompt, success, compression_percentage, initial_tokens, final_tokens = compress_with_llumo(prompt, topic)
+
+if success:
+    print(f"Compression achieved: {compression_percentage:.2f}%")
+    print(f"Initial tokens: {initial_tokens}, Final tokens: {final_tokens}")
+
+    response = model.predict(compressed_prompt, **parameters)
+    print(response.text)
+else:
+    print("Compression failed. Using original prompt.")
+```
