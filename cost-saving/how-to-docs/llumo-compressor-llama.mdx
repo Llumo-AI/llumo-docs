@@ -1,0 +1,486 @@
+---
+title: "LLUMO Compressor API with Llama Index"
+description: "Save cost in Llama Index pipeline using LLUMO compressor API"
+sidebarTitle: "Llama Index"
+---
+
+<img
+  className="block dark:hidden"
+  src="https://mintlify-assets.b-cdn.net/hero-light.png"
+/>
+<img
+  className="hidden dark:block"
+  src="https://mintlify-assets.b-cdn.net/hero-dark.png"
+/>
+
+# Introduction
+
+Welcome to this Colab Notebook tutorial! In this guide, we will demonstrate how to efficiently incorporate the LLUMO Compressor API into your LlamaIndex pipeline to save costs while utilizing Large Language Models (LLMs). Specifically, we will walk you through the process of extracting answers from a PDF document by integrating LlamaIndex for vector search, OpenAI for generating answers, and LLUMO to compress prompts before sending them to OpenAI.
+
+## What You'll Learn
+
+1. **LlamaIndex Integration**: How to use LlamaIndex for efficient vector search to locate relevant text passages within a PDF document.
+2. **OpenAI Integration**: How to utilize OpenAI's LLM for generating answers based on the extracted text passages.
+3. **LLUMO Compressor API**: How to integrate the LLUMO Compressor API into your pipeline to compress prompts, reducing the amount of data sent to OpenAI and thus saving on API usage costs.
+
+## Why This Tutorial?
+
+Using LLMs like OpenAI's GPT-4 can be expensive, especially when dealing with large documents or frequent queries. The LLUMO Compressor API helps mitigate these costs by compressing prompts before they are sent to the LLM, ensuring you get the same high-quality responses at a lower cost. This tutorial is particularly useful for developers and data scientists who want to optimize their LlamaIndex pipelines by incorporating cost-saving measures without compromising on performance.
+
+By the end of this tutorial, you will have a fully functional pipeline that efficiently extracts and processes information from PDFs, providing accurate answers while minimizing costs through prompt compression.
+
+Let's get started!
+
+# Step 1: Installing Required Python Libraries
+
+In this first step, we will install several essential Python libraries that are required to build our LlamaINdex pipeline with the LLUMO Compressor API. Each library serves a specific purpose in our workflow, enabling us to handle natural language processing, PDF reading, environment variable management, similarity search, and interaction with OpenAI's API. Here's a detailed overview of each library we will be using:
+
+1. **llama-index**: Specifically, we will walk you through the process of extracting answers from a PDF document by integrating LlamaIndex for vector search, OpenAI for generating answers, and LLUMO to compress prompts before sending them to OpenAI.
+
+2. **PyPDF2**: PyPDF2 is a pure Python library that allows us to read and manipulate PDF files. In this tutorial, we will use PyPDF2 to extract text from PDF documents, which will then be processed and analyzed using our natural language processing tools.
+
+3. **python-dotenv**: This library is used for managing environment variables in Python. By using python-dotenv, we can securely store and access sensitive information such as API keys and other configuration settings needed for our project.
+
+4. **openai**: The openai library allows us to interact with OpenAI's API, enabling us to use their powerful language models for generating answers. This library will be crucial for sending prompts and receiving responses from OpenAI's LLM.
+
+5. **requests and json**: These libraries are used for making HTTP requests and handling JSON data, respectively. We will use requests to communicate with external APIs, including the LLUMO Compressor API, and json to parse and manipulate JSON data returned by these APIs.
+
+Let's start by installing these libraries using the following pip command. This command will ensure that all the necessary libraries are installed and ready to use in our Colab environment.
+
+```python
+!pip install llama-index==0.9.48 PyPDF2==3.0.1 python-dotenv==1.0.1 openai==1.12.0 pypdf
+```
+
+# Step 2: Importing Required Libraries
+
+Before we dive into the specific functions and steps of our pipeline, it's important to import all the necessary libraries that we'll be using throughout this notebook.
+
+### Explanation:
+
+1. **`import os`**: This module provides a way to interact with the operating system, including setting and retrieving environment variables.
+
+2. **`from getpass import getpass`**: This module allows us to securely prompt the user for sensitive information, such as API keys, without echoing the input back to the screen.
+
+3. **`from llama_index import VectorStoreIndex, SimpleDirectoryReader, ServiceContext, Document`**: These classes are core components of LlamaIndex. They are used for creating and querying vector indexes, reading documents, and configuring the indexing and querying process.
+
+4. **`from llama_index.llms import OpenAI`**: This class is used to interact with OpenAI's API for generating responses from their language models.
+
+5. **`import requests`**: This library is used for making HTTP requests, which we will need to communicate with external APIs, including the LLUMO Compressor API.
+
+6. **`import json`**: This library is used for parsing and manipulating JSON data, which is often the format of data exchanged between APIs.
+
+```python
+import os
+from getpass import getpass
+from llama_index import VectorStoreIndex, SimpleDirectoryReader, ServiceContext, Document
+from llama_index.llms import OpenAI
+import requests
+import json
+```
+
+# Step 3: Setting Up API Keys
+
+To interact with OpenAI's API and the LLUMO Compressor API, we need to provide our unique API keys for authentication. These keys are sensitive pieces of information that should be handled securely. In this step, we will use Python's `getpass` module to safely input our API keys and then store them in environment variables for later use.
+
+### Explanation:
+
+1. **Importing Required Modules**:
+
+   - `getpass`: This module provides a way to securely prompt the user for input without echoing the input back to the screen. This is particularly useful for handling sensitive information like API keys.
+   - `os`: This module provides a way to interact with the operating system, including setting environment variables.
+
+2. **Prompting for OpenAI API Key**:
+
+   - `openai_api_key = getpass("Enter your OpenAI API key: ")`: This line prompts the user to enter their OpenAI API key. The input is not displayed on the screen for security reasons.
+
+3. **Prompting for LLUMO API Key**:
+
+   - `llumo_api_key = getpass("Enter your LLUMO API key: ")`: Similarly, this line prompts the user to enter their LLUMO API key securely.
+
+4. **Storing API Keys in Environment Variables**:
+
+   - `os.environ['OPENAI_API_KEY'] = openai_api_key`: This line stores the OpenAI API key in an environment variable named `OPENAI_API_KEY`.
+   - `os.environ['LLUMO_API_KEY'] = llumo_api_key`: This line stores the LLUMO API key in an environment variable named `LLUMO_API_KEY`.
+
+5. **Deleting the Variables**:
+   - `del openai_api_key`: This line deletes the variable `openai_api_key` from memory to ensure that the API key is not accidentally exposed or misused later in the code.
+   - `del llumo_api_key`: This line deletes the variable `llumo_api_key` for the same reason.
+
+By following these steps, we ensure that our API keys are securely handled and stored, reducing the risk of accidental exposure. This setup is crucial for maintaining the security and integrity of our project.
+
+```python
+# Prompting the user to securely input their OpenAI API key
+openai_api_key = getpass("Enter your OpenAI API key: ")
+
+# Prompting the user to securely input their LLUMO API key
+llumo_api_key = getpass("Enter your LLUMO API key: ")
+
+# Storing the OpenAI API key in an environment variable
+os.environ['OPENAI_API_KEY'] = openai_api_key
+
+# Storing the LLUMO API key in an environment variable
+os.environ['LLUMO_API_KEY'] = llumo_api_key
+
+# Deleting the variables that hold the API keys to prevent them from being exposed in the code
+del openai_api_key
+del llumo_api_key
+```
+
+# Step 4: Loading and Extracting Text from PDF
+
+In this step, we define a function to read a PDF file, extract its text content, and process it for indexing. This function, load_and_process_pdf, utilizes the SimpleDirectoryReader class from LlamaIndex to read the PDF, and then manually chunks the text for more efficient processing. This function is a key component of our pipeline, as it allows us to convert the PDF content into a format that can be efficiently indexed and queried using LlamaIndex
+
+1. **Defining the load_and_process_pdf Function:**
+
+- def `load_and_process_pdf(file_path):`: This line defines a function named `load_and_process_pdf` that takes a single argument, `file_path`, which is the path to the PDF file we want to read and process.
+
+2. **Loading the PDF**:
+
+- `raw_documents = SimpleDirectoryReader(input_files=[file_path]).load_data()`: This line uses LlamaIndex's `SimpleDirectoryReader` to load the PDF file. It returns a list of `Document` objects, each representing a page or section of the PDF.
+
+3. **Creating Smaller Text Chunks**:
+
+- We iterate through each `Document` object in `raw_documents` and split its text content into smaller chunks. This is done to ensure that each chunk is of a manageable size for processing and indexing.
+- `text_chunks = [doc.text[i:i+1000] for i in range(0, len(doc.text), 800)]`: This line creates chunks of 1000 characters with an overlap of 200 characters between chunks.
+
+4. **Creating Document Objects from Chunks:**
+
+- `documents.extend([Document(text=chunk) for chunk in text_chunks])`: This line creates new `Document` objects for each text chunk and adds them to the `documents` list.
+
+5. **Configuring the Service Context**:
+
+- `service_context = ServiceContext.from_defaults(llm=OpenAI(temperature=0, model_name="gpt-3.5-turbo"))`: This line sets up the service context for LlamaIndex, specifying the OpenAI model to use for text generation.
+
+6. **Creating the Vector Store Index**:
+
+- `index = VectorStoreIndex.from_documents(documents, service_context=service_context)`: This line creates a `VectorStoreIndex` from the processed documents, using the specified service context.
+
+7. **Returning the Index:**
+
+- `return index`: After processing and indexing the PDF content, this line returns the created index.
+
+This function effectively loads the PDF, breaks it down into manageable chunks, and creates an index that can be efficiently queried. By using LlamaIndex's built-in classes and methods, we ensure that the PDF content is properly prepared for our question-answering system.
+
+```python
+def load_and_process_pdf(file_path):
+    # Load the PDF
+    raw_documents = SimpleDirectoryReader(input_files=[file_path]).load_data()
+
+    # Create documents with smaller chunk sizes
+    documents = []
+    for doc in raw_documents:
+        text_chunks = [doc.text[i:i+1000] for i in range(0, len(doc.text), 800)]  # 1000 chunk size, 200 overlap
+        documents.extend([Document(text=chunk) for chunk in text_chunks])
+
+    # Configure Service Context
+    service_context = ServiceContext.from_defaults(llm=OpenAI(temperature=0, model_name="gpt-3.5-turbo"))
+
+    # Create index
+    index = VectorStoreIndex.from_documents(documents, service_context=service_context)
+
+    return index
+```
+
+# Step 5: Compressing Text with LLUMO API
+
+In this step, we define a function to compress text using the LLUMO Compressor API. This function sends a request to the LLUMO API, receives the compressed text, and calculates the compression percentage. The function also handles any errors that might occur during the process. Let's understand each step one by one
+
+1. **Retrieving the LLUMO API Key**
+
+```python
+    # Retrieve the Llumo API key from environment variables
+    LLUMO_API_KEY = os.getenv('LLUMO_API_KEY')
+```
+
+- This line retrieves the LLUMO API key from the environment variables using `os.getenv()`. The API key is essential for authenticating the request to the LLUMO API.
+
+2. **Setting the LLUMO API Endpoint**
+
+```python
+    # Set the Llumo API endpoint for text compression
+    LLUMO_ENDPOINT = "https://app.llumo.ai/api/compress"
+```
+
+- This line sets the endpoint URL for the LLUMO API that handles text compression.
+
+3. **Preparing Headers for the API Request**
+
+```python
+    # Prepare headers for the API request
+    headers = {
+        "Content-Type": "application/json",
+        "Authorization": f"Bearer {LLUMO_API_KEY}"
+    }
+```
+
+- This block prepares the headers required for the API request, including the content type (`application/json`) and the authorization token (`Bearer {LLUMO_API_KEY}`).
+
+4. **Preparing the Payload for the API Request**
+
+```python
+    # Prepare the payload for the API request
+    payload = {"prompt": text}
+    if topic:
+        payload["topic"] = topic  # Add topic to payload if provided
+```
+
+- This block prepares the payload (data to be sent in the request) with the text to be compressed. If a topic is provided, it adds the topic to the payload.
+
+5. **Sending the POST Request to LLUMO API**
+
+```python
+    try:
+        # Send POST request to Llumo API
+        response = requests.post(LLUMO_ENDPOINT, json=payload, headers=headers)
+        response.raise_for_status()  # Raise an exception for bad status codes
+```
+
+- This block sends a POST request to the LLUMO API with the prepared payload and headers. The `raise_for_status()` method raises an exception if the request fails.
+
+6. **Parsing the JSON Response**
+
+```python
+        # Parse the JSON response
+        result = response.json()
+        data = result['data']['data']
+        data_content = json.loads(data)
+```
+
+- This block parses the JSON response from the API. It extracts the relevant data and converts it from a JSON string to a Python dictionary.
+
+7. **Extracting Compressed Text and Token Counts**
+
+```python
+        # Extract compressed text and token counts from the response
+        compressed_text = data_content.get('compressedPrompt', text)  # Use original text if compression fails
+        initial_tokens = data_content.get('initialTokens', 0)
+        final_tokens = data_content.get('finalTokens', 0)
+```
+
+- This block extracts the compressed text and token counts (initial and final) from the response. If compression fails, it defaults to using the original text.
+
+8. **Calculating Compression Percentage**
+
+```python
+        # Calculate compression percentage if token counts are available
+        if initial_tokens and final_tokens:
+            compression_percentage = ((initial_tokens - final_tokens) / initial_tokens) * 100
+        else:
+            compression_percentage = 0
+```
+
+- This block calculates the compression percentage based on the initial and final token counts. If these counts are not available, the compression percentage is set to 0.
+
+9. **Returning the Results**
+
+```python
+        # Return compressed text, success status, and compression statistics
+        return compressed_text, True, compression_percentage, initial_tokens, final_tokens
+```
+
+- This block returns the compressed text, a success status, and the compression statistics (compression percentage, initial tokens, and final tokens).
+
+10. **Handling Exceptions**
+
+```python
+    except Exception as e:
+        # If an error occurs, print the error and return original text with failure status
+        print(f"Error compressing text: {str(e)}")
+        return text, False, 0, 0, 0
+```
+
+- This block handles any exceptions that occur during the process, printing an error message and returning the original text with a failure status.
+
+11. **Final Code Integration**
+
+We will now combine everything to get the final code.
+
+```python
+def compress_with_llumo(text, topic=None):
+    LLUMO_API_KEY = os.getenv('LLUMO_API_KEY')
+    LLUMO_ENDPOINT = "https://app.llumo.ai/api/compress"
+    headers = {
+        "Content-Type": "application/json",
+        "Authorization": f"Bearer {LLUMO_API_KEY}"
+    }
+    payload = {"prompt": text}
+    if topic:
+        payload["topic"] = topic
+
+    try:
+        response = requests.post(LLUMO_ENDPOINT, json=payload, headers=headers)
+        response.raise_for_status()
+        result = response.json()
+        data = result['data']['data']
+        data_content = json.loads(data)
+
+        compressed_text = data_content.get('compressedPrompt', text)
+        initial_tokens = data_content.get('initialTokens', 0)
+        final_tokens = data_content.get('finalTokens', 0)
+
+        if initial_tokens and final_tokens:
+            compression_percentage = ((initial_tokens - final_tokens) / initial_tokens) * 100
+        else:
+            compression_percentage = 0
+
+        return compressed_text, True, compression_percentage, initial_tokens, final_tokens
+    except Exception as e:
+        print(f"Error compressing text: {str(e)}")
+        return text, False, 0, 0, 0
+```
+
+# Step 6: Main Function - Integrating All Steps
+
+The `main` function serves as the entry point for our PDF Query Assistant. It integrates all the steps discussed previously, from uploading and processing a PDF file to querying the content and using LLUMO compression to optimize costs. We will go in details of each part of the `main` function:
+
+#### Initialization and PDF Upload
+
+```python
+    print("PDF Query Assistant with Llumo Compression")
+
+    # Upload PDF
+    from google.colab import files
+    uploaded = files.upload()
+
+    if uploaded:
+        pdf_file = list(uploaded.keys())[0]
+```
+
+- **Printing the Title**: Displays the title of the assistant.
+- **Uploading the PDF**: Uses Google Colab's `files.upload()` to upload a PDF file.
+- **Retrieving the File Name**: Gets the name of the uploaded file.
+
+#### Processing the PDF
+
+```python
+        # Process the PDF
+        print("Processing PDF...")
+        index = load_and_process_pdf(pdf_file)
+```
+
+Calls the `load_and_process_pdf` function to extract text from the PDF and convert into
+chunks.
+
+#### Handling User Query
+
+```python
+        # User Query Input
+        query = input("Ask any question related to the content of the PDF: ")
+
+        if query:
+            ## Similarity Search
+            retriever = index.as_retriever(similarity_top_k=3)
+            retrieved_nodes = retriever.retrieve(query)
+
+            # Prepare context for compression
+            context = " ".join([node.node.text for node in retrieved_nodes])
+```
+
+- **User Query Input**: Prompts the user to input a query related to the PDF content.
+- **Similarity Search**: This block checks if the user provided a query. If so, it creates a retriever object using the processed PDF content (index) and retrieves the top 3 most similar nodes to the query.
+- **Preparing Context**:This block prepares the context for compression by concatenating the text of the retrieved nodes.
+
+#### Compressing Context with LLUMO
+
+```python
+            # Compress context using Llumo
+            compressed_text, success, compression_percentage, initial_tokens, final_tokens = compress_with_llumo(context, topic=query)
+
+            if success:
+                print(f"Llumo Compression achieved: {compression_percentage:.2f}%")
+                print(f"Initial tokens: {initial_tokens}")
+                print(f"Final tokens: {final_tokens}")
+```
+
+- **Compressing Context**: Calls the `compress_with_llumo` function to compress the context using LLUMO API.
+- **Handling Success**: If compression is successful, prints the compression percentage and token counts.
+
+#### Generating Response with Compressed Context
+
+```python
+                # Generate response using compressed text
+                llm = OpenAI(model="gpt-3.5-turbo", temperature=0)
+                response = llm.complete(compressed_text + "\n\nQuestion: " + query + "\nAnswer:")
+                print("Answer:")
+                print(response.text)
+```
+
+- **LLM Initialization**: Initializes a language model (`ChatOpenAI`) with specified parameters.
+- This block checks if the compression was successful. If so, it prints the compression statistics and generates a response using the compressed text and the query. The response is generated using an OpenAI model (GPT-3.5-turbo) and is printed.
+
+#### Handling Compression Failure
+
+```python
+            else:
+                print("Failed to compress the text with Llumo. Using original context.")
+                # Fallback: Use original context if compression fails
+                llm = OpenAI(model="gpt-3.5-turbo", temperature=0)
+                response = llm.complete(context + "\n\nQuestion: " + query + "\nAnswer:")
+                print("Answer:")
+                print(response.text)
+```
+
+- This block handles the case where the compression fails. It prints a message indicating the failure and falls back to using the original context to generate the response using the OpenAI model.
+
+#### Final Code Integration
+
+We have now integrated all the steps to get the final code in the `main` function. This comprehensive function handles PDF uploading, text extraction, text chunking, embedding generation, similarity search, text compression with LLUMO, and generating a response to the user's query using the compressed or original text.
+
+```python
+def main():
+    print("PDF Query Assistant with Llumo Compression")
+
+    # Upload PDF
+    from google.colab import files
+    uploaded = files.upload()
+
+    if uploaded:
+        pdf_file = list(uploaded.keys())[0]
+
+        # Process the PDF
+        print("Processing PDF...")
+        index = load_and_process_pdf(pdf_file)
+
+        # User Query Input
+        query = input("Ask any question related to the content of the PDF: ")
+
+        if query:
+            # Similarity Search
+            retriever = index.as_retriever(similarity_top_k=3)
+            retrieved_nodes = retriever.retrieve(query)
+
+            # Prepare context for compression
+            context = " ".join([node.node.text for node in retrieved_nodes])
+
+            # Compress context using Llumo
+            compressed_text, success, compression_percentage, initial_tokens, final_tokens = compress_with_llumo(context, topic=query)
+
+            if success:
+                print(f"Llumo Compression achieved: {compression_percentage:.2f}%")
+                print(f"Initial tokens: {initial_tokens}")
+                print(f"Final tokens: {final_tokens}")
+
+                # Generate response using compressed text
+                llm = OpenAI(model="gpt-3.5-turbo", temperature=0)
+                response = llm.complete(compressed_text + "\n\nQuestion: " + query + "\nAnswer:")
+                print("Answer:")
+                print(response.text)
+            else:
+                print("Failed to compress the text with Llumo. Using original context.")
+                # Fallback: Use original context if compression fails
+                llm = OpenAI(model="gpt-3.5-turbo", temperature=0)
+                response = llm.complete(context + "\n\nQuestion: " + query + "\nAnswer:")
+                print("Answer:")
+                print(response.text)
+```
+
+# Step 7 : Running the main function
+
+By including this check, we ensure that the main() function is only executed when the script is run directly, providing flexibility and preventing unintended behavior when the script is imported elsewhere.
+
+It will ask you to upload a PDF and then when uploaded, it will receive input for the question you want to be answered.
+
+```python
+if __name__ == '__main__':
+    main()
+```

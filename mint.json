@@ -119,7 +119,7 @@
         "cost-saving/how-to-docs/llumo-compressor-langchain",
         "cost-saving/how-to-docs/llumo-compressor-openai",
         "cost-saving/how-to-docs/llumo-compressor-vertex",
-        "cost-saving/how-to-docs/visualise-insights"
+        "cost-saving/how-to-docs/llumo-compressor-llama"
       ]
     },
     {
@@ -134,8 +134,8 @@
       "group": "How to docs",
       "pages": [
         "llm-evaluation/how-to-docs/evaluate-first-prompt",
-        "llm-evaluation/how-to-docs/evaluate-across-llms",
-        "llm-evaluation/how-to-docs/customise-evaluations"
+        "llm-evaluation/how-to-docs/evaluate-openAI",
+        "llm-evaluation/how-to-docs/evaluate-vertex"
       ]
     },
     {

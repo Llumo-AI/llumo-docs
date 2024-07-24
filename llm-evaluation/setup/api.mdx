@@ -1,5 +1,181 @@
 ---
-title: Connecting Evaluation API in code
-description: "LLUMO compresses your tokens to build production ready AI at 50% cost and 10x speed."
-sidebarTitle: "Evaluation API"
+title: "Setup Prompt Evaluation API"
+description: "Use LLUMO AI's proprietary technology to evaluate LLM output and gain insights."
+sidebarTitle: "Prompt Evaluation API"
 ---
+
+<img
+  className="block dark:hidden"
+  src="https://mintlify-assets.b-cdn.net/hero-light.png"
+/>
+<img
+  className="hidden dark:block"
+  src="https://mintlify-assets.b-cdn.net/hero-dark.png"
+/>
+
+## Getting Started with Prompt Evaluation API
+
+This guide provides step-by-step instructions on setting up prompt evaluation API, that helps your evaluate your prompt output and gives you insights.
+
+### 1. Open evaluation setup modal
+
+The "Evaluation setup modal" provides your essential connection details: API endpoint, key, and sample request bodies. This ensures a smooth setup for compressing your prompts.
+
+<AccordionGroup>
+  <Accordion icon="arrow-pointer" title="Select Evaluation journey">
+  
+    After login to LLUMO for the first time, you will see a modal asking you to select the journey - Cost saving and Evaluation. You need to select the Evaluation option.
+
+    ![Evaluation Journey Selection](https://mintlify.s3-us-west-1.amazonaws.com/mintlify/images/github-bot-verification.png)
+
+  </Accordion>
+  <Accordion icon="bars" title="Navigate to Evaluation and open setup modal">
+  
+    If you have already selected the Compressor option, no worries. If you see the left navigation bar, you will see the Evaluation option.
+    ![insert video zooming in from whole screen to left nav and then click mouse pointer selecting in to compressor](https://mintlify.s3-us-west-1.amazonaws.com/mintlify/images/github-bot-verification.png)
+
+    Then you can see a banner on the top of the page, asking you to set up. Click on “Setup Now”
+
+![banner with mouse pointer clicking CTA](https://mintlify.s3-us-west-1.amazonaws.com/mintlify/images/github-bot-verification.png)
+
+  </Accordion>
+
+</AccordionGroup>
+
+Now, you can see the setup modal for the evaluation. If you are not able to see the below modal, [contact our support team](mailto:product@llumo.ai).
+
+If you close the modal window, you can access it again by clicking “Setup Now” CTA on the banner at the top of the page.
+
+### 2. Access your API keys
+
+The API keys equips you with the credentials needed to connect with Prompt Compression API. This unlocks the power to evaluate your prompts output and gives you hidden insight without any need of ground truth.
+
+<Note>
+  We suggest you to keep your API keys very safely. If you experience any
+  misuse, [contact our support team](mailto:product@llumo.ai).
+</Note>
+
+<AccordionGroup>
+  <Accordion icon="arrow-pointer" title="Click on Connect Now">
+  
+    The setup modal provides an overview of Evaluation and a "Connect Now" CTA.
+    ![modal page screenshot](https://mintlify.s3-us-west-1.amazonaws.com/mintlify/images/github-bot-verification.png)
+
+    Click on "Connect Now" and it will open the API connection detail modal
+
+  </Accordion>
+
+  <Accordion icon="copy" title="Copy API endpoint and API key">
+  
+    * API endpoint: The URL you will use to send requests to the Evaluation API.
+    * API key: Your unique API key, which is required for authentication. You will be given one API key by default. But, if you want to create multiple API keys, refer to [managing your keys](https://docs.llumo.ai).
+
+  </Accordion>
+
+  <Accordion icon="plus" title="Add sample code in your editor">
+
+    Examples of codes containing request bodies in different languages is provided, that you can use to send a request to the Evaluation API. Copy the sample code block and paste into editor of your choice.
+    Below is an example of sample code block in python.
+
+    ```python compressPrompt.py
+
+        import requests
+
+        url = "https://app.llumo.ai/api/create-eval-analytics"
+
+        payload = {
+          "prompt": "<string>",
+          "prompt": "<string>",
+          "input": "<List of inputs used in prompt>",
+          output: "<string>",
+          analytics: "<List of analytics>",
+        }
+
+        headers = {
+          "Content-Type": "application/json"
+          "Authorization": "Bearer <API_KEY>"
+        }
+
+        response = requests.request("POST", url, json=payload, headers=headers)
+
+        print(response.text)
+
+      ````
+
+  </Accordion>
+
+  <Accordion icon="file" title="Understand the request body">
+
+    The request body includes the following important parameters:
+
+    - prompt: (Mandatory) The text prompt you want to compress.
+
+    - input: List of placeholders used inside prompt. When there are more than one placeholder then this will be list.
+
+    - output: The output of the prompt.
+
+    - analytics: List of analytics you want to evaluate your prompt output on.
+
+    Here is an example of these parameters.
+    ```json
+      "prompt": "I am planning a trip to {{location}}, give me a travel plan",
+      "input": {
+        "location": "India"
+      },
+      "output": "Absolutely, Germany is a wonderful destination with a rich history, diverse culture, and beautiful landscapes. Here's a suggested travel plan for a memorable trip: Day 1-3: Berlin Day 1: Arrive in Berlin, check into your accommodation, and get acquainted with the city. Visit iconic landmarks such as the Brandenburg Gate, the Reichstag Building, and Checkpoint Charlie. Day 2: Explore Berlin's cultural scene. Visit Museum Island, home to several world-renowned museums including the Pergamon Museum and the Altes Museum. Take a stroll along the East Side Gallery to see remnants of the Berlin Wall adorned with street art. Day 3: Dive deeper into Berlin's history with a visit to the Holocaust Memorial and the Topography of Terror museum. Spend the evening exploring the vibrant nightlife of neighborhoods like Kreuzberg or Friedrichshain. Day 4-6: Munich Day 4: Travel to Munich, the capital of Bavaria. Upon arrival, visit the Marienplatz and watch the famous Glockenspiel chime at the New Town Hall. Explore the nearby Viktualienmarkt for some Bavarian delicacies. Day 5: Immerse yourself in Bavarian culture with a visit to the Nymphenburg Palace and the Munich Residenz. In the afternoon, head to the Englischer Garten, one of the world's largest urban parks, for a leisurely stroll. Day 6: Take a day trip to Neuschwanstein Castle, one of the most picturesque castles in the world. It's about a two-hour drive from Munich, but the stunning views of the Bavarian countryside and the fairy-tale castle are well worth it. Day 7-9: Heidelberg and the Rhine Valley Day 7: Travel to Heidelberg, a charming university town known for its romantic castle overlooking the Neckar River. Explore the old town, visit the Heidelberg Castle, and stroll along the Philosopher's Walk for panoramic views of the city. Day 8: Embark on a scenic cruise along the Rhine River, passing by medieval castles, vineyards, and quaint villages. Stop by the town of Rüdesheim to sample some local wines. Day 9: Explore more of the Rhine Valley region or head back to Frankfurt for departure, depending on your schedule. Tips: Transportation: Consider purchasing a German Rail Pass if you plan to travel extensively by train. It offers unlimited travel on Germany's extensive rail network. Language: While many Germans speak English, learning a few basic phrases in German can enhance your experience and show respect for the local culture. Weather: Check the weather forecast before your trip and pack accordingly, especially if you're visiting during the colder months. This itinerary offers a mix of history, culture, and natural beauty, giving you a well-rounded experience of Germany. Safe travels!",
+      "analytics": ["clarity", "confidence"]
+    ```
+
+    For fine-grained control over analytics and no ground truth, explore the optional parameters within the request body.
+    These parameters allow you to tailor metrics to your specific needs and visualize cost breakdowns on the dashboard.
+    For a detailed breakdown on the API request and response, please refer to the [API reference page](https://docs.llumo.ai/cost-saving/api-reference/compress-prompt-api).
+
+    </Accordion>
+
+</AccordionGroup>
+
+### 3. Send first request to Evaluation API
+
+Once you have your request setup for a sample body, you can send a request to the Evaluation API to evaluate your own prompts output based on selected metrics.
+
+<AccordionGroup>
+  <Accordion icon="message-bot" title="Write code with correct request body in editor">
+
+    1. Open your directory where LLM project reside in editor of your choice.
+
+    2. Edit the sample code snippet you copied from LLUMO setup modal.
+
+    3. Replace the placeholder values for prompt and topic with your specific prompt and topic.
+
+    4. Include your API key in the header of the request.
+
+    5. Run the code snippet.
+
+You can find detailed instructions on setting up the API in your code on the dedicated [guide page](https://docs.llumo.ai/cost-saving/how-to-docs/compress-first-prompt).
+
+  </Accordion>
+
+  <Accordion icon="globe" title="Sending request via API testing tools">
+
+    For a more interactive experience, we recommend using API testing tools like Postman or Thunder Client. Below is the step-by-step detailed video explaining the complete process.
+
+    ![API testing tools](/images/custom-domain.png)
+
+  </Accordion>
+
+  <Accordion icon="chart-simple" title="See the request in logs and visualize metrics on dashboard">
+
+    After sending the request, you can view the logs and metrics generated on the dashboard to see how the evaluation process performed. This information can help you optimize your requests for better results.
+
+  </Accordion>
+</AccordionGroup>
+
+### All Done!
+
+Congrats! You've set up your LLUMO's Prompt Evaluation API and it has started evaluating your prompt outputs with each inference!
+
+If you encounter any difficulties while setting up, please refer to the troubleshooting section of the guide or, contact our support team at [connect@llumo.ai](mailto:connect@llumo.ai).
+
+```
+
+```

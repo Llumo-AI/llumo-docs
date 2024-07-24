@@ -1,5 +1,175 @@
 ---
-title: Connecting prompt compression API in code
-description: "LLUMO compresses your tokens to build production ready AI at 50% cost and 10x speed."
+title: "Setup prompt compression API"
+description: "Start cutting AI cost in just 2 minutes"
 sidebarTitle: "Prompt Compression API"
 ---
+
+<img
+  className="block dark:hidden"
+  src="https://mintlify-assets.b-cdn.net/hero-light.png"
+/>
+<img
+  className="hidden dark:block"
+  src="https://mintlify-assets.b-cdn.net/hero-dark.png"
+/>
+
+## Getting Started with Prompt Compression API
+
+This guide provides step-by-step instructions on setting up prompt compression API, that compresses input prompts before passing it to LLMs, helping you save cost and reduce inference speed.
+
+### 1. Open compressor setup modal
+
+The "Compressor setup modal" provides your essential connection details: API endpoint, key, and sample request bodies. This ensures a smooth setup for compressing your prompts.
+
+<AccordionGroup>
+  <Accordion icon="user" title="Login and get access">
+
+    If you've already done demo call and got the access to the LLUMO app, this step is complete.
+
+    If you are a new user for [LLUMO AI](https://www.llumo.ai), please refer to [Create Account](https://docs.llumo.ai/setup-llumo/create-account) and [Activate your account](https://docs.llumo.ai/setup-llumo/activate-account)
+
+  </Accordion>
+
+  <Accordion icon="arrow-pointer" title="Select cost saving journey">
+  
+    After you have access and you login to LLUMO for the first time, you will see a modal asking you to select the journey - Cost saving and Evaluation. You need to select the Cost Saving option.
+
+    ![Github Bot Verification](https://mintlify.s3-us-west-1.amazonaws.com/mintlify/images/github-bot-verification.png)
+
+  </Accordion>
+  <Accordion icon="bars" title="Navigate to Compressor and open setup modal">
+  
+    If you have already selected the Evaluation option, no worries. If you see the left navigation bar, you will see the compressor option.
+    ![insert video zooming in from whole screen to left nav and then click mouse pointer selecting in to compressor](https://mintlify.s3-us-west-1.amazonaws.com/mintlify/images/github-bot-verification.png)
+
+    Then you can see a banner on the top of the page, asking you to set up. Click on “Setup Now”
+
+![banner with mouse pointer clicking CTA](https://mintlify.s3-us-west-1.amazonaws.com/mintlify/images/github-bot-verification.png)
+
+  </Accordion>
+
+</AccordionGroup>
+
+Now, you can see the setup modal for the compressor. If you are not able to see the below modal, [contact our support team](mailto:product@llumo.ai).
+
+If you close the modal window, you can access it again by clicking “Setup Now” CTA on the banner at the top of the page.
+
+### 2. Access your API keys
+
+The API keys equips you with the credentials needed to connect with Prompt Compression API. This unlocks the power to compress your prompts and experience cost savings.
+
+<Note>
+  We suggest you to keep your API keys very safely. If you experience any
+  misuse, [contact our support team](mailto:product@llumo.ai).
+</Note>
+
+<AccordionGroup>
+  <Accordion icon="arrow-pointer" title="Click on Connect Now">
+  
+    The setup modal provides an overview of Compressor and a "Connect Now" CTA.
+    ![modal page screenshot](https://mintlify.s3-us-west-1.amazonaws.com/mintlify/images/github-bot-verification.png)
+
+    Click on "Connect Now" and it will open the API connection detail modal
+
+  </Accordion>
+
+  <Accordion icon="copy" title="Copy API endpoint and API key">
+  
+    * API endpoint: The URL you will use to send requests to the Compressor API.
+    * API key: Your unique API key, which is required for authentication. You will be given one API key by default. But, if you want to create multiple API keys, refer to [managing your keys](https://docs.llumo.ai).
+
+  </Accordion>
+
+  <Accordion icon="plus" title="Add sample code in your editor">
+
+    Examples of codes containing request bodies in different languages is provided, that you can use to send a request to the Compressor API. Copy the sample code block and paste into editor of your choice.
+    Below is an example of sample code block in python.
+
+    ```python compressPrompt.py
+
+        import requests
+
+        url = "https://app.llumo.ai/api/compress"
+
+        payload = {"prompt": "<string>"}
+        headers = {
+          "Content-Type": "application/json"
+          "Authorization": "Bearer <API_KEY>"
+        }
+
+        response = requests.request("POST", url, json=payload, headers=headers)
+
+        print(response.text)
+
+      ````
+
+  </Accordion>
+
+  <Accordion icon="file" title="Understand the request body">
+
+    The request body includes the following important parameters:
+
+    - prompt: (Mandatory) The text prompt you want to compress.
+
+    - topic: (Optional) The topic of the prompt. We highly recommend providing a topic for better compression results.
+
+    Here is an example of these two parameters.
+    ```json
+    "prompt": "In a forgotten corner of the universe, a nomadic tribe journeys across a desolate wasteland on colossal, bio-engineered sandworms. These colossal creatures, revered as both gods and transportation, are on the verge of extinction due to a mysterious blight. A young rider, ostracized for their curiosity about the world beyond the sand, discovers a hidden cache of ancient technology. This technology offers a glimmer of hope for saving the sandworms, but it also unlocks forbidden knowledge that threatens to shatter the tribe's long-held beliefs. Torn between tradition and the promise of progress, the young rider must embark on a perilous quest to uncover the truth about the blight and the tribe's origins. Their journey will lead them to face colossal sand creatures, navigate treacherous landscapes, and confront a powerful ruling class determined to maintain the status quo. Will they succeed in saving the sandworms and their people, or will they succumb to the dangers that lie hidden beneath the sands? Write a story about their fight for survival and the burden of knowledge."
+    "topic": "What are the potential consequences of the young rider's choice between tradition and progress in saving the sandworms?"
+    ```
+
+    For fine-grained control over logging and cost visualization, explore the optional parameters within the request body.
+    These parameters allow you to tailor metrics to your specific needs and visualize cost breakdowns on the dashboard.
+    For a detailed breakdown on the API request and response, please refer to the [API reference page](https://docs.llumo.ai/cost-saving/api-reference/compress-prompt-api).
+
+
+    </Accordion>
+
+</AccordionGroup>
+
+### 3. Send first request to Prompt Compression API
+
+Once you have your request setup for a sample body, you can send a request to the Compressor API to compress your own prompts.
+
+<AccordionGroup>
+  <Accordion icon="message-bot" title="Write code with correct request body in editor">
+
+    1. Open your directory where LLM project reside in editor of your choice.
+
+    2. Edit the sample code snippet you copied from LLUMO setup modal.
+
+    3. Replace the placeholder values for prompt and topic with your specific prompt and topic.
+
+    4. Include your API key in the header of the request.
+
+    5. Run the code snippet.
+
+You can find detailed instructions on setting up the API in your code on the dedicated [guide page](https://docs.llumo.ai/cost-saving/how-to-docs/compress-first-prompt).
+
+  </Accordion>
+
+  <Accordion icon="globe" title="Sending request via API testing tools">
+
+    For a more interactive experience, we recommend using API testing tools like Postman or Thunder Client. Below is the step-by-step detailed video explaing the complete process.
+
+    ![API testing tools](/images/custom-domain.png)
+
+  </Accordion>
+
+  <Accordion icon="chart-simple" title="See the request in logs and visualise metrics on dashboard">
+
+    After sending the request, you can view the logs and metrics generated on the dashboard to see how the compression process performed. This information can help you optimize your requests for better results.
+
+  </Accordion>
+</AccordionGroup>
+
+### All Done!
+
+Congrats! You've set up your LLUMO's Prompt Compression API and it has started saving your cost with each inference!
+
+If you encounter any difficulties while setting up, please refer to the troubleshooting section of the guide or, contact our support team at [connect@llumo.ai](mailto:connect@llumo.ai).
+
+```
+
+```
