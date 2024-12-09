@@ -1,0 +1,44 @@
+---
+title: "Save RAG cost using Prompt Compression"
+description: "Start cutting AI cost in just 2 minutes"
+sidebarTitle: "Save RAG cost"
+---
+
+Prompt compression helps reduce RAG costs by making shorter prompts while retaining their meaning. Using Llumo AI's simple API integration, you can easily compress your prompts and get the same output at a much lower cost, with fewer hallucinations and faster inference speed.
+
+`RAG_Context` and `Query` are pre-built variables that can be used to build your prompts. To create additional variables, use the `+Variable` format and reference them within your prompt using `{{ variable_name }}`.
+
+---
+
+## Key Concepts
+
+### 1. What is RAG_Context?
+
+`RAG_Context` acts as the "background information" provided to the AI model to help it understand the situation better.
+
+#### Example:
+- Context: "I am asking for health improvement advice for someone who is looking to lose weight and is currently inactive."
+- This helps the AI generate more specific and useful responses.
+
+---
+
+### 2. What is a Query?
+
+A `Query` is the specific question or request you ask the AI.
+
+#### Example:
+- Query: "What are the best exercises to start with for weight loss?"
+
+---
+
+### 3. What is a Prompt?
+
+A prompt combines `RAG_Context` and `Query` to form a complete input for the AI.
+
+#### Example:
+```plaintext
+RAG_Context: "I am asking for health improvement advice for someone who is looking to lose weight and is currently inactive."
+Query: "What are the best exercises to start with for weight loss?"
+Full Prompt: "Give me an answer to the following query: {{ Query }} using the given context: {{ RAG_Context }}."
+
+

@@ -88,7 +88,8 @@
     {
       "group": "How to docs",
       "pages": [
-        "how-to-docs/prompt-engineering",
+        "how-to-docs/getting-started-with-llumo",
+        "how-to-docs/save-rag-cost",
         {
           "group": "Compress Prompts",
           "pages": [
