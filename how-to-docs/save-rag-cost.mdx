@@ -4,41 +4,321 @@ description: "Start cutting AI cost in just 2 minutes"
 sidebarTitle: "Save RAG cost"
 ---
 
-Prompt compression helps reduce RAG costs by making shorter prompts while retaining their meaning. Using Llumo AI's simple API integration, you can easily compress your prompts and get the same output at a much lower cost, with fewer hallucinations and faster inference speed.
-
-`RAG_Context` and `Query` are pre-built variables that can be used to build your prompts. To create additional variables, use the `+Variable` format and reference them within your prompt using `{{ variable_name }}`.
+Prompt compression helps reduce RAG costs by making shorter prompts while retaining their meaning. Using Llumo AI's simple API integration, you can easily compress your prompts and get the same output but at a much lower cost, with fewer hallucinations and faster inference speed.  
+**RAG_Context** and **Query** are pre-built variables that can be used to build your prompts. To create additional variables, use the "+Variable" format and reference them within your prompt using `{{ variable_name }}`.
 
 ---
+
+<img
+  className="block dark:hidden"
+  src="https://storage.googleapis.com/llumo-blog-images-1/save-rag-cost/Save-RAG-Cost-1.png"
+/>
+<img
+  className="hidden dark:block"
+  src="https://storage.googleapis.com/llumo-blog-images-1/save-rag-cost/Save-RAG-Cost-1.png"
+/>
 
 ## Key Concepts
 
 ### 1. What is RAG_Context?
-
-`RAG_Context` acts as the "background information" provided to the AI model to help it understand the situation better.
+Think of **RAG_Context** as the "background information" that you give to the AI model to help it understand the situation better.
+<img
+  className="block dark:hidden"
+  src="https://storage.googleapis.com/llumo-blog-images-1/save-rag-cost/Save-RAG-Cost-2.png"
+/>
+<img
+  className="hidden dark:block"
+  src="https://storage.googleapis.com/llumo-blog-images-1/save-rag-cost/Save-RAG-Cost-2.png"
+/>
 
 #### Example:
-- Context: "I am asking for health improvement advice for someone who is looking to lose weight and is currently inactive."
-- This helps the AI generate more specific and useful responses.
+If you want to ask an AI, "What should I do to improve my health?" the AI could give a more specific answer if it knows the context:  
+- Are you looking for exercise tips?  
+- Do you have any specific health conditions?  
+- Is your goal to lose weight, gain muscle, or stay healthy?  
+
+So, the RAG_Context provides that background information.
+
+**RAG_Context Example:**  
+`"I am asking for health improvement advice for someone who is looking to lose weight and is currently inactive."`
 
 ---
 
 ### 2. What is a Query?
+**Query** is the actual question or request you are asking the AI. It should be clear and direct.
 
-A `Query` is the specific question or request you ask the AI.
+<img
+  className="block dark:hidden"
+  src="https://storage.googleapis.com/llumo-blog-images-1/save-rag-cost/Save-RAG-Cost-3.png"
+/>
+<img
+  className="hidden dark:block"
+  src="https://storage.googleapis.com/llumo-blog-images-1/save-rag-cost/Save-RAG-Cost-3.png"
+/>
 
-#### Example:
-- Query: "What are the best exercises to start with for weight loss?"
+#### Example:  
+Query: `"What are the best exercises to start with for weight loss?"`
 
 ---
 
 ### 3. What is a Prompt?
+A **prompt** is a combination of RAG_Context and Query to form a complete input for the AI.
 
-A prompt combines `RAG_Context` and `Query` to form a complete input for the AI.
+- RAG_Context provides the background or situation.
+- Query asks the actual question or makes the request.
+In LLUMO AI, both of these can be used together to form a complete and effective prompt.
+
+<img
+  className="block dark:hidden"
+  src="https://storage.googleapis.com/llumo-blog-images-1/save-rag-cost/Save-RAG-Cost-4.png"
+/>
+<img
+  className="hidden dark:block"
+  src="https://storage.googleapis.com/llumo-blog-images-1/save-rag-cost/Save-RAG-Cost-4.png"
+/>
+
 
 #### Example:
-```plaintext
-RAG_Context: "I am asking for health improvement advice for someone who is looking to lose weight and is currently inactive."
-Query: "What are the best exercises to start with for weight loss?"
-Full Prompt: "Give me an answer to the following query: {{ Query }} using the given context: {{ RAG_Context }}."
+
+Imagine you want to ask LLUMO AI for health advice. You would use **RAG_Context** and **Query** in a combined format, like this:
+- **RAG_Context:** `"I am asking for health improvement advice for someone who is looking to lose weight and is currently inactive."`  
+- **Query:** `"What are the best exercises to start with for weight loss?"`  
+
+**Full Prompt Example:**  
+`"Give me an answer to the following query: {{ Query }} using the given context: {{ RAG_Context }}."`
+
+Here, the AI understands both the **RAG_context** (the background information about losing weight and being inactive) and the **Query** (the specific question about exercises). This combination leads to a more accurate and relevant response.
+
+Why Use Pre-Built Variables?
+- **Save time**: You don’t need to repeat long context or details every time you create a prompt.
+- **Improve accuracy**: By defining specific variables, you ensure the AI takes into account all the details you want for a more accurate response.
+- **Make it easier to update**: If you need to change any part of the prompt, you can just update the value of the variable rather than rewriting the entire prompt.
+
+---
+
+### 4. Creating Additional Variables with "+Variable"
+You can add more specific details by creating custom variables using the format `+Variable`.
+
+<img
+  className="block dark:hidden"
+  src="https://storage.googleapis.com/llumo-blog-images-1/save-rag-cost/Save-RAG-Cost-5.png"
+/>
+<img
+  className="hidden dark:block"
+  src="https://storage.googleapis.com/llumo-blog-images-1/save-rag-cost/Save-RAG-Cost-5.png"
+/>
+
+#### Example:
+- **Custom Variable for Location:** `"I live in a hot, humid climate."`  
+- **Custom Variable for Age:** `"I am 35 years old."` 
+
+<img
+  className="block dark:hidden"
+  src="https://storage.googleapis.com/llumo-blog-images-1/save-rag-cost/Save-RAG-Cost-6.png"
+/>
+<img
+  className="hidden dark:block"
+  src="https://storage.googleapis.com/llumo-blog-images-1/save-rag-cost/Save-RAG-Cost-6.png"
+/>
+
+**Full Prompt Example:**  
+`"Give me an answer to the following query: {{ Query }} using the given context: {{ RAG_Context }}, considering the location: {{ Location }}, and the age: {{ Age }}."`
+
+---
+
+## How to Perform Prompt Compression
+
+### Step-by-Step Guide:
+1. **Generate Sample Data:**  
+   Click on **Generate Sample** to create example data. This helps you test the system without inputting your own information.
+
+<img
+  className="block dark:hidden"
+  src="https://storage.googleapis.com/llumo-blog-images-1/save-rag-cost/Save-RAG-Cost-7.png"
+/>
+<img
+  className="hidden dark:block"
+  src="https://storage.googleapis.com/llumo-blog-images-1/save-rag-cost/Save-RAG-Cost-7.png"
+/>
+
+2. **Verify Sample Data**
+When you click on **"Generate Sample"**, LLUMO AI will generate a set of random or example data that you can use to test how the system works.
+Here, take a moment to review the sample to get an idea of the format and structure.
+
+<img
+  className="block dark:hidden"
+  src="https://storage.googleapis.com/llumo-blog-images-1/save-rag-cost/Save-RAG-Cost-8.png"
+/>
+<img
+  className="hidden dark:block"
+  src="https://storage.googleapis.com/llumo-blog-images-1/save-rag-cost/Save-RAG-Cost-8.png"
+/>
+
+3. **Compress and Run:**  
+   After generating the sample, click **Compress and Run** to reduce token size while retaining meaning.
+
+<img
+  className="block dark:hidden"
+  src="https://storage.googleapis.com/llumo-blog-images-1/save-rag-cost/Save-RAG-Cost-9.png"
+/>
+<img
+  className="hidden dark:block"
+  src="https://storage.googleapis.com/llumo-blog-images-1/save-rag-cost/Save-RAG-Cost-9.png"
+/>
+
+4. **Example Results:**  
+     - **Output Similarity:** This shows how closely the generated response matches the original intent and context. For example, you might see that the AI’s response is about **89.89%** similar to what it should be based on the sample data. 
+     - **Token Reduction:** This shows how much the token count has been reduced after compression. A token is a unit of text used by the AI to process information. Compressing your prompt reduces the number of tokens, which makes processing faster and cheaper. For example, you might see that the token size is reduced from **1829 to 724** token size.
 
 
+If you already have your own data ready for testing or compressing, LLUMO AI makes it easy to work with your specific set of information. Here’s a detailed step-by-step guide to help you get started with your data on LLUMO AI:
+
+1. **Define Pre-Built Variables and Prompt**
+
+LLUMO AI offers pre-built variables like **RAG_Context** and **Query**, so you don’t have to set them up yourself. These are ready to use from the start, making it easier and faster to build your prompts. Simply write your **RAG_Context** and **Query**, and add any extra variables if needed. By using these pre-built variables, you save time by not having to manually define certain details in your prompt.
+<img
+  className="block dark:hidden"
+  src="https://storage.googleapis.com/llumo-blog-images-1/save-rag-cost/Save-RAG-Cost-10.png"
+/>
+<img
+  className="hidden dark:block"
+  src="https://storage.googleapis.com/llumo-blog-images-1/save-rag-cost/Save-RAG-Cost-10.png"
+/>
+
+### Example: Using RAG_Context and Query
+
+Let’s say you want to ask the AI for health advice related to weight loss. Here's how it would look:
+
+- **RAG_Context:** `"I need health advice for someone trying to lose weight."`  
+- **Query:** `"What are the best practices for weight loss?"`
+
+So, your full prompt might look like this:  
+`"Give me an answer to the following query: {{ Query }} using the given context: {{ RAG_Context }}."`
+
+When the AI processes this, it will:  
+- Take the **RAG_Context**: `"I need health advice for someone trying to lose weight."`  
+- Combine it with the **Query**: `"What exercises are best for weight loss?"`  
+
+This results in a well-informed and accurate response from the AI.
+
+
+When the AI processes this, it will take RAG_Context ("I need health advice for someone trying to lose weight") and Query ("What exercises are best for weight loss?") and combine them to generate a response.
+
+2. **Choose the Provider and Model**
+
+Once you've written your prompt, the next step is to select the **provider** and **model**.
+
+- **Pick a Provider:**  
+  Choose the service that will power the AI for your prompt. For example:  
+  - OpenAI (which provides models like GPT-4)  
+  - Other supported providers  
+  You can select the provider from a dropdown menu.
+
+- **Pick a Model:**  
+  After selecting the provider, choose a specific model. For instance:  
+  - **GPT-4** for advanced responses.  
+
+Once both the provider and model are selected, you're all set to run your prompt and receive an answer!
+
+<img
+  className="block dark:hidden"
+  src="https://storage.googleapis.com/llumo-blog-images-1/save-rag-cost/Save-RAG-Cost-11.png"
+/>
+<img
+  className="hidden dark:block"
+  src="https://storage.googleapis.com/llumo-blog-images-1/save-rag-cost/Save-RAG-Cost-11.png"
+/>
+
+3. **Compress and Run**
+
+Once your prompt is set and you've chosen the model, click the "Compress and Run" button. LLUMO AI will automatically compress the prompt by shortening it, making it more efficient.
+
+After the system processes your compressed prompt, LLUMO AI will show you the results.
+
+- **Output Similarity:**  
+    This shows how similar the AI’s response is to the expected result, helping you measure how well the prompt compression works. For example, you might see that the AI’s response is about **93.90%** similar to what it should be based on the sample data.
+
+<img
+  className="block dark:hidden"
+  src="https://storage.googleapis.com/llumo-blog-images-1/save-rag-cost/Save-RAG-Cost-12.png"
+/>
+<img
+  className="hidden dark:block"
+  src="https://storage.googleapis.com/llumo-blog-images-1/save-rag-cost/Save-RAG-Cost-12.png"
+/>
+
+- **Token Count Reduction:**  
+    This shows how many tokens have been saved by compressing the prompt. Fewer tokens usually mean a quicker and more cost-efficient response. For example, you might see that the token size is reduced from **525 to 143** token size.
+
+
+<img
+  className="block dark:hidden"
+  src="https://storage.googleapis.com/llumo-blog-images-1/save-rag-cost/Save-RAG-Cost-13.png"
+/>
+<img
+  className="hidden dark:block"
+  src="https://storage.googleapis.com/llumo-blog-images-1/save-rag-cost/Save-RAG-Cost-13.png"
+/>
+
+4. **Previous RAG_Context and Query**
+You’ll see a symbol next to `+variable`. When you click on it, you can see the RAG_Context and queries you’ve used before. This makes it easy to check your past inputs without having to enter them again.
+
+<img
+  className="block dark:hidden"
+  src="https://storage.googleapis.com/llumo-blog-images-1/save-rag-cost/Save-RAG-Cost-14.png"
+/>
+<img
+  className="hidden dark:block"
+  src="https://storage.googleapis.com/llumo-blog-images-1/save-rag-cost/Save-RAG-Cost-14.png"
+/>
+
+5. **Connect API**
+
+- Navigate to the Connect API section within your LLUMO AI interface.
+
+<img
+  className="block dark:hidden"
+  src="https://storage.googleapis.com/llumo-blog-images-1/save-rag-cost/Save-RAG-Cost-15.png"
+/>
+<img
+  className="hidden dark:block"
+  src="https://storage.googleapis.com/llumo-blog-images-1/save-rag-cost/Save-RAG-Cost-15.png"
+/>
+
+- Once in the Connect API tab, you’ll find simple, step-by-step instructions on how to integrate the API with your system.
+
+- Follow the guidelines carefully to integrate the API. This may involve copying a key or adding a few lines of code to link LLUMO AI with your project.
+
+
+By following these 3 simple steps, you'll be set up to use prompt compression and enhance your workflow within just 5 minutes!
+
+---
+
+## Benefits of Prompt Compression
+
+- **Save Time:** Avoid repeating long details by using pre-built or custom variables.  
+- **Improve Accuracy:** Ensure the AI considers all necessary information for better responses.  
+- **Reduce Costs:** Shorter prompts reduce token counts, making processing faster and cheaper.
+
+---
+
+## FAQ
+
+1. **What is prompt compression, and how does it help with AI?**  
+   Prompt compression is when you shorten the text you give to AI but still keep the same meaning. This helps save money because the AI doesn't need to process as much information. It also speeds up the AI's response time, making everything run faster and more efficiently.
+
+
+2. **How do I use RAG_Context and Query in LLUMO AI?**  
+   LLUMO AI gives you two pre-made variables called RAG_Context and Query. RAG_Context is the background information, and Query is the question you want answered. Instead of typing everything out, you just use these variables, which makes creating prompts much quicker and easier.
+
+3. **Can I create my own variables in LLUMO AI?**  
+   Yes! If you need extra information in your prompts, you can create your own custom variables by adding "+Variable." For example, if you need a variable for someone's location, you can call it "+location." Then, just refer to it in your prompt, just like the pre-built variables.
+
+4. **How does prompt compression make things cheaper and faster?**  
+   By shortening your prompts, you reduce the number of tokens, which lowers the cost for using AI. Plus, smaller prompts mean the AI can process them faster, so you get quicker answers. It's a simple way to save money and time.
+
+
+5. **Can I view my old RAG_Context and Query values?**  
+   If you want to see the RAG_Context and Query you've used before, you can do that easily. Just click on the symbol next to "+variable," and it will show you all your past inputs. This way, you don’t have to re-enter them every time.
+
+---
