@@ -1,0 +1,131 @@
+---
+title: "Guide to Prompt Compress with LLUMO AI"
+description: "Start cutting AI cost in just 2 minutes"
+sidebarTitle: "Compress Prompt"
+---
+
+The Prompt Compression Tool in LLUMO AI is designed to optimize your prompts for better efficiency and cost-effectiveness. By reducing the length of the input while retaining essential meaning and context, the tool helps lower costs and speeds up processing without sacrificing the output quality. Below, we walk through the detailed steps for using prompt compression effectively, with a focus on sales transcripts as an example.
+
+---
+
+<img
+  className="block dark:hidden"
+  src="https://storage.googleapis.com/llumo-blog-images-1/save-rag-cost/Save-RAG-Cost-1.png"
+/>
+<img
+  className="hidden dark:block"
+  src="https://storage.googleapis.com/llumo-blog-images-1/save-rag-cost/Save-RAG-Cost-1.png"
+/>
+
+
+## Step 1: Access the Compressor Tool
+
+- **Log in to LLUMO AI**: Start by logging into your LLUMO AI dashboard using your credentials.  
+- **Navigate to the Compressor Tab**: Once logged in, you can go to the compress screen using two different ways:  
+  1. By clicking **Save on AI Cost**  
+  2. Click the **Compressor** tab on the sidebar menu to access the tool.
+
+## Step 2: Prepare Your Input Data
+
+Here, we are using a sales transcript as an example of input data, but you can apply this tool to any type of data, such as summarization tasks or document Q&A. Before you start using the tool, make sure you have all necessary variables in place. In this case, prepare your sales transcript, as it will serve as the input data for the compression process.
+
+### Here's how:
+
+- **Sales Transcript**: This is the conversation you want to analyze and compress for AI processing. It can be a real-world sales call, a meeting transcript, or any type of dialogue that you need summarized or analyzed.
+
+## Step 3: Configure the Prompt
+
+Once you have the sales transcript ready, configure your prompt:
+
+1. **Upload the Transcript**: Upload the full sales transcript into the Transcript in the Compressor tool. This is where the AI model will retrieve the content for analysis.  
+2. **Enter the Query**: The Query field is where you specify what you want the AI to do with the transcript. The query could be any task such as summarizing, extracting key insights, or answering a question based on the transcript.  
+
+   **Example Query**:  
+   `"Summarize the key pain points and solutions discussed in this sales transcript."`
+
+3. **Create Additional Variables**: If needed, you can define additional variables to make the task more specific.  
+4. **Formulate the Prompt**: Structure the full prompt, which combines the transcript and the query, like so:  
+`Summarize the key pain points and solutions discussed in this sales transcript: {{Transcript}}, based on the query {{Query}}.`
+
+5. **Select the AI Model Version**: Choose the version of the AI model you’d like to use for processing. For example, GPT-4 can be selected for high-quality responses.
+
+## Step 4: Run Compression
+
+After you’ve configured your input, it’s time to run the compression:
+
+1. **Click Compress & Run**: When you’re ready, click the **Compress & Run** button to start the compression process.  
+2. **Two Outputs**:  
+- **Augmented Output**: This is the AI’s response, based on the compressed prompt. The output will summarize the sales transcript according to your query.  
+- **Comparison Metrics**: The tool will also show comparison details like:  
+  - **Token Count**: The number of tokens used in both the original and compressed prompts.  
+  - **Cost**: The processing cost based on token count.  
+  - **Confidence**: The AI’s confidence in its response.  
+  - **Clarity**: How clear and easy to understand the AI’s response is.  
+  - **Output Similarity**: How similar the compressed and original outputs are.
+
+## Step 5: Evaluate Results
+
+Once the compression is complete, evaluate the results by comparing the original and compressed outputs:
+
+- **Before Compression**:  
+- Prompt: `"You are a helpful assistant. Use the given sales transcript below to summarize key pain points and solutions."`  
+- Tokens: 1790  
+- Cost: $0.0056  
+
+- **After Compression**:  
+- Prompt: `"Summarize pain points and solutions from the transcript."`  
+- Tokens: 635  
+- Cost: $0.0003  
+
+- **Comparison**:  
+- **Token Savings**: ~64.5% reduction in token usage.  
+- **Output Similarity**: 98.17% similarity between the original and compressed output.  
+- **Confidence and Clarity**: After compression, the AI's confidence and clarity score improved to above 80%.
+
+## Step 6: Iterative Improvement
+
+If the results need refinement, you can adjust the prompt to ensure you maintain clarity while reducing token usage:
+
+- **Refine the Prompt**: Check the compressed prompt and modify it to ensure that no crucial details are omitted.  
+- **Ensure Context is Preserved**: The key to effective prompt compression is maintaining essential context. Ensure the AI retains all relevant information in its output.
+
+## Step 7: Applying Compression to Sales Transcripts
+
+Here’s how you can use prompt compression with a sales transcript:
+
+**Example Query**:  
+`"Summarize how the sales representative addresses the prospect’s pain points and proposes solutions."`
+
+- **Before Compression**:  
+Prompt: `"You are a helpful assistant. Use the following sales transcript to summarize the key pain points discussed and solutions offered."`  
+- **Compressed Prompt**:  
+`"Summarize pain points and solutions from the transcript."`  
+
+**Augmented Output Example**:  
+`"The prospect’s main pain point was the inability to track shipments in real-time, causing delays and customer dissatisfaction. The sales representative proposed a platform with GPS integration and automated alerts, addressing the concern by offering real-time tracking and ensuring timely delivery updates."`
+
+---
+
+## Frequently Asked Questions (FAQ)
+
+**Q: What is prompt compression?**  
+A: Prompt compression is the process of reducing the length of the input while maintaining its essential meaning. This helps in reducing token usage, cutting down operational costs, and speeding up AI processing.
+
+**Q: Why should I use prompt compression?**  
+A: By using prompt compression, you can significantly reduce the number of tokens required for processing, lowering costs and improving efficiency. It ensures that your tasks are processed faster without losing output quality.
+
+**Q: Does prompt compression affect the quality of the output?**  
+A: No, the goal of prompt compression is to reduce token usage while maintaining the integrity and quality of the output. The compressed prompt still provides the model with enough context to produce accurate, high-quality responses.
+
+**Q: Can I use prompt compression for other types of data besides sales transcripts?**  
+A: Yes, prompt compression can be used for various types of data, including legal documents, meeting notes, case studies, and more. It’s particularly useful when you need to process long-form text efficiently.
+
+**Q: How do I know if my prompt compression is effective?**  
+A: After running the compression, LLUMO AI provides comparison metrics such as token count, output similarity, and confidence. You can assess how well the compression has worked by looking at these metrics and ensuring that output quality remains high.
+
+**Q: Is it possible to reverse or undo compression?**  
+A: While the compression process is not reversible, you can always refine the compressed prompt to improve its clarity or make adjustments based on the AI’s output. This ensures the model retains important context without unnecessary verbosity.
+
+**Q: Can I apply compression to legal documents or case studies?**  
+A: Absolutely. The prompt compression tool works well for various professional tasks, including legal tech use cases like summarizing legal cases, drafting contracts, and processing client queries.
+

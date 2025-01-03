@@ -1,0 +1,123 @@
+---
+title: "How to customize Evals for your use case?"
+description: "Start getting insights in just 2 minutes"
+sidebarTitle: "Customize Evaluation"
+---
+LLUMO AI's Custom Evaluation feature allows you to tailor the evaluation process to meet your unique requirements. Whether you're analyzing customer service data, academic content, or any other dataset, this powerful tool enables users to assess AI-generated outputs against tailored metrics and criteria that align with their specific needs and objectives. 
+
+Unlike pre-defined evaluation methods, which may not fully capture the nuances of different use cases, Custom Evaluation allows users to define their own parameters, ensuring the evaluation process is both relevant and effective.
+
+This guide will walk you through the steps of using Custom Evaluation to perform a detailed and personalized evaluation of your datasets.
+
+---
+<img
+  className="block dark:hidden"
+  src="https://storage.googleapis.com/llumo-blog-images-1/save-rag-cost/Save-RAG-Cost-1.png"
+/>
+<img
+  className="hidden dark:block"
+  src="https://storage.googleapis.com/llumo-blog-images-1/save-rag-cost/Save-RAG-Cost-1.png"
+/>
+
+## Step-by-Step Instructions: Evaluating using Custom Evaluation 
+
+### Step 1: Upload Your Dataset
+
+#### Option 1: Upload File
+1. Log into the LLUMO AI Platform and go to the "Evaluate Dataset" section.
+2. Click "Upload File" and select your dataset. The file can be in CSV, JSON, or Excel format.
+3. **Review Your Data**: A preview of the uploaded data will be displayed. Ensure that the file is structured correctly and the data looks accurate before proceeding.
+
+#### Option 2: Upload via API
+1. **Access the API Documentation**: Visit LLUMO’s API documentation for the exact endpoint and parameters.
+2. **Upload Your Dataset**: Make an HTTP request to the API to upload your file.
+3. **Confirm the Upload**: Once the upload is complete, you’ll receive a confirmation response, and the data will be ready for evaluation.
+
+---
+
+### Step 2: Go to Prompt
+Here, you can follow these steps:
+1. **Write Prompt**: Enter your prompt by providing the desired query or instruction to guide the AI model in generating the results you expect.
+2. **Create a Smart Prompt**: Smart Prompt refines your written prompt, making it more specific and detailed to generate more accurate and focused results.
+3. **Select Your LLM Provider**: Choose your preferred provider from the drop-down list (LLUMO supports multiple LLM providers).
+4. **Choose the Model**: Select the specific AI model you want to use for generating the results, based on your needs.
+5. **Adjust Parameters**: Fine-tune the model’s parameters to match your requirements and improve output precision.
+6. **Select Output Type**: Choose the type of output you want for the generated results.
+
+---
+
+### Step 3: Run the Prompts to Generate Outputs
+1. Once the dataset is uploaded, initiate the process to run the prompts and generate outputs.
+2. Allow the system to complete processing your prompts.
+3. Once the outputs are ready, proceed to the evaluation step.
+
+---
+
+### Step 3: Custom Evaluation
+1. Go to the **"Create Column"** section.  
+2. Select the **“Evaluation”** option.  
+
+Here, you can create your own Custom Evaluation by specifying a column name, defining your evaluation criteria instead of pre-defined criteria, and selecting the prompt or output you wish to assess using this custom evaluation.
+
+#### Example: Response Coherence
+In the screen below, we select Response Coherence as our evaluation metric from over 50+ available KPIs, which comes with predefined criteria. In custom evaluation, we replace the predefined criteria with our own custom definition to evaluate the output according to our specific niche.
+
+**Definition**:  
+It refers to how logically consistent and well-structured the AI's response is, ensuring that the content flows smoothly, aligns with the prompt, and makes sense within its context. A coherent response should present information in a way that is clear, unified, and free from contradictions, with all parts of the response connecting logically to one another.
+
+**Key Aspects of Response Coherence**:
+- **Logical Flow**: The ideas in the response should be presented in a clear sequence. There should be a natural progression from one thought or statement to the next, without confusing jumps or gaps.
+- **Consistency**: The response should not contradict itself. All statements made within the response should be aligned and support the main point. Conflicting information reduces coherence.
+- **Contextual Relevance**: The response should remain relevant to the context and the prompt. It should avoid introducing irrelevant information or veering off-topic.
+- **Clarity and Understandability**: The ideas should be communicated in a way that is easy for the reader to follow and understand. Unclear or vague statements can make a response appear incoherent.
+
+3. Select your evaluation model. You can choose different models to evaluate and compare their performance using the same prompt.
+4. Choose the output column you wish to evaluate.
+
+---
+
+### Step 4: Evaluation Parameters
+1. **Set Rule for KPIs**: Each KPI allows you to set a specific threshold to define a "pass" or "fail."  
+   Example for confidence: If the confidence score is more than 50, it passes.
+
+---
+
+### Step 5: Run the Evaluation
+1. **Start the Evaluation**: After confirming your settings, click the **"Create and Run All Columns"** button to begin processing your evaluation.
+2. **Review Evaluation Results**: The evaluation will return detailed results, including Pass/Fail status for each KPI along with percentage scores.
+
+---
+
+## Use Case: Response Coherence
+
+Imagine you’re evaluating customer service responses. A coherent response should:
+- Maintain logical flow, ensuring smooth progression from one point to the next.
+- Avoid contradictions and inconsistencies.
+- Stay relevant to the customer’s query.
+- Be clear and easy to understand.
+
+Using Custom Evaluation, you can:
+1. Create a metric for "Response Coherence" with your own definition and scoring method.
+2. Adjust parameters to ensure the evaluation focuses on what matters most to your business.
+3. Compare different AI models or prompt structures to determine which yields the best results.
+
+---
+
+## Frequently Asked Questions (FAQs)
+
+**How do I choose the right KPIs for my evaluation?**  
+Select KPIs based on your evaluation goals. For example, for customer service data, KPIs like Sentiment Analysis and Response Time are essential. For academic writing, Grammar Quality and Clarity may be more relevant.
+
+**Can I customize the KPIs for my evaluation?**  
+While you can’t create completely custom KPIs, you can define KPIs specific to your niche by selecting and adjusting the existing ones. For example, you might adjust the Sentiment Analysis threshold to match customer service standards.
+
+**What happens if my outputs don’t meet the thresholds I set?**  
+If an output fails to meet a threshold, it will be flagged as a failure. You can review the failed outputs and adjust the thresholds or improve the outputs to meet the required standards.
+
+**Can I export the evaluation results?**  
+Yes, once the evaluation is complete, you can export the results in CSV, Excel, or PDF format for further analysis or reporting.
+
+**How long does the evaluation process take?**  
+The time taken for the evaluation depends on the size of your dataset and the complexity of the model you’ve chosen. Typically, an evaluation of 100 prompts and outputs should take just a few minutes.
+
+If you need additional assistance, don’t hesitate to reach out to our support team!
