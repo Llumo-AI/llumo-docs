@@ -68,7 +68,7 @@
   "navigation": [
     {
       "group": "",
-      "pages": ["overview", "quickstart", "sandbox"]
+      "pages": ["getting-started-with-llumo", "quickstart"]
     },
     {
       "group": "Setup LLUMO",
@@ -88,24 +88,21 @@
     {
       "group": "How to docs",
       "pages": [
-        "how-to-docs/getting-started-with-llumo",
         "how-to-docs/save-rag-cost",
         
         {
           "group": "Compress Prompts",
           "pages": [
-            "how-to-docs/compress-prompts/testing",
-            "how-to-docs/compress-prompts/production",
-            "how-to-docs/compress-prompts/compress-prompt-doc"
+            "how-to-docs/compress-prompts/compress-prompt-doc",
+            "how-to-docs/compress-prompts/production"
           ]
         },
         {
           "group": "Evaluate LLMs",
           "pages": [
-            "how-to-docs/evaluate-llms/testing",
-            "how-to-docs/evaluate-llms/production",
             "how-to-docs/evaluate-llms/customize-evaluations",
-            "how-to-docs/evaluate-llms/create-custom-evals"
+            "how-to-docs/evaluate-llms/create-custom-evals",
+            "how-to-docs/evaluate-llms/production"
           ]
         },
         {
