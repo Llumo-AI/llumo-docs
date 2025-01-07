@@ -73,8 +73,6 @@
     {
       "group": "Setup LLUMO",
       "pages": [
-        "setup-llumo/create-account",
-        "setup-llumo/activate-account",
         {
           "group": "Setup Cost Saving",
           "pages": ["setup-llumo/setup-cost-saving/api"]
