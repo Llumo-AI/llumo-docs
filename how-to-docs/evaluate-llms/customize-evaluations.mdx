@@ -15,6 +15,7 @@ This guide will walk you through the steps of using Custom Evaluation to perform
 ## Step-by-Step Instructions: Evaluating using Custom Evaluation 
 
 ### Step 1: Upload Your Dataset
+
 <img
   className="block dark:hidden"
   src="https://storage.googleapis.com/llumo-blog-images-1/03-01-25/Customize-Evaluation-1.webp"
@@ -28,6 +29,7 @@ This guide will walk you through the steps of using Custom Evaluation to perform
 1. Log into the LLUMO AI Platform and go to the "Evaluate Dataset" section.
 2. Click "Upload File" and select your dataset. The file can be in CSV, JSON, or Excel format.
 3. **Review Your Data**: A preview of the uploaded data will be displayed. Ensure that the file is structured correctly and the data looks accurate before proceeding.
+
 <img
   className="block dark:hidden"
   src="https://storage.googleapis.com/llumo-blog-images-1/03-01-25/Customize-Evaluation-2.webp"
@@ -36,6 +38,7 @@ This guide will walk you through the steps of using Custom Evaluation to perform
   className="hidden dark:block"
   src="https://storage.googleapis.com/llumo-blog-images-1/03-01-25/Customize-Evaluation-2.webp"
 />
+
 
 #### Option 2: Upload via API
 1. **Access the API Documentation**: Visit LLUMO’s API documentation for the exact endpoint and parameters.
@@ -47,6 +50,7 @@ This guide will walk you through the steps of using Custom Evaluation to perform
 ### Step 2: Go to Prompt
 Here, you can follow these steps:
 1. **Write Prompt**: Enter your prompt by providing the desired query or instruction to guide the AI model in generating the results you expect.
+
 <img
   className="block dark:hidden"
   src="https://storage.googleapis.com/llumo-blog-images-1/03-01-25/Customize-Evaluation-3.webp"
@@ -55,7 +59,9 @@ Here, you can follow these steps:
   className="hidden dark:block"
   src="https://storage.googleapis.com/llumo-blog-images-1/03-01-25/Customize-Evaluation-3.webp"
 />
+
 2. **Create a Smart Prompt**: Smart Prompt refines your written prompt, making it more specific and detailed to generate more accurate and focused results.
+
 <img
   className="block dark:hidden"
   src="https://storage.googleapis.com/llumo-blog-images-1/03-01-25/Customize-Evaluation-4.webp"
@@ -64,9 +70,11 @@ Here, you can follow these steps:
   className="hidden dark:block"
   src="https://storage.googleapis.com/llumo-blog-images-1/03-01-25/Customize-Evaluation-4.webp"
 />
+
 3. **Select Your LLM Provider**: Choose your preferred provider from the drop-down list (LLUMO supports multiple LLM providers).
 4. **Choose the Model**: Select the specific AI model you want to use for generating the results, based on your needs.
 5. **Adjust Parameters**: Fine-tune the model’s parameters to match your requirements and improve output precision.
+
 <img
   className="block dark:hidden"
   src="https://storage.googleapis.com/llumo-blog-images-1/03-01-25/Customize-Evaluation-5.webp"
@@ -75,6 +83,7 @@ Here, you can follow these steps:
   className="hidden dark:block"
   src="https://storage.googleapis.com/llumo-blog-images-1/03-01-25/Customize-Evaluation-5.webp"
 />
+
 6. **Select Output Type**: Choose the type of output you want for the generated results.
 
 ---
@@ -83,6 +92,7 @@ Here, you can follow these steps:
 1. Once the dataset is uploaded, initiate the process to run the prompts and generate outputs.
 2. Allow the system to complete processing your prompts.
 3. Once the outputs are ready, proceed to the evaluation step.
+
 <img
   className="block dark:hidden"
   src="https://storage.googleapis.com/llumo-blog-images-1/03-01-25/Customize-Evaluation-6.webp"
@@ -96,6 +106,7 @@ Here, you can follow these steps:
 
 ### Step 3: Custom Evaluation
 1. Go to the **"Create Column"** section.
+
 <img
   className="block dark:hidden"
   src="https://storage.googleapis.com/llumo-blog-images-1/03-01-25/Customize-Evaluation-7.webp"
@@ -104,7 +115,9 @@ Here, you can follow these steps:
   className="hidden dark:block"
   src="https://storage.googleapis.com/llumo-blog-images-1/03-01-25/Customize-Evaluation-7.webp"
 />
+
 2. Select the **“Evaluation”** option.
+
 <img
   className="block dark:hidden"
   src="https://storage.googleapis.com/llumo-blog-images-1/03-01-25/Customize-Evaluation-8.webp"
@@ -118,6 +131,7 @@ Here, you can create your own Custom Evaluation by specifying a column name, def
 
 #### Example: Response Coherence
 In the screen below, we select Response Coherence as our evaluation metric from over 50+ available KPIs, which comes with predefined criteria. In custom evaluation, we replace the predefined criteria with our own custom definition to evaluate the output according to our specific niche.
+
 <img
   className="block dark:hidden"
   src="https://storage.googleapis.com/llumo-blog-images-1/03-01-25/Customize-Evaluation-9.webp"
@@ -126,6 +140,7 @@ In the screen below, we select Response Coherence as our evaluation metric from 
   className="hidden dark:block"
   src="https://storage.googleapis.com/llumo-blog-images-1/03-01-25/Customize-Evaluation-9.webp"
 />
+
 **Definition**:  
 It refers to how logically consistent and well-structured the AI's response is, ensuring that the content flows smoothly, aligns with the prompt, and makes sense within its context. A coherent response should present information in a way that is clear, unified, and free from contradictions, with all parts of the response connecting logically to one another.
 
@@ -134,6 +149,7 @@ It refers to how logically consistent and well-structured the AI's response is, 
 - **Consistency**: The response should not contradict itself. All statements made within the response should be aligned and support the main point. Conflicting information reduces coherence.
 - **Contextual Relevance**: The response should remain relevant to the context and the prompt. It should avoid introducing irrelevant information or veering off-topic.
 - **Clarity and Understandability**: The ideas should be communicated in a way that is easy for the reader to follow and understand. Unclear or vague statements can make a response appear incoherent.
+
 <img
   className="block dark:hidden"
   src="https://storage.googleapis.com/llumo-blog-images-1/03-01-25/Customize-Evaluation-10.webp"
@@ -142,8 +158,10 @@ It refers to how logically consistent and well-structured the AI's response is, 
   className="hidden dark:block"
   src="https://storage.googleapis.com/llumo-blog-images-1/03-01-25/Customize-Evaluation-10.webp"
 />
+
 3. Select your evaluation model. You can choose different models to evaluate and compare their performance using the same prompt.
 4. Choose the output column you wish to evaluate.
+
 <img
   className="block dark:hidden"
   src="https://storage.googleapis.com/llumo-blog-images-1/03-01-25/Customize-Evaluation-11.webp"
@@ -163,6 +181,7 @@ It refers to how logically consistent and well-structured the AI's response is, 
 
 ### Step 5: Run the Evaluation
 1. **Start the Evaluation**: After confirming your settings, click the **"Create and Run All Columns"** button to begin processing your evaluation.
+
 <img
   className="block dark:hidden"
   src="https://storage.googleapis.com/llumo-blog-images-1/03-01-25/Customize-Evaluation-12.webp"
@@ -171,7 +190,9 @@ It refers to how logically consistent and well-structured the AI's response is, 
   className="hidden dark:block"
   src="https://storage.googleapis.com/llumo-blog-images-1/03-01-25/Customize-Evaluation-12.webp"
 />
+
 2. **Review Evaluation Results**: The evaluation will return detailed results, including Pass/Fail status for each KPI along with percentage scores.
+
 <img
   className="block dark:hidden"
   src="https://storage.googleapis.com/llumo-blog-images-1/03-01-25/Customize-Evaluation-13.webp"
