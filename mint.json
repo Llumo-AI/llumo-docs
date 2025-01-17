@@ -68,7 +68,7 @@
   "navigation": [
     {
       "group": "",
-      "pages": ["getting-started-with-llumo", "quickstart"]
+      "pages": ["getting-started-with-llumo", "quickstart", "support"]
     },
     {
       "group": "Setup LLUMO",
