@@ -1,0 +1,274 @@
+---
+title: "Evaluating a Bulk Dataset using 3-4 metrics"
+sidebarTitle: "Evaluate on 3-4 metrics"
+---
+
+If you're working with large datasets, whether it's customer support conversations, academic papers, or chatbot dialogues, here's the hard truth: Evaluating your AI models with just one metric is a **huge mistake**.
+
+If you only measure one thing – let’s say "accuracy" – you might be missing the forest for the trees. Sure, your AI could be spitting out correct answers, but what if it's doing so in a way that’s confusing, irrelevant, or even hallucinating? You need a range of metrics to get the full story. LLUMO AI lets you assess performance across 50+ Evaluation metrics such as  clarity, confidence, context, and even hallucinations. You’ll get a much clearer picture of where your model stands and where it needs work.
+
+This guide will walk you through the process of evaluating a bulk dataset with multiple prompts and models, from uploading your data to interpreting the results.
+     
+---
+
+## Step-by-Step Instructions: Evaluating a Bulk Dataset of chatbot using 3-4 Evaluation metrics
+
+### Step 1: Upload Your Dataset
+<img
+  className="block dark:hidden"
+  src="https://storage.googleapis.com/llumo-blog-images-1/21-01-25/Evaluating_a_Bulk_Dataset_using_3-4_metrics-1.webp"
+/>
+<img
+  className="hidden dark:block"
+  src="https://storage.googleapis.com/llumo-blog-images-1/21-01-25/Evaluating_a_Bulk_Dataset_using_3-4_metrics-1.webp"
+/>
+
+**Option 1: Upload File**
+1. Log into the LLUMO AI Platform and go to the "Evaluate Dataset" section.
+2. Click "Upload File" and select your dataset. The file can be in CSV, JSON, or Excel format.
+3. Review Your Data: A preview of the uploaded data will be displayed. Ensure that the file is structured correctly and the data looks accurate before proceeding.
+
+<img
+  className="block dark:hidden"
+  src="https://storage.googleapis.com/llumo-blog-images-1/21-01-25/Evaluating_a_Bulk_Dataset_using_3-4_metrics-2.webp"
+/>
+<img
+  className="hidden dark:block"
+  src="https://storage.googleapis.com/llumo-blog-images-1/21-01-25/Evaluating_a_Bulk_Dataset_using_3-4_metrics-2.webp"
+/>
+
+**Option 2: Upload via API**
+1. Access the API Documentation: Visit LLUMO’s API documentation for the exact endpoint and parameters.
+2. Upload Your Dataset: Make an HTTP request to the API to upload your file.
+3. Confirm the Upload: Once the upload is complete, you’ll receive a confirmation response, and the data will be ready for evaluation.
+
+### Step 2:  Go to Prompt
+Here, you can follow these steps:
+1. Write Prompt: Here, enter your prompt by providing the desired query or instruction to guide the AI model in generating the results you expect.
+
+<img
+  className="block dark:hidden"
+  src="https://storage.googleapis.com/llumo-blog-images-1/21-01-25/Evaluating_a_Bulk_Dataset_using_3-4_metrics-3.webp"
+/>
+<img
+  className="hidden dark:block"
+  src="https://storage.googleapis.com/llumo-blog-images-1/21-01-25/Evaluating_a_Bulk_Dataset_using_3-4_metrics-3.webp"
+/>
+
+2. Create a Smart Prompt: Smart Prompt refines your written prompt, making it more specific and detailed to generate more accurate and focused results.
+
+<img
+  className="block dark:hidden"
+  src="https://storage.googleapis.com/llumo-blog-images-1/21-01-25/Evaluating_a_Bulk_Dataset_using_3-4_metrics-4.webp"
+/>
+<img
+  className="hidden dark:block"
+  src="https://storage.googleapis.com/llumo-blog-images-1/21-01-25/Evaluating_a_Bulk_Dataset_using_3-4_metrics-4.webp"
+/>
+
+3. Select Your LLM Provider: Choose your preferred provider from the drop-down list (LLUMO supports multiple LLM providers).
+4. Choose the Model: Select the specific AI model you want to use for generating the results, based on your needs.
+   - You can choose different models to evaluate and run experiments to compare their performance on the same prompt.       
+5. Adjust Parameters: Fine-tune the model’s parameters to match your requirements and improve output precision.
+
+<img
+  className="block dark:hidden"
+  src="https://storage.googleapis.com/llumo-blog-images-1/21-01-25/Evaluating_a_Bulk_Dataset_using_3-4_metrics-5.webp"
+/>
+<img
+  className="hidden dark:block"
+  src="https://storage.googleapis.com/llumo-blog-images-1/21-01-25/Evaluating_a_Bulk_Dataset_using_3-4_metrics-5.webp"
+/>
+               
+6. Select Output Type: Choose the type of output you want for the generated results.
+
+### Step 3: Run the Prompts to Generate Outputs
+1. Once the dataset is uploaded, initiate the process to run the prompts and generate outputs.
+2. Allow the system to complete processing your prompts.
+3. Once the outputs are ready, proceed to the evaluation step.
+   - Here, you can observe the prompt running to generate the output. Once the output is generated, the evaluation process will begin.
+
+<img
+  className="block dark:hidden"
+  src="https://storage.googleapis.com/llumo-blog-images-1/21-01-25/Evaluating_a_Bulk_Dataset_using_3-4_metrics-6.webp"
+/>
+<img
+  className="hidden dark:block"
+  src="https://storage.googleapis.com/llumo-blog-images-1/21-01-25/Evaluating_a_Bulk_Dataset_using_3-4_metrics-6.webp"
+/>
+
+### Step 3: Select Key Performance Indicators (KPIs)
+1. Go to the "Create Column" section and select the “Evaluation” option.
+
+<img
+  className="block dark:hidden"
+  src="https://storage.googleapis.com/llumo-blog-images-1/21-01-25/Evaluating_a_Bulk_Dataset_using_3-4_metrics-7.webp"
+/>
+<img
+  className="hidden dark:block"
+  src="https://storage.googleapis.com/llumo-blog-images-1/21-01-25/Evaluating_a_Bulk_Dataset_using_3-4_metrics-7.webp"
+/>
+
+2. From the dropdown menu, choose the KPIs you want to evaluate.
+3. Name the column where the evaluation results will be displayed.
+
+<img
+  className="block dark:hidden"
+  src="https://storage.googleapis.com/llumo-blog-images-1/21-01-25/Evaluating_a_Bulk_Dataset_using_3-4_metrics-8.webp"
+/>
+<img
+  className="hidden dark:block"
+  src="https://storage.googleapis.com/llumo-blog-images-1/21-01-25/Evaluating_a_Bulk_Dataset_using_3-4_metrics-8.webp"
+/>
+
+4. Select the output column in your dataset that you want to evaluate. Here we are selecting our 1st metrics confidence.
+   - You can choose from more than 50 KPIs covering various areas of analysis, such as: Context, clarity, confidence and even many more.
+
+### Step 3: Evaluation Parameters
+1. Set Rule for KPIs:
+   - Each KPI allows you to set a specific threshold to define a "pass" or "fail."
+   - Example for confidence : if the confidence score is more than 50, it passes.
+
+### Step 4: Choose Your Evaluation Model
+1. Select the model that best fits your evaluation needs.
+
+### Step 5: Run the Evaluation
+1. Start the Evaluation: After confirming your settings, click the "Create and Run All Columns" button to begin processing your evaluation.
+
+<img
+  className="block dark:hidden"
+  src="https://storage.googleapis.com/llumo-blog-images-1/21-01-25/Evaluating_a_Bulk_Dataset_using_3-4_metrics-9.webp"
+/>
+<img
+  className="hidden dark:block"
+  src="https://storage.googleapis.com/llumo-blog-images-1/21-01-25/Evaluating_a_Bulk_Dataset_using_3-4_metrics-9.webp"
+/>
+
+### Step 6: Review Results
+1. Once the evaluation is complete, you'll receive detailed results, including:
+   - Pass/Fail status for each KPI
+   - Percentage scores for each metric
+   - These results will help you identify areas of improvement for your AI model and refine it based on the feedback.
+
+<img
+  className="block dark:hidden"
+  src="https://storage.googleapis.com/llumo-blog-images-1/21-01-25/Evaluating_a_Bulk_Dataset_using_3-4_metrics-10.webp"
+/>
+<img
+  className="hidden dark:block"
+  src="https://storage.googleapis.com/llumo-blog-images-1/21-01-25/Evaluating_a_Bulk_Dataset_using_3-4_metrics-10.webp"
+/>
+
+### Step 7: Export Evaluation Results
+1. You can export the evaluation results for further analysis or reporting in CSV, Excel, or PDF format.
+
+Similarly, we can select multiple KPIs to evaluate the output, and the final result will appear as follows:
+
+<img
+  className="block dark:hidden"
+  src="https://storage.googleapis.com/llumo-blog-images-1/21-01-25/Evaluating_a_Bulk_Dataset_using_3-4_metrics-11.webp"
+/>
+<img
+  className="hidden dark:block"
+  src="https://storage.googleapis.com/llumo-blog-images-1/21-01-25/Evaluating_a_Bulk_Dataset_using_3-4_metrics-11.webp"
+/>
+
+LLUMO AI isn’t just about evaluating – it’s about transforming how you work with your data. The platform makes it incredibly easy to run comprehensive evaluations with multiple KPIs.
+
+## Use Case 1: How can you perform a bulk evaluation using multiple evaluation metrics across different models at once instead of processing them individually.
+
+### Step 1: Navigate to the box on the right side of the "Knowledge Base" section and click Select All. 
+- Selecting "All" ensures that the entire dataset, including all evaluation metrics and prompts, is selected. You will see an indicator confirming that 55 rows (or data entries) have been selected for evaluation.
+
+<img
+  className="block dark:hidden"
+  src="https://storage.googleapis.com/llumo-blog-images-1/21-01-25/Evaluating_a_Bulk_Dataset_using_3-4_metrics-12.webp"
+/>
+<img
+  className="hidden dark:block"
+  src="https://storage.googleapis.com/llumo-blog-images-1/21-01-25/Evaluating_a_Bulk_Dataset_using_3-4_metrics-12.webp"
+/>
+
+<img
+  className="block dark:hidden"
+  src="https://storage.googleapis.com/llumo-blog-images-1/21-01-25/Evaluating_a_Bulk_Dataset_using_3-4_metrics-13.webp"
+/>
+<img
+  className="hidden dark:block"
+  src="https://storage.googleapis.com/llumo-blog-images-1/21-01-25/Evaluating_a_Bulk_Dataset_using_3-4_metrics-13.webp"
+/>
+
+### Step 2: After selecting all rows, a new menu will appear. Click on Run All in the menu. 
+- This action initiates the evaluation process for the entire dataset using multiple evaluation metrics across different models, all in a single click.
+
+<img
+  className="block dark:hidden"
+  src="https://storage.googleapis.com/llumo-blog-images-1/21-01-25/Evaluating_a_Bulk_Dataset_using_3-4_metrics-14.webp"
+/>
+<img
+  className="hidden dark:block"
+  src="https://storage.googleapis.com/llumo-blog-images-1/21-01-25/Evaluating_a_Bulk_Dataset_using_3-4_metrics-14.webp"
+/>
+
+### Step 3: Once you click Run All, the system executes the evaluation process for the selected rows. 
+- This includes running prompts, generating outputs, and evaluating them against your custom metrics. The evaluation results are displayed in the window, providing a detailed view of the outputs and metrics.
+
+Here, in the above screen perform the following 
+- **Selected Checkbox:**
+  - Indicates that 100 rows (or data entries) are currently selected for batch processing, such as cloning or evaluation.
+- **Clone Button:**
+  - Creates a duplicate of the selected rows or data entries. Useful for experimenting with slight modifications while retaining the original data.
+- **Delete Button:**
+  - Deletes the selected rows or data entries from the evaluation table. This action is typically irreversible, so users need to confirm before proceeding.
+- **Run Button:**
+  - Executes the evaluation process for the selected rows. This triggers the prompt and output generation along with custom metric evaluations.
+- **Close Button:**
+  - Exits the current evaluation session or clears the current selection of rows, returning users to the previous state or dashboard.
+
+Additionally, for a comprehensive overview of available tools, actions, and customization options within the LLUMO platform, check out the Comprehensive Menu and Features Overview. This page will help you navigate the various features and capabilities to enhance your evaluation process, including how to access, configure, and utilize custom metrics efficiently.
+
+## Key Terminology
+
+### Key Performance Indicators (KPIs)
+- KPIs are measurable metrics used to assess the performance of your prompts and outputs. 
+
+### Set Rule
+- Using Set Rule, you can set minimum or maximum values that determine whether the results meet the evaluation criteria. For example, you might set a threshold of 80% accuracy for grammar quality, meaning that any output with less than 80% accuracy would fail that KPI.
+
+### Pass/Fail Criteria
+- These are the conditions that must be met for an output to pass the evaluation. If an output meets or exceeds the set percentage, it passes; otherwise, it fails.
+
+### AI Models
+- AI models are the underlying algorithms used to process and evaluate the outputs. LLUMO AI supports several models optimized for different evaluation tasks, such as sentiment analysis, grammar checking, or response relevance.
+
+## Frequently Asked Questions (FAQs)
+
+### What happens if my output doesn’t meet the thresholds I set?
+- If an output doesn’t meet the set criteria, it will be marked as a Fail. You can review the failed outputs and adjust your model or dataset accordingly to improve performance.
+
+### Can I export my evaluation results?
+- Yes, you can export the results in CSV, Excel, or PDF formats for detailed analysis or reporting purposes.
+
+### How long does the evaluation process take?
+- The evaluation time depends on the size of your dataset and the complexity of the selected evaluation model. A typical evaluation of 100 prompts and outputs may take only a few minutes.
+
+### How do I handle large volumes of data efficiently during the evaluation?
+- To manage large volumes of data, it’s recommended to upload files in manageable chunks or utilize the API for bulk processing.
+
+## Glossary
+
+### Knowledge Base: 
+- This column displays the source or baseline data (e.g., a company's description or service information).
+
+### User Question: 
+- The user’s query or the input to be addressed by the AI.
+
+### Prompt: 
+- The prompt used to guide the AI’s response generation, likely adjusted or created by the user for optimal results.
+
+### Output Columns: 
+- These represent various custom evaluation metrics created for assessing the AI’s responses, such as:
+  - **Test Confidence:** Evaluates the confidence level in the AI’s response.
+  - **Test Context:** Measures the relevance of the AI’s output to the provided context.
+  - **Test Clarity:** Assesses how clear the AI-generated response is.
+  - **Test Vocabulary:** Evaluates vocabulary usage and alignment with domain-specific language or requirements.

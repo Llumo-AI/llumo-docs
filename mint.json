@@ -68,7 +68,7 @@
   "navigation": [
     {
       "group": "",
-      "pages": ["getting-started-with-llumo", "quickstart", "support"]
+      "pages": ["getting-started-with-llumo", "quickstart", "support", "menu-list"]
     },
     {
       "group": "Setup LLUMO",
@@ -136,7 +136,10 @@
       "pages": [
         "llm-evaluation/how-to-docs/evaluate-first-prompt",
         "llm-evaluation/how-to-docs/evaluate-openAI",
-        "llm-evaluation/how-to-docs/evaluate-vertex"
+        "llm-evaluation/how-to-docs/evaluate-vertex",
+        "llm-evaluation/how-to-docs/evaluate-dataset-multiple-metric",
+        "llm-evaluation/how-to-docs/integrate-api-code",
+        "llm-evaluation/how-to-docs/run-eval-prod"
       ]
     },
     {
