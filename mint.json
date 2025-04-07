@@ -119,7 +119,8 @@
         "cost-saving/how-to-docs/llumo-compressor-langchain",
         "cost-saving/how-to-docs/llumo-compressor-openai",
         "cost-saving/how-to-docs/llumo-compressor-vertex",
-        "cost-saving/how-to-docs/llumo-compressor-llama"
+        "cost-saving/how-to-docs/llumo-compressor-llama",
+        "cost-saving/how-to-docs/optisave"
       ]
     },
     {
@@ -138,7 +139,10 @@
         "llm-evaluation/how-to-docs/evaluate-vertex",
         "llm-evaluation/how-to-docs/evaluate-dataset-multiple-metric",
         "llm-evaluation/how-to-docs/integrate-api-code",
-        "llm-evaluation/how-to-docs/run-eval-prod"
+        "llm-evaluation/how-to-docs/run-eval-prod",
+        "llm-evaluation/how-to-docs/observe",
+        "llm-evaluation/how-to-docs/experiment",
+        "llm-evaluation/how-to-docs/optimise"
       ]
     },
     {

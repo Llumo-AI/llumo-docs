@@ -1,0 +1,333 @@
+---
+title: "Experiment"
+sidebarTitle: "Experiment"
+---
+
+LLUMO AI Experiment is a purpose-built platform designed to systematically test, evaluate, and debug at 10X faster rate. It enables AI teams to move beyond intuition-based development by providing use case based Evals, various AI models and fine-tuning options, helping businesses to build AI systems at a much faster rate.
+
+<img
+  className="block dark:hidden"
+  src="https://storage.googleapis.com/llumo-blog-images-1/05-04-25/Experiment/Experiment_1.webp"
+/>
+<img
+  className="hidden dark:block"
+  src="https://storage.googleapis.com/llumo-blog-images-1/05-04-25/Experiment/Experiment_1.webp"
+/>
+---
+
+## Why You Need LLUMO AI Experiment
+
+If your AI development process faces challenges like:
+
+- **Unreliable Model Performance:** Struggling to measure accuracy, relevance, or hallucination rates effectively.  
+- **Slow Experimentation:** Testing models manually, leading to bottlenecks in iteration and deployment.  
+- **Lack of Use Case-Specific Evaluations:** Generic benchmarks that don’t reflect your business needs.  
+- **High Debugging Effort:** No structured way to trace and fix model failures at scale.
+
+---
+
+## Core Features of LLUMO AI Experiment
+
+- **Test Multiple AI Models in One View:** Evaluate a range of AI models and compare them side by side, all from a single interface.  
+- **Use Case-Specific Evals:** Assess the performance of your AI workflows using evaluations tailored to your specific use case.  
+- **Cutting-Edge KPIs for Conversational AI:** Measure outputs against various KPIs like RAGAs, hallucinations, and other in-house metrics.  
+- **One-Click Deployment:** Deploy with ease using a simple one-click setup that works with your software or platform, and integrate seamlessly with other tools.
+
+---
+
+## Quick Start - Related Documentation
+
+The Quick Start section is designed to help you get up and running with LLUMO AI’s evaluation tools in the fastest and most efficient way. Whether you're setting up for the first time or integrating evaluations into production, these guides provide step-by-step instructions tailored to different use cases.
+
+LLUMO AI’s Experiment Playground allows you to tailor the evaluation process to meet your unique requirements. Whether you’re analyzing customer service data, academic content, or any other dataset, this powerful tool enables users to assess AI-generated outputs against tailored metrics and criteria that align with their specific needs and objectives.
+
+Unlike pre-defined evaluation methods, which may not fully capture the nuances of different use cases, LLUMO AI’s evaluation allows users to define their own parameters, ensuring the evaluation process is both relevant and effective.
+
+This guide will walk you through the steps of using Experiment playground to perform a detailed and personalized evaluation of your datasets.
+
+---
+
+### Step-by-Step Instructions: Evaluating using Custom Evaluation
+
+---
+
+#### Step 1: Upload Your Dataset
+
+**Option 1: Upload File**  
+- Log into LLUMO AI Platform and navigate to the "Eval LM" section.  
+- **Upload Your Dataset:** Click "Upload File" and select your dataset. Supported file formats include CSV, JSON, and Excel.  
+- **Review Your Data:** A preview of the uploaded data will appear. Check that the structure and content are correct before moving forward.
+
+**Option 2: Upload via API**  
+<img
+  className="block dark:hidden"
+  src="https://storage.googleapis.com/llumo-blog-images-1/05-04-25/Experiment/Experiment_2.webp"
+/>
+<img
+  className="hidden dark:block"
+  src="https://storage.googleapis.com/llumo-blog-images-1/05-04-25/Experiment/Experiment_2.webp"
+/>
+- **Enter URL:** You can enter either a private or public URL that returns data in JSON format.  
+- **Enter Headers:** In the request, include any necessary headers. Typically, headers are used to pass authentication keys (like API keys) or specify content types.  
+- **Enter JSON Payload:** The JSON payload is where you attach the data to be sent, including any filters or data for processing. This can be used to send files, parameters, or other information.  
+- **Enter JSON Path:** After the request is processed, you may need to extract specific data from the API response. Use a JSON path to locate and retrieve the relevant part of the response.
+
+<img
+  className="block dark:hidden"
+  src="https://storage.googleapis.com/llumo-blog-images-1/05-04-25/Experiment/Experiment_3.webp"
+/>
+<img
+  className="hidden dark:block"
+  src="https://storage.googleapis.com/llumo-blog-images-1/05-04-25/Experiment/Experiment_3.webp"
+/>
+
+**Option 3: Import from Hugging Face**  
+- **Open Hugging Face:** Go to https://huggingface.co/datasets  
+- **Copy the Dataset Name:** Find the dataset you want to use and copy its name.  
+- **Open LLUMO:** Go to https://app.llumo.ai/evallm  
+- **Upload Dataset:** Click on Upload and select Import from Hugging Face  
+
+<img
+  className="block dark:hidden"
+  src="https://storage.googleapis.com/llumo-blog-images-1/05-04-25/Experiment/Experiment_4.webp"
+/>
+<img
+  className="hidden dark:block"
+  src="https://storage.googleapis.com/llumo-blog-images-1/05-04-25/Experiment/Experiment_4.webp"
+/>
+
+- **Paste the Dataset Name:** Paste the name of the dataset you copied from Hugging Face
+
+<img
+  className="block dark:hidden"
+  src="https://storage.googleapis.com/llumo-blog-images-1/05-04-25/Experiment/Experiment_5.webp"
+/>
+<img
+  className="hidden dark:block"
+  src="https://storage.googleapis.com/llumo-blog-images-1/05-04-25/Experiment/Experiment_5.webp"
+/> 
+
+- **Select Subset and Tree:** Choose the appropriate subset and tree for your dataset 
+
+<img
+  className="block dark:hidden"
+  src="https://storage.googleapis.com/llumo-blog-images-1/05-04-25/Experiment/Experiment_6.webp"
+/>
+<img
+  className="hidden dark:block"
+  src="https://storage.googleapis.com/llumo-blog-images-1/05-04-25/Experiment/Experiment_6.webp"
+/>
+
+- **Import the Data:** Click Run Dataset to bring the dataset into LLUMO  
+
+<img
+  className="block dark:hidden"
+  src="https://storage.googleapis.com/llumo-blog-images-1/05-04-25/Experiment/Experiment_7.webp"
+/>
+<img
+  className="hidden dark:block"
+  src="https://storage.googleapis.com/llumo-blog-images-1/05-04-25/Experiment/Experiment_7.webp"
+/>
+
+- **Perform Evaluation:** Once the dataset is imported, you can start the evaluation process.
+
+_Hugging Face is a platform for sharing and accessing machine learning models and datasets._  
+_A dataset is a collection of data used for training or evaluation._  
+_A subset refers to a specific portion of the dataset._  
+_A tree may refer to a hierarchical structure within the dataset or model._
+
+**Option 4: Manually**  
+Here, you can create a custom dataset by starting with a blank dataset.
+
+---
+
+#### Step 2: Click on the Write Prompt card in the command centre.
+
+<img
+  className="block dark:hidden"
+  src="https://storage.googleapis.com/llumo-blog-images-1/05-04-25/Experiment/Experiment_8.webp"
+/>
+<img
+  className="hidden dark:block"
+  src="https://storage.googleapis.com/llumo-blog-images-1/05-04-25/Experiment/Experiment_8.webp"
+/>
+
+Here, you can follow these steps:  
+- **Column Name:** Enter the column name.  
+- **Write Prompt:** Enter your prompt by providing the desired query or instruction to guide the AI model in generating the results you expect.  
+- **Create a Smart Prompt (optional):** Smart Prompt refines your written prompt, making it more specific and detailed to generate more accurate and focused results.  
+- **Select Your LLM Provider:** Choose your preferred provider from the drop-down list (LLUMO supports multiple LLM providers).  
+- **Choose the Model:** Select the specific AI model you want to use for generating the results, based on your needs.  
+- **Adjust Parameters:** Fine-tune the model’s parameters as per your requirements.
+
+<img
+  className="block dark:hidden"
+  src="https://storage.googleapis.com/llumo-blog-images-1/05-04-25/Experiment/Experiment_9.webp"
+/>
+<img
+  className="hidden dark:block"
+  src="https://storage.googleapis.com/llumo-blog-images-1/05-04-25/Experiment/Experiment_9.webp"
+/>
+
+---
+
+#### Step 3: Click on the “Create and Run all Columns” button.
+
+- Allow the system to complete processing your prompts.  
+- Once the outputs are ready, proceed to the evaluation step.
+
+---
+
+#### Step 4: Evaluation
+
+- Click on the “Evaluate” card in the command center.  
+
+<img
+  className="block dark:hidden"
+  src="https://storage.googleapis.com/llumo-blog-images-1/05-04-25/Experiment/Experiment_10.webp"
+/>
+<img
+  className="hidden dark:block"
+  src="https://storage.googleapis.com/llumo-blog-images-1/05-04-25/Experiment/Experiment_10.webp"
+/>
+
+- Now, enter the column name and select the “KPI” as per your use case.  
+
+<img
+  className="block dark:hidden"
+  src="https://storage.googleapis.com/llumo-blog-images-1/05-04-25/Experiment/Experiment_11.webp"
+/>
+<img
+  className="hidden dark:block"
+  src="https://storage.googleapis.com/llumo-blog-images-1/05-04-25/Experiment/Experiment_11.webp"
+/>
+
+**Note:** You can customize your evaluations to align with your unique use case and industry requirements. Read more →
+
+---
+
+#### Step 5: Select your Evaluation model from the drop-down list.
+
+---
+
+#### Step 6: Select the prompt you want to evaluate.
+
+---
+
+#### Step 5: “Pass & Fail” criteria
+
+- **Set Rule for KPIs:** Each KPI allows you to set a specific threshold to define a “pass” or “fail.”  
+  **Example for confidence:** If the confidence score is more than 50, it passes.
+
+---
+
+#### Step 6: Run the Evaluation
+
+- **Start the Evaluation:** After confirming your settings, click the “Create and Run All Columns” button to begin processing your evaluation.  
+- **Review Evaluation Results:** The evaluation will return detailed results, including Pass/Fail status for each KPI along with the scores.
+
+---
+
+### Customize Evaluation  
+[https://docs.llumo.ai/how-to-docs/evaluate-llms/customize-evaluations](https://docs.llumo.ai/how-to-docs/evaluate-llms/customize-evaluations)
+
+---
+
+### Setup Prompt Evaluation API  
+[https://docs.llumo.ai/setup-llumo/setup-evaluation/api](https://docs.llumo.ai/setup-llumo/setup-evaluation/api)  
+Learn how to integrate LLUMO AI’s API into your system to start evaluating LLM responses seamlessly.
+
+---
+
+**Tailor evaluation metrics and configurations to suit your specific use case.**
+
+### Create Custom Evaluation  
+[https://docs.llumo.ai/how-to-docs/evaluate-llms/create-custom-evals](https://docs.llumo.ai/how-to-docs/evaluate-llms/create-custom-evals)
+
+---
+
+### Evaluate a Bulk Dataset Using 3–4 Metrics  
+[https://docs.llumo.ai/llm-evaluation/how-to-docs/evaluate-dataset-multiple-metric](https://docs.llumo.ai/llm-evaluation/how-to-docs/evaluate-dataset-multiple-metric)
+
+---
+
+### Run Evaluation in Production  
+[https://docs.llumo.ai/llm-evaluation/how-to-docs/run-eval-prod](https://docs.llumo.ai/llm-evaluation/how-to-docs/run-eval-prod)
+
+---
+
+[Optisave](https://docs.llumo.ai/cost-saving/how-to-docs/optisave)
+
+This Quick Start guide ensures you can navigate LLUMO AI’s evaluation framework effortlessly, saving time and enhancing the quality of your LLM deployments.
+
+---
+
+## API Integration
+
+Integrating LLUMO AI’s evaluation API into your codebase allows for seamless automation of LLM performance tracking, enabling large-scale and efficient evaluations. Follow these steps to get started:
+
+- **Set Up API Access**  
+  - Obtain your API key from the LLUMO AI dashboard.  
+  - Install required dependencies for API communication.  
+  - Configure authentication for secure API access.  
+  - **Read the Full API Setup Guide**
+
+- **Evaluate LLMs Using API**  
+  - **For OpenAI models:** Run evaluations on OpenAI’s GPT-based models using LLUMO AI’s API.  
+    - Evaluate OpenAI Models  
+  - **For Vertex AI models:** Perform evaluations on Google Cloud’s Vertex AI models.  
+    - Evaluate Vertex AI Models
+
+- **Make Your First API Call**  
+  - Authenticate your request using your API key.  
+  - Send evaluation requests with input prompts and expected responses.  
+  - Define custom evaluation metrics to measure LLM output quality.  
+  - Integrate API into Your Codebase
+
+- **Create Evaluation Analytics API**  
+  - Generate detailed analytics for LLM evaluation runs.  
+  - Monitor performance trends and optimize responses over time.  
+  - Create Eval Analytics API
+
+This guide ensures a smooth and efficient integration process, allowing you to optimize model performance effortlessly.
+
+---
+
+## FAQ
+
+**Q. What is LLUMO AI Experiment?**  
+LLUMO AI Experiment is a powerful platform designed to help teams test, evaluate, and optimize their LLM applications efficiently. It provides end-to-end tracking, customizable evaluation metrics, and structured experimentation workflows.
+
+**Q. How does LLUMO AI Experiment help improve LLM performance?**  
+It allows users to:  
+- Run structured experiments to compare model outputs.  
+- Identify failure points with detailed tracing.  
+- Leverage automated and custom evaluation metrics.  
+- Optimize configurations based on real-time insights.
+
+**Q. What evaluation metrics are available in LLUMO AI Experiment?**  
+LLUMO AI offers:  
+- **Prebuilt Metrics:** Guardrail metrics for accuracy, coherence, relevance, and hallucination detection.  
+- **Custom Metrics:** Define your own KPIs based on your specific use case.
+
+**Q. How do I integrate LLUMO AI’s API into my workflow?**  
+- Obtain an API key and configure authentication.  
+- Send evaluation requests with input prompts and expected outputs.  
+- Automate and scale evaluations using scheduled API calls.  
+  **Read the Full API Integration Guide**
+
+**Q. Can I evaluate bulk datasets with LLUMO AI?**  
+Yes! LLUMO AI allows you to evaluate large datasets using multiple key metrics to assess LLM performance at scale.  
+**Guide to Bulk Evaluation**
+
+**Q. Does LLUMO AI support OpenAI and Vertex AI models?**  
+Yes, LLUMO AI supports evaluation for:  
+- **OpenAI models** – Evaluate OpenAI Models  
+- **Vertex AI models** – Evaluate Vertex AI Models
+
+**Q. How can I track my experiments over time?**  
+LLUMO AI Experiment includes an Experiment Management feature that logs all test runs, allowing you to compare different configurations and monitor long-term performance.
+
+**Q. How do I create analytics for my evaluation runs?**  
+LLUMO AI provides an Evaluation Analytics API that generates performance insights and trends.  
+**Create Eval Analytics API**
