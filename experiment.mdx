@@ -82,9 +82,9 @@ This guide will walk you through the steps of using Experiment playground to per
 />
 
 **Option 3: Import from Hugging Face**  
-- **Open Hugging Face:** Go to https://huggingface.co/datasets  
+- **Open Hugging Face:** Go to [Huggingface Datasets](https://huggingface.co/datasets)  
 - **Copy the Dataset Name:** Find the dataset you want to use and copy its name.  
-- **Open LLUMO:** Go to https://app.llumo.ai/evallm  
+- **Open LLUMO:** Go to [Experiments page on LLUMO AI](https://app.llumo.ai/evallm)  
 - **Upload Dataset:** Click on Upload and select Import from Hugging Face  
 
 <img
@@ -131,10 +131,12 @@ This guide will walk you through the steps of using Experiment playground to per
 
 - **Perform Evaluation:** Once the dataset is imported, you can start the evaluation process.
 
-_Hugging Face is a platform for sharing and accessing machine learning models and datasets._  
-_A dataset is a collection of data used for training or evaluation._  
-_A subset refers to a specific portion of the dataset._  
-_A tree may refer to a hierarchical structure within the dataset or model._
+<span style={{ color: "#8B68C9" }}>
+  Hugging Face is a platform for sharing and accessing machine learning models and datasets.  
+  A dataset is a collection of data used for training or evaluation.  
+  A subset refers to a specific portion of the dataset.  
+  A tree may refer to a hierarchical structure within the dataset or model.
+</span>
 
 **Option 4: Manually**  
 Here, you can create a custom dataset by starting with a blank dataset.
@@ -202,61 +204,41 @@ Here, you can follow these steps:
   src="https://storage.googleapis.com/llumo-blog-images-1/05-04-25/Experiment/Experiment_11.webp"
 />
 
-**Note:** You can customize your evaluations to align with your unique use case and industry requirements. Read more →
+**Note:** You can customize your evaluations to align with your unique use case and industry requirements.
+
+- Select your Evaluation model from the drop-down list.
+
+- Select the prompt you want to evaluate.
+
+- “Pass & Fail” criteria
+
+**Set Rule for KPIs:** Each KPI allows you to set a specific threshold to define a “pass” or “fail.”  
+**Example for confidence:** If the confidence score is more than 50, it passes.
 
 ---
 
-#### Step 5: Select your Evaluation model from the drop-down list.
-
----
-
-#### Step 6: Select the prompt you want to evaluate.
-
----
-
-#### Step 5: “Pass & Fail” criteria
-
-- **Set Rule for KPIs:** Each KPI allows you to set a specific threshold to define a “pass” or “fail.”  
-  **Example for confidence:** If the confidence score is more than 50, it passes.
-
----
-
-#### Step 6: Run the Evaluation
+#### Step 5: Run the Evaluation
 
 - **Start the Evaluation:** After confirming your settings, click the “Create and Run All Columns” button to begin processing your evaluation.  
 - **Review Evaluation Results:** The evaluation will return detailed results, including Pass/Fail status for each KPI along with the scores.
 
 ---
 
-### Customize Evaluation  
-[https://docs.llumo.ai/how-to-docs/evaluate-llms/customize-evaluations](https://docs.llumo.ai/how-to-docs/evaluate-llms/customize-evaluations)
-
----
-
-### Setup Prompt Evaluation API  
-[https://docs.llumo.ai/setup-llumo/setup-evaluation/api](https://docs.llumo.ai/setup-llumo/setup-evaluation/api)  
-Learn how to integrate LLUMO AI’s API into your system to start evaluating LLM responses seamlessly.
-
----
-
 **Tailor evaluation metrics and configurations to suit your specific use case.**
 
-### Create Custom Evaluation  
-[https://docs.llumo.ai/how-to-docs/evaluate-llms/create-custom-evals](https://docs.llumo.ai/how-to-docs/evaluate-llms/create-custom-evals)
+[Customize Evaluation](https://docs.llumo.ai/how-to-docs/evaluate-llms/customize-evaluations)
 
----
+[Setup Prompt Evaluation API  ](https://docs.llumo.ai/setup-llumo/setup-evaluation/api)
 
-### Evaluate a Bulk Dataset Using 3–4 Metrics  
-[https://docs.llumo.ai/llm-evaluation/how-to-docs/evaluate-dataset-multiple-metric](https://docs.llumo.ai/llm-evaluation/how-to-docs/evaluate-dataset-multiple-metric)
+[Create Custom Evaluation ](https://docs.llumo.ai/how-to-docs/evaluate-llms/create-custom-evals)
 
----
+[Evaluate a Bulk Dataset Using 3–4 Metrics ](https://docs.llumo.ai/llm-evaluation/how-to-docs/evaluate-dataset-multiple-metric)
 
-### Run Evaluation in Production  
-[https://docs.llumo.ai/llm-evaluation/how-to-docs/run-eval-prod](https://docs.llumo.ai/llm-evaluation/how-to-docs/run-eval-prod)
-
----
+[Run Evaluation in Production ](https://docs.llumo.ai/llm-evaluation/how-to-docs/run-eval-prod)
 
 [Optisave](https://docs.llumo.ai/cost-saving/how-to-docs/optisave)
+
+---
 
 This Quick Start guide ensures you can navigate LLUMO AI’s evaluation framework effortlessly, saving time and enhancing the quality of your LLM deployments.
 
