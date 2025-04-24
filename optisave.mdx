@@ -60,42 +60,60 @@ LLMs charge based on the number of tokens used per query, meaning longer prompts
 #### Example
 
 **Without OptiSave**  
+
+```
 Query: "Provide a comprehensive report on the impact of artificial intelligence across industries, including automation trends, economic changes, workforce adaptation, regulatory challenges, and ethical considerations. Also, include case studies, expert opinions, and predictions for the next decade."  
 Context: “Knowledgebase”  
 Input Tokens = Tokens in “Query” + “Context”  
-Assuming Input Tokens = 2,000  
+Assuming Input Tokens = 2,000
+```
 
-**With OptiSave**  
+**With OptiSave** 
+``` 
 Precise Query: "Summarize AI’s impact on industries, including automation, economy, workforce, regulations, and ethics."  
 Precise Context: “Knowledgebase”  
 Input Tokens = Tokens in “Precise Query” + “Precise Context”  
-Input Tokens using OptiSave = 873 tokens.
+Input Tokens using OptiSave = 873 tokens
+```
 
 #### Token Reduction & Cost Savings
-
+```
 - 2,000 tokens → 873 tokens (56.35% reduction)  
-- Assumed cost per token: $0.0001  
+- Assumed cost per token: $0.0001
+```
 
-**Without Optisave:**  
-2,000 tokens × $0.0001 = $0.20 per query  
+**Without Optisave:**
+```
+2,000 tokens × $0.0001 = $0.20 per query
+```
 
-**With Optisave:**  
-873×0.0001=$0.0873 per query  
+**With Optisave:**
+```
+873×0.0001=$0.0873 per query
+``` 
 
 **Total Cost Savings Per Query:**  
+```
 0.20−0.0873=$0.1127 per query (56.35% reduction)  
+```
 
 **Impact at scale**  
+```
 If running 500,000 queries per month:  
 - Without Optisave:  
     500,000×0.20=$100,000 per month  
 - With OptiSave:  
-    500,000×0.0873=$43,650 per month  
+    500,000×0.0873=$43,650 per month 
+``` 
 
 **Total Monthly Savings:**  
-100,000−43,650=$56,350 saved per month  
+```
+100,000−43,650=$56,350 saved per month
+```  
 **Annual Savings:**  
-56,350×12=$676,200 saved per year  
+```
+56,350×12=$676,200 saved per year
+```
 
 <img
   className="block dark:hidden"
@@ -107,8 +125,10 @@ If running 500,000 queries per month:
 />
 
 LLUMO AI helps teams experiment, observe, and optimize LLM usage—so you get high-quality outputs at a fraction of the cost.  
-See how real teams are cutting costs with LLUMO AI: https://www.llumo.ai/case-study  
-#AI #LLMOps #CostOptimization #GenerativeAI #TokenEfficiency #AIOptimization
+See how real teams are cutting costs with LLUMO AI: <a href="https://www.llumo.ai/case-study" target="_blank"><Tip>LLUMO Case Study</Tip></a> 
+<span style={{ color: "#8B68C9" }}>
+  #AI #LLMOps #CostOptimization #GenerativeAI #TokenEfficiency #AIOptimization
+</span>
 
 #### Benefits:
 
@@ -137,35 +157,47 @@ OptiSave addresses latency by reducing computational overhead. By compressing in
 
 #### Example: Improve Latency with Optisave
 
-**Without Optisave:**  
+**Without Optisave:**
+```
 Query: "Provide a detailed technical breakdown of quantum computing, including superposition, entanglement, and qubits, along with its potential applications in cryptography, medicine, logistics, artificial intelligence, and other industries. Additionally, discuss the challenges, future research areas, and expert predictions for the next two decades."  
 Context: “Knowledgebase”  
 Input Tokens = Tokens in “Query” + “Context”  
 Assuming Input Tokens = 2,000  
 Processing Time: 10 seconds  
 Tokens Generated: 2,000 tokens
+```
 
-**With Optisave:**  
+**With Optisave:** 
+```
 Query: "Summarize how quantum computing works and its key industrial applications."  
 Context: “Knowledgebase”  
 Input Tokens = Tokens in “Query” + “Context”  
 Assuming Input Tokens = 873  
 Processing Time: 5 seconds  
 Tokens Generated: 500 tokens
+```
 
 #### Latency & Efficiency Gains
 
 - **Processing Time Reduced by 50%**  
+```
 10 seconds → 5 seconds  
+```
 - **Tokens Reduced by 56.33%**  
+```
 2,000 tokens → 873 tokens
+```
 
 **Latency Improvement:**  
+```
 Response time reduced by 50%, from 10 seconds to 5 seconds.
+```
 
-**Cost of Delay:**  
+**Cost of Delay:** 
+``` 
 In real-time applications like customer support chatbots, reducing response time by 5 seconds can improve engagement and reduce user frustration.  
 For 100,000 interactions per day, faster response times lead to increased user satisfaction and better engagement.
+```
 
 <img
   className="block dark:hidden"
@@ -203,17 +235,23 @@ OptiSave tackles hallucinations by improving the clarity and precision of input 
 #### Example:
 
 **Without Optimization:**  
+```
 Query: "Tell me about the economic impacts of the Mars rover."  
 Output: "The Mars rover has significantly impacted global economies by leading to technological advancements in several industries."  
 **Hallucination:** The economic impact of the Mars rover on global economies is not a verified fact.
+```
 
-**With OptiSave Optimization:**  
+**With OptiSave Optimization:** 
+``` 
 Query: "Describe the technological impacts of the Mars rover on various industries."  
 Output: "The Mars rover led to innovations in robotics and materials science, which have applications in industries such as aerospace and healthcare."  
 **Accurate Output:** This response is factually grounded and accurate.
+```
 
 **Cost of Hallucinations:**  
+```
 By reducing hallucinations by just 5%, you can significantly improve the reliability of your AI outputs, saving businesses potentially millions of dollars in miscommunication costs.
+```
 
 <img
   className="block dark:hidden"
