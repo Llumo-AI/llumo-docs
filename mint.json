@@ -184,5 +184,10 @@
     "ga4": {
       "measurementId": "G-1DTK18YYPF"
     }
-  }
+  },
+  "integrations": {
+    "hotjar": {"hjid":6402065,"hjsv":6}
 }
+}
+
+
