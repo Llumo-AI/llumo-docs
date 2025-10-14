@@ -98,9 +98,12 @@
         {
           "group": "Evaluate LLMs",
           "pages": [
+            "how-to-docs/evaluate-llms/connect-python-sdk",
             "how-to-docs/evaluate-llms/customize-evaluations",
             "how-to-docs/evaluate-llms/create-custom-evals",
             "how-to-docs/evaluate-llms/production"
+            
+
           ]
         },
         {

@@ -1,0 +1,150 @@
+---
+title: "Connect Your App to LLUMO AI in Minutes"
+sidebarTitle: "Connect Python SDK"
+---
+
+Get started with our SDK and ensure reliability for your app with intelligent observability and evaluation. Follow this quick guide to plug LLUMO AI into your workflow—fast, simple, and built for AI product teams.
+
+---
+## 1. Install the LLUMO AI SDK
+
+Please ensure that you have the **LLUMO AI SDK** installed before running evaluation.
+
+```python
+!pip install llumo
+```
+
+## 2. Set your API key
+
+You will find your LLUMO AI API key on the top navbar next to your profile icon.
+
+```python
+LLUMO_AI_API_KEY = "key_NzE4NmU4*****************00d0cd"
+```
+
+## 3. Select your framework
+
+Simply select your framework. For different frameworks, we have different callback handlers or wrappers. If you just want to evaluate the final log, select evaluate
+
+<AccordionGroup>
+  <Accordion title="Langchain">
+
+    ```python
+    !pip install langchain_community
+    !pip install langchain-openai
+    ```
+
+    ```python
+    from langchain_openai import ChatOpenAI
+    from langchain.agents import initialize_agent, Tool, AgentType
+    from llumo import LlumoLogger
+    ```
+
+    ```python
+    logger = LlumoLogger(apiKey=llumoKey, playground="playground-agent-logs")
+    ```
+
+    ```python
+    sessionContext = LlumoSessionContext(logger=logger)
+    sessionContext.start()
+
+    sessionContext.startLlumoRun(runName="QUERY_EXECUTION")
+    callbackHandler = LlumoCallbackHandler(session=sessionContext)
+
+    try:
+        # Execute query
+        result = agent.run(q, callbacks=[callbackHandler])
+    except Exception as e:
+        print(f"❌ Error: {str(e)}")
+
+    # End Run
+    sessionContext.endLlumoRun()
+
+    # End Session
+    sessionContext.end()
+    ```
+
+
+  </Accordion>
+
+  <Accordion title="OpenAI">
+    ```python
+    from llumo.openai import OpenAI
+    from llumo.llumoLogger import LlumoLogger
+    from llumo.llumoSessionContext import LlumoSessionContext
+
+    logger = LlumoLogger(apiKey=llumoKey, playground="playground-openai-raw")
+
+    # Initialize and start the Llumo Session
+    session = LlumoSessionContext(logger = logger)
+
+    ```
+
+    ```python
+   client = OpenAI(
+        api_key="openaiKey",
+        session=session,
+    )
+
+    # Start Session
+    session.start()
+    session.startLlumoRun(runName="QUERY_EXECUTION")
+
+    messages = [{"role": "user", "content": query}]
+
+    # Output Generation
+    response = client.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=messages,
+        createExperiment=True,
+    )
+
+    aiOutput = response.choices[0].message.content
+    results.append({"query": query, "output": aiOutput})
+
+    # End Run
+    session.endLlumoRun()
+
+    # End Session
+    session.end()
+
+
+    ```
+  </Accordion>
+
+  <Accordion title="Evaluate">
+    ```python
+    from llumo import LlumoLogger, LlumoSessionContext
+
+    # Initialize logger
+    logger = LlumoLogger(
+        apiKey=llumoKey,
+        playground="playground-batch-eval"
+    )
+
+    # Initialize Llumo session
+    session = LlumoSessionContext(logger=logger)
+
+    # Run multiple evaluations
+    resData = session.evaluateMultiple(
+        data,
+        evals=[
+            "Response Correctness",
+            "Hallucination",
+            "Response Completeness",
+            "Input Bias",
+        ],
+        createExperiment=True,  # Creates a named experiment in your dashboard
+    )
+
+    # Print results
+    print(resData)
+
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## 4. View Results on the LLUMO AI Dashboard
+
+Once you have integrated the SDK, we will handle all the heavy lifting, from logging, evaluating, creating run-reports, analysis issues across different runs and creating flow graph and insights for you. You can check out the whole debug reports on
+[app.llumo.ai/debugger](https://app.llumo.ai/debugger)
